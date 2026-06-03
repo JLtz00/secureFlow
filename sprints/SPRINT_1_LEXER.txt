@@ -1,0 +1,55 @@
+SPRINT 1
+========
+
+GOAL
+
+Build a production-quality lexical analyzer.
+
+DELIVERABLES
+
+1. Token definitions.
+2. Regex-based scanner.
+3. INDENT/DEDENT support.
+4. Multi-line string support.
+5. Comment removal.
+6. Error recovery.
+7. Position tracking.
+
+REQUIREMENTS
+
+Each token must contain:
+
+- type
+- value
+- line
+- column
+
+Example:
+
+Token(
+    type=IDENTIFIER,
+    value="user",
+    line=12,
+    column=8
+)
+
+TEST COVERAGE
+
+Minimum coverage: 90%
+
+TEST CASES
+
+- variables
+- assignments
+- functions
+- nested blocks
+- multiline strings
+- f-strings
+- comments
+- malformed tokens
+
+OUTPUT
+
+lexer.py
+test_lexer.py
+lexer_design.md

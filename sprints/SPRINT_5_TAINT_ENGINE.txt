@@ -1,0 +1,54 @@
+SPRINT 5
+========
+
+GOAL
+
+Build dataflow-based taint engine.
+
+DELIVERABLES
+
+1. Worklist algorithm.
+2. Forward dataflow analysis.
+3. Taint propagation.
+4. Sink detection.
+
+SOURCES
+
+request.args.get()
+request.form.get()
+input()
+
+SINKS
+
+cursor.execute()
+engine.execute()
+
+SANITIZERS
+
+escape()
+sanitize()
+
+RULES
+
+taint(source) => variable
+
+tainted_variable
+    ->
+assignment
+    ->
+expression
+    ->
+call
+
+Must propagate through:
+
+- assignments
+- expressions
+- branches
+- loops
+
+OUTPUT
+
+taint_engine.py
+sources_sinks.py
+test_taint.py

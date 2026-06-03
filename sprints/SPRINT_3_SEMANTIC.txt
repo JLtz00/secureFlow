@@ -1,0 +1,37 @@
+SPRINT 3
+========
+
+GOAL
+
+Build semantic analysis infrastructure.
+
+DELIVERABLES
+
+1. Symbol table.
+2. Scope management.
+3. Name resolution.
+4. Type inference.
+5. Initial taint annotations.
+
+SCOPES
+
+- global
+- function
+- nested blocks
+
+TAINT PREPROCESSING
+
+Detect:
+
+request.args.get()
+request.form.get()
+input()
+
+Mark resulting symbols as tainted.
+
+OUTPUT
+
+semantic.py
+symbols.py
+scope.py
+test_semantic.py

@@ -1,0 +1,78 @@
+SPRINT 6
+========
+
+GOAL
+
+Implement research contribution.
+
+PART A
+
+Interprocedural analysis.
+
+Function summaries.
+
+Summary fields:
+
+returns_tainted
+taints_arguments
+returns_sanitized
+
+PART B
+
+Explainable traces.
+
+Example:
+
+SOURCE
+line 3
+
+FLOW
+line 8
+
+FLOW
+line 10
+
+SINK
+line 15
+
+PART C
+
+Automatic hardening.
+
+Convert:
+
+cursor.execute(
+    "SELECT..." + user
+)
+
+into:
+
+cursor.execute(
+    "SELECT ... ?",
+    (user,)
+)
+
+PART D
+
+Metrics.
+
+Generate:
+
+TP
+FP
+TN
+FN
+
+Precision
+
+Recall
+
+F1 Score
+
+OUTPUT
+
+interprocedural.py
+reporter.py
+hardener.py
+metrics.py
+test_interprocedural.py

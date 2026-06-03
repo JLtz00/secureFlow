@@ -1,0 +1,512 @@
+SPRINT 7
+========
+
+GOAL
+
+Provide rigorous scientific validation of SecureFlow and
+demonstrate its effectiveness against existing state-of-the-art
+static analysis tools.
+
+This sprint transforms the project from a software engineering
+prototype into a research-grade system suitable for publication.
+
+------------------------------------------------------------
+PART A
+DATASET GENERATOR
+------------------------------------------------------------
+
+OBJECTIVE
+
+Create a reproducible benchmark dataset containing both
+vulnerable and secure Python programs.
+
+DELIVERABLES
+
+1. Synthetic vulnerability generator.
+2. Secure code generator.
+3. Dataset metadata.
+4. Ground truth labels.
+
+DATASET CATEGORIES
+
+Category A
+
+Direct SQL Injection
+
+Example:
+
+user = request.form.get("user")
+cursor.execute(
+    "SELECT * FROM users WHERE name='" + user + "'"
+)
+
+Label:
+
+VULNERABLE
+
+------------------------------------------------------------
+
+Category B
+
+Interprocedural SQL Injection
+
+Example:
+
+def get_user():
+    return request.form.get("user")
+
+user = get_user()
+
+cursor.execute(
+    "SELECT * FROM users WHERE name='" + user + "'"
+)
+
+Label:
+
+VULNERABLE
+
+------------------------------------------------------------
+
+Category C
+
+Sanitized Input
+
+Example:
+
+user = sanitize(
+    request.form.get("user")
+)
+
+cursor.execute(
+    "SELECT * FROM users WHERE name='" + user + "'"
+)
+
+Label:
+
+SAFE
+
+------------------------------------------------------------
+
+Category D
+
+Parameterized Queries
+
+Example:
+
+user = request.form.get("user")
+
+cursor.execute(
+    "SELECT * FROM users WHERE name=?",
+    (user,)
+)
+
+Label:
+
+SAFE
+
+------------------------------------------------------------
+
+Category E
+
+Complex Flow Cases
+
+Examples:
+
+- nested functions
+- loops
+- conditionals
+- multiple assignments
+- aliases
+- recursive propagation
+
+------------------------------------------------------------
+
+REQUIREMENTS
+
+Dataset size:
+
+Minimum:
+200 programs
+
+Recommended:
+500+ programs
+
+Store labels in JSON.
+
+Example:
+
+{
+    "file": "case_001.py",
+    "label": "VULNERABLE",
+    "vulnerability": "SQLI",
+    "source_line": 3,
+    "sink_line": 8
+}
+
+OUTPUT
+
+dataset/
+dataset_generator.py
+dataset_metadata.json
+
+------------------------------------------------------------
+PART B
+BENCHMARK SUITE
+------------------------------------------------------------
+
+OBJECTIVE
+
+Build an automated benchmarking framework capable of
+executing SecureFlow and competing tools on the same dataset.
+
+DELIVERABLES
+
+1. Benchmark runner.
+2. Result collector.
+3. Unified report format.
+
+TOOLS TO EVALUATE
+
+SecureFlow
+Bandit
+Semgrep
+Pyre/Pysa
+
+BENCHMARK PIPELINE
+
+For each sample:
+
+1. Run SecureFlow
+2. Run Bandit
+3. Run Semgrep
+4. Run Pysa
+5. Collect results
+6. Compare against ground truth
+
+OUTPUT FORMAT
+
+{
+    "tool": "SecureFlow",
+    "file": "case_001.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 25
+}
+
+OUTPUT
+
+benchmark_runner.py
+benchmark_results.json
+
+------------------------------------------------------------
+PART C
+METRICS ENGINE
+------------------------------------------------------------
+
+OBJECTIVE
+
+Compute scientific evaluation metrics.
+
+DELIVERABLES
+
+1. Confusion matrix.
+2. Precision.
+3. Recall.
+4. F1 Score.
+5. Accuracy.
+6. False Positive Rate.
+7. False Negative Rate.
+
+CONFUSION MATRIX
+
+TP
+FP
+TN
+FN
+
+FORMULAS
+
+Precision
+
+TP / (TP + FP)
+
+Recall
+
+TP / (TP + FN)
+
+F1 Score
+
+2 * Precision * Recall
+----------------------
+Precision + Recall
+
+Accuracy
+
+(TP + TN)
+---------
+Total
+
+False Positive Rate
+
+FP / (FP + TN)
+
+False Negative Rate
+
+FN / (FN + TP)
+
+OUTPUT
+
+metrics.py
+evaluation_report.json
+
+------------------------------------------------------------
+PART D
+COMPARISON AGAINST BANDIT
+------------------------------------------------------------
+
+OBJECTIVE
+
+Evaluate SecureFlow against Bandit.
+
+HYPOTHESIS
+
+SecureFlow should detect interprocedural vulnerabilities
+that Bandit misses.
+
+EXPERIMENTS
+
+Experiment B1
+
+Direct SQL Injection
+
+Experiment B2
+
+Interprocedural SQL Injection
+
+Experiment B3
+
+Sanitized Queries
+
+COLLECT
+
+TP
+FP
+TN
+FN
+
+OUTPUT
+
+bandit_comparison.json
+
+------------------------------------------------------------
+PART E
+COMPARISON AGAINST SEMGREP
+------------------------------------------------------------
+
+OBJECTIVE
+
+Evaluate SecureFlow against Semgrep.
+
+HYPOTHESIS
+
+SecureFlow should produce fewer false positives due to
+CFG-based dataflow analysis.
+
+EXPERIMENTS
+
+Experiment S1
+
+Direct SQL Injection
+
+Experiment S2
+
+Control Flow Propagation
+
+Experiment S3
+
+Nested Function Calls
+
+COLLECT
+
+TP
+FP
+TN
+FN
+
+OUTPUT
+
+semgrep_comparison.json
+
+------------------------------------------------------------
+PART F
+COMPARISON AGAINST PYRE/PYSA
+------------------------------------------------------------
+
+OBJECTIVE
+
+Compare SecureFlow against a taint-analysis-oriented tool.
+
+HYPOTHESIS
+
+SecureFlow should provide more explainable traces and
+automatic hardening recommendations.
+
+EXPERIMENTS
+
+Experiment P1
+
+Direct Taint Propagation
+
+Experiment P2
+
+Interprocedural Propagation
+
+Experiment P3
+
+Complex CFG Propagation
+
+COLLECT
+
+TP
+FP
+TN
+FN
+
+OUTPUT
+
+pysa_comparison.json
+
+------------------------------------------------------------
+PART G
+PERFORMANCE EVALUATION
+------------------------------------------------------------
+
+OBJECTIVE
+
+Measure scalability and execution performance.
+
+DELIVERABLES
+
+Execution time measurements.
+
+MEMORY USAGE
+
+Measure:
+
+- peak memory
+- average memory
+
+EXECUTION TIME
+
+Measure:
+
+- lexer
+- parser
+- semantic
+- IR generation
+- CFG generation
+- taint analysis
+- total execution
+
+DATASET SIZES
+
+50 programs
+100 programs
+250 programs
+500 programs
+1000 programs
+
+OUTPUT
+
+performance_report.json
+
+------------------------------------------------------------
+PART H
+RESULT VISUALIZATION
+------------------------------------------------------------
+
+OBJECTIVE
+
+Generate publication-ready figures.
+
+GENERATE
+
+1. Precision comparison chart.
+2. Recall comparison chart.
+3. F1 Score comparison chart.
+4. Execution time comparison chart.
+5. False positive comparison chart.
+6. False negative comparison chart.
+
+OUTPUT
+
+figures/
+charts/
+tables/
+
+------------------------------------------------------------
+PART I
+RESEARCH REPORT
+------------------------------------------------------------
+
+OBJECTIVE
+
+Generate reproducible experimental results suitable
+for inclusion in a scientific paper.
+
+TABLES
+
+Table 1
+
+Detection Performance
+
+| Tool       | Precision | Recall | F1 |
+|------------|-----------|--------|----|
+| Bandit     |           |        |    |
+| Semgrep    |           |        |    |
+| Pysa       |           |        |    |
+| SecureFlow |           |        |    |
+
+------------------------------------------------------------
+
+Table 2
+
+Execution Time
+
+| Tool       | Time (ms) |
+|------------|-----------|
+| Bandit     |           |
+| Semgrep    |           |
+| Pysa       |           |
+| SecureFlow |           |
+
+------------------------------------------------------------
+
+Table 3
+
+False Positive Analysis
+
+| Tool       | FP |
+|------------|----|
+| Bandit     |    |
+| Semgrep    |    |
+| Pysa       |    |
+| SecureFlow |    |
+
+------------------------------------------------------------
+
+EXPECTED RESEARCH CONTRIBUTIONS
+
+1. Interprocedural taint propagation.
+2. Explainable source-to-sink traces.
+3. Automatic hardening recommendations.
+4. Competitive or superior precision/recall.
+5. Full compiler-integrated analysis pipeline.
+6. Reproducible benchmark dataset.
+
+OUTPUT
+
+research_report.md
+paper_tables/
+paper_figures/
+final_results/

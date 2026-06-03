@@ -1,0 +1,40 @@
+SPRINT 2
+========
+
+GOAL
+
+Build a recursive-descent parser.
+
+DELIVERABLES
+
+1. AST hierarchy.
+2. LL(k) parser.
+3. Error recovery.
+4. AST visualizer.
+
+AST NODES
+
+Program
+FunctionDef
+Assign
+IfStmt
+WhileStmt
+ForStmt
+ReturnStmt
+CallExpr
+BinaryExpr
+Identifier
+Literal
+
+REQUIREMENTS
+
+Do not use Python ast module.
+
+Must build a custom AST.
+
+OUTPUT
+
+parser.py
+ast_nodes.py
+test_parser.py
+ast_visualizer.py

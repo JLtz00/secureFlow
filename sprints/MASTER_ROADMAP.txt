@@ -1,0 +1,30 @@
+=========================================================
+SECUREFLOW
+Compiler-Based Static Taint Analysis Framework
+for SQL Injection Detection in Python Applications
+=========================================================
+
+PROJECT GOAL
+------------
+
+Develop a complete compiler pipeline capable of:
+
+1. Parsing Python source code.
+2. Building a custom AST.
+3. Generating Intermediate Representation (IR).
+4. Constructing Control Flow Graphs.
+5. Performing interprocedural taint analysis.
+6. Detecting SQL Injection vulnerabilities.
+7. Producing explainable source-to-sink traces.
+8. Automatically generating hardened code.
+9. Generating datasets and evaluation metrics.
+10. Producing experimental results suitable for publication.
+
+Research contribution:
+
+- Interprocedural taint propagation.
+- Explainable vulnerability traces.
+- Automatic code hardening.
+- Evaluation framework with precision/recall metrics.
+
+The system must be modular and extensible.

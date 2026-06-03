@@ -1,0 +1,41 @@
+SPRINT 4
+========
+
+GOAL
+
+Generate intermediate representation.
+
+PART A
+
+Three Address Code.
+
+Instruction types:
+
+Assign
+BinaryOp
+UnaryOp
+Call
+Jump
+ConditionalJump
+Return
+
+PART B
+
+CFG construction.
+
+Implement:
+
+BasicBlock
+CFG
+Edge
+
+ALGORITHM
+
+Leader algorithm.
+
+OUTPUT
+
+ir.py
+ir_generator.py
+cfg_builder.py
+cfg_visualizer.py
