@@ -6,13 +6,14 @@ SecureFlow es un framework académico de análisis estático que integra *taint 
 
 ## Estado implementado
 
-Sprint 01 y Sprint 02 ya tienen una base ejecutable del pipeline:
+Sprint 01, Sprint 02 y Sprint 03 ya tienen una base ejecutable del pipeline:
 
 - `lexer.py`: convierte codigo Python en tokens con tipo, valor, linea y columna. Incluye `INDENT`, `DEDENT`, strings multilinea, f-strings, comentarios omitidos y recuperacion con `ERROR`.
 - `ast_nodes.py`: define el AST propio de SecureFlow, sin usar el modulo `ast` de Python.
 - `parser.py`: parser recursivo descendente LL para funciones, asignaciones, `if`, `while`, `for`, `return`, llamadas y expresiones binarias.
 - `ast_visualizer.py`: imprime el arbol para explicar como el codigo fuente se transforma en estructura analizable.
-- `test_lexer.py` y `test_parser.py`: pruebas del comportamiento principal del lexer y parser.
+- `symbols.py`, `scope.py` y `semantic.py`: construyen tabla de simbolos, scopes, resolucion de nombres, tipos simples y taint inicial.
+- `test_lexer.py`, `test_parser.py` y `test_semantic.py`: pruebas del comportamiento principal del lexer, parser y analizador semantico.
 
 Demo completa para clase:
 
@@ -26,7 +27,7 @@ Demo solo del arbol AST:
 python3 ast_visualizer.py
 ```
 
-La salida muestra una fuente potencial (`request.args.get`), propagacion por variables y un sink potencial (`cursor.execute`). Esto prepara el terreno para el Sprint 03, donde el analisis semantico marcara simbolos contaminados.
+La salida muestra tokens, AST, scopes, simbolos y taint inicial. El analizador semantico ya marca como contaminados los simbolos que vienen de `request.args.get`, `request.form.get` o `input`. La vulnerabilidad completa se confirmara en el Sprint 05 con el motor de taint.
 
 ---
 
