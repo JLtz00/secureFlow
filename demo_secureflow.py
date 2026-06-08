@@ -41,7 +41,8 @@ def show_tokens() -> None:
     visible_tokens = [
         token
         for token in tokens
-        if token.type not in {TokenType.NEWLINE, TokenType.INDENT, TokenType.DEDENT, TokenType.EOF}
+        if token.type
+        not in {TokenType.NEWLINE, TokenType.INDENT, TokenType.DEDENT, TokenType.EOF}
     ]
 
     print(f"{'TYPE':<12} {'VALUE':<36} {'LINE':>4} {'COL':>4}")
@@ -52,7 +53,11 @@ def show_tokens() -> None:
             value = value[:31] + "..."
         print(f"{token.type.value:<12} {value:<36} {token.line:>4} {token.column:>4}")
 
-    layout = [token.type.value for token in tokens if token.type in {TokenType.INDENT, TokenType.DEDENT}]
+    layout = [
+        token.type.value
+        for token in tokens
+        if token.type in {TokenType.INDENT, TokenType.DEDENT}
+    ]
     print()
     print("Tokens de bloque encontrados:", ", ".join(layout) or "ninguno")
 
@@ -72,7 +77,9 @@ def show_ast() -> None:
     if parser.errors:
         print("Errores encontrados:")
         for error in parser.errors:
-            print(f"- {error.line}:{error.column}: {error.message} cerca de {error.token_value!r}")
+            print(
+                f"- {error.line}:{error.column}: {error.message} cerca de {error.token_value!r}"
+            )
     else:
         print("Resultado: el parser no encontro errores sintacticos.")
 
@@ -104,11 +111,15 @@ def show_semantic_analysis() -> None:
 
 def explain_next_step() -> None:
     print_section("5. Que demuestra esto")
-    print("- El lexer reconoce palabras, identificadores, strings, operadores y posiciones.")
+    print(
+        "- El lexer reconoce palabras, identificadores, strings, operadores y posiciones."
+    )
     print("- El parser construye un AST propio sin usar el modulo ast de Python.")
     print("- El analizador semantico crea scopes y una tabla de simbolos.")
     print("- Tambien marca taint inicial cuando ve fuentes como request.args.get.")
-    print("- Todavia no declara vulnerabilidad SQL Injection; eso vendra con el motor de taint.")
+    print(
+        "- Todavia no declara vulnerabilidad SQL Injection; eso vendra con el motor de taint."
+    )
 
 
 def main() -> None:
