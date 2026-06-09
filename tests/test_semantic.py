@@ -1,4 +1,4 @@
-from semantic import analyze_source
+from analyzer.semantic import analyze_source
 
 
 def symbol_by_name(result, name):

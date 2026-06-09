@@ -1,4 +1,4 @@
-from ast_nodes import (
+from analyzer.ast_nodes import (
     Assign,
     BinaryExpr,
     CallExpr,
@@ -11,11 +11,11 @@ from ast_nodes import (
     ReturnStmt,
     WhileStmt,
 )
-from ast_visualizer import visualize
+from analyzer.ast_visualizer import visualize
 from contextlib import redirect_stdout
 from demo_secureflow import main as demo_main
 from io import StringIO
-from parser import Parser, parse, parse_with_errors
+from analyzer.parser import Parser, parse, parse_with_errors
 
 
 def test_parse_function_with_assignment_and_return():

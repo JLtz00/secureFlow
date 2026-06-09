@@ -6,14 +6,16 @@ SecureFlow es un framework académico de análisis estático que integra *taint 
 
 ## Estado implementado
 
-Sprint 01, Sprint 02 y Sprint 03 ya tienen una base ejecutable del pipeline:
+Sprint 01, Sprint 02, Sprint 03 y Sprint 04 ya tienen una base ejecutable del pipeline:
 
-- `lexer.py`: convierte codigo Python en tokens con tipo, valor, linea y columna. Incluye `INDENT`, `DEDENT`, strings multilinea, f-strings, comentarios omitidos y recuperacion con `ERROR`.
-- `ast_nodes.py`: define el AST propio de SecureFlow, sin usar el modulo `ast` de Python.
-- `parser.py`: parser recursivo descendente LL para funciones, asignaciones, `if`, `while`, `for`, `return`, llamadas y expresiones binarias.
-- `ast_visualizer.py`: imprime el arbol para explicar como el codigo fuente se transforma en estructura analizable.
-- `symbols.py`, `scope.py` y `semantic.py`: construyen tabla de simbolos, scopes, resolucion de nombres, tipos simples y taint inicial.
-- `test_lexer.py`, `test_parser.py` y `test_semantic.py`: pruebas del comportamiento principal del lexer, parser y analizador semantico.
+- `analyzer/lexer.py`: convierte codigo Python en tokens con tipo, valor, linea y columna. Incluye `INDENT`, `DEDENT`, strings multilinea, f-strings, comentarios omitidos y recuperacion con `ERROR`.
+- `analyzer/ast_nodes.py`: define el AST propio de SecureFlow, sin usar el modulo `ast` de Python.
+- `analyzer/parser.py`: parser recursivo descendente LL para funciones, asignaciones, `if`, `while`, `for`, `return`, llamadas y expresiones binarias.
+- `analyzer/ast_visualizer.py`: imprime el arbol para explicar como el codigo fuente se transforma en estructura analizable.
+- `analyzer/symbols.py`, `analyzer/scope.py` y `analyzer/semantic.py`: construyen tabla de simbolos, scopes, resolucion de nombres, tipos simples y taint inicial.
+- `analyzer/ir.py` y `analyzer/ir_generator.py`: definen y generan codigo de tres direcciones.
+- `analyzer/cfg_builder.py` y `analyzer/cfg_visualizer.py`: construyen y muestran bloques basicos mediante el algoritmo de lideres.
+- `tests/`: contiene las pruebas automatizadas de las fases implementadas.
 
 Demo completa para clase:
 
@@ -24,10 +26,10 @@ python3 demo_secureflow.py
 Demo solo del arbol AST:
 
 ```bash
-python3 ast_visualizer.py
+python3 -m analyzer.ast_visualizer
 ```
 
-La salida muestra tokens, AST, scopes, simbolos y taint inicial. El analizador semantico ya marca como contaminados los simbolos que vienen de `request.args.get`, `request.form.get` o `input`. La vulnerabilidad completa se confirmara en el Sprint 05 con el motor de taint.
+La salida muestra tokens, AST, scopes, simbolos, taint inicial, TAC y CFG. El analizador semantico ya marca como contaminados los simbolos que vienen de `request.args.get`, `request.form.get` o `input`. La vulnerabilidad completa se confirmara en el Sprint 05 con el motor de taint.
 
 ---
 
@@ -146,33 +148,32 @@ cursor.execute("SELECT * WHERE u=?", (usuario,))
 ## Estructura del repositorio
 
 ```
-secureflow/
-├── main.py                         # CLI + orquestador del pipeline
+secureFlow/
 ├── analyzer/
-│   ├── lexer.py                    # Fase 1: Tokenizador
-│   ├── parser.py                   # Fase 2: Parser LL(k) + AST
-│   ├── semantic.py                 # Fase 3: Tabla de símbolos
-│   ├── ir.py                       # Definición de TAC, bloques, CFG
-│   ├── ir_gen.py                   # Fase 4: Generador de IR
-│   ├── cfg_builder.py              # Fase 5: Constructor del CFG
-│   ├── taint_engine.py             # Fase 6: Motor de taint + worklist
-│   ├── interprocedural.py          # Resúmenes de función
-│   ├── sources_sinks.py            # Catálogo de fuentes, sinks y sanitizadores
-│   └── reporter.py                 # Salida ANSI + JSON + traza
-├── codegen/
-│   └── hardener.py                 # Generación de código seguro
+│   ├── lexer.py
+│   ├── parser.py
+│   ├── ast_nodes.py
+│   ├── ast_visualizer.py
+│   ├── semantic.py
+│   ├── symbols.py
+│   ├── scope.py
+│   ├── ir.py
+│   ├── ir_generator.py
+│   ├── cfg_builder.py
+│   └── cfg_visualizer.py
+├── tests/
+│   ├── test_lexer.py
+│   ├── test_parser.py
+│   ├── test_semantic.py
+│   ├── test_ir_generator.py
+│   └── test_cfg.py
 ├── examples/
-│   ├── vulnerable_login.py         # Caso: autenticación vulnerable
-│   ├── vulnerable_dni.py           # Caso: consulta por DNI
-│   ├── vulnerable_interprocedural.py  # Caso: flujo entre funciones
-│   └── safe_login.py               # Referencia: versión segura
-└── tests/
-    ├── test_lexer.py
-    ├── test_parser.py
-    ├── test_semantic.py
-    ├── test_ir_gen.py
-    ├── test_taint.py
-    └── test_interprocedural.py
+│   └── vulnerable_query.py
+├── docs/
+│   └── lexer_design.md
+├── sprints/
+├── demo_secureflow.py
+└── README.md
 ```
 
 ---
@@ -180,19 +181,16 @@ secureflow/
 ## Uso
 
 ```bash
-# Analizar un archivo
-python main.py examples/vulnerable_login.py
+# Ejecutar la demostracion completa de Sprints 01-04
+python3 demo_secureflow.py
 
-# Guardar reporte en JSON (útil para CI/CD)
-python main.py examples/vulnerable_login.py --output json --save report.json
-
-# Generar versión endurecida del código
-python main.py examples/vulnerable_login.py --harden --out safe_login.py
+# Compilar todos los modulos
+python3 -m py_compile analyzer/*.py tests/*.py demo_secureflow.py
 ```
 
 ---
 
-## Ejemplo de salida
+## Salida objetivo del proyecto completo
 
 ```
 SecureFlow v1.0 — Análisis de seguridad estático

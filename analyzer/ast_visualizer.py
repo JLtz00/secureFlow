@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from ast_nodes import (
+from analyzer.ast_nodes import (
     Assign,
     ASTNode,
     BinaryExpr,
@@ -18,7 +18,7 @@ from ast_nodes import (
     ReturnStmt,
     WhileStmt,
 )
-from parser import parse_with_errors
+from analyzer.parser import parse_with_errors
 
 
 def visualize(node: ASTNode) -> str:

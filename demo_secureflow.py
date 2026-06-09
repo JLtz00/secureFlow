@@ -1,4 +1,4 @@
-"""Small end-to-end demo for Sprint 01, Sprint 02 and Sprint 03.
+"""End-to-end demo for SecureFlow Sprints 01 through 04.
 
 Run with:
     python3 demo_secureflow.py
@@ -6,20 +6,20 @@ Run with:
 
 from __future__ import annotations
 
-from ast_visualizer import visualize
-from lexer import Lexer, TokenType
-from parser import Parser
-from semantic import analyze
+from pathlib import Path
+
+from analyzer.ast_visualizer import visualize
+from analyzer.cfg_builder import build_cfg
+from analyzer.cfg_visualizer import visualize_cfg
+from analyzer.ir import format_module
+from analyzer.ir_generator import generate_ir
+from analyzer.lexer import Lexer, TokenType
+from analyzer.parser import Parser
+from analyzer.semantic import analyze
 
 
-DEMO_SOURCE = """def build_query(user):
-    query = \"SELECT * FROM users WHERE name=\" + user
-    return query
-
-user = request.args.get(\"user\")
-query = build_query(user)
-cursor.execute(query)
-"""
+DEMO_FILE = Path(__file__).parent / "examples" / "vulnerable_query.py"
+DEMO_SOURCE = DEMO_FILE.read_text(encoding="utf-8")
 
 
 def print_section(title: str) -> None:
@@ -109,14 +109,34 @@ def show_semantic_analysis() -> None:
         print("Resultado: no hay nombres sin resolver en este ejemplo.")
 
 
+
+def show_ir() -> None:
+    print_section("5. IR: codigo de tres direcciones (TAC)")
+    _, program = parse_demo()
+    module = generate_ir(program)
+    print(format_module(module))
+
+
+def show_cfg() -> None:
+    print_section("6. CFG: bloques basicos y aristas de control")
+    _, program = parse_demo()
+    module = generate_ir(program)
+    for function in module.all_functions():
+        cfg = build_cfg(function.instructions, function.name)
+        print(visualize_cfg(cfg))
+        print()
+
+
 def explain_next_step() -> None:
-    print_section("5. Que demuestra esto")
+    print_section("7. Que demuestra esto")
     print(
         "- El lexer reconoce palabras, identificadores, strings, operadores y posiciones."
     )
     print("- El parser construye un AST propio sin usar el modulo ast de Python.")
     print("- El analizador semantico crea scopes y una tabla de simbolos.")
     print("- Tambien marca taint inicial cuando ve fuentes como request.args.get.")
+    print("- El generador IR transforma expresiones en instrucciones de tres direcciones.")
+    print("- El CFG separa ramas y saltos en bloques basicos conectados por aristas.")
     print(
         "- Todavia no declara vulnerabilidad SQL Injection; eso vendra con el motor de taint."
     )
@@ -127,6 +147,8 @@ def main() -> None:
     show_tokens()
     show_ast()
     show_semantic_analysis()
+    show_ir()
+    show_cfg()
     explain_next_step()
 
 

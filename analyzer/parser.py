@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ast_nodes import (
+from analyzer.ast_nodes import (
     Assign,
     BinaryExpr,
     CallExpr,
@@ -22,7 +22,7 @@ from ast_nodes import (
     Statement,
     WhileStmt,
 )
-from lexer import Lexer, Token, TokenType
+from analyzer.lexer import Lexer, Token, TokenType
 
 
 @dataclass(frozen=True)

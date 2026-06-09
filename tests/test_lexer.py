@@ -1,4 +1,4 @@
-from lexer import Lexer, TokenType, tokenize
+from analyzer.lexer import Lexer, TokenType, tokenize
 
 
 def strip_layout(tokens):

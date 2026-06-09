@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from ast_nodes import (
+from analyzer.ast_nodes import (
     Assign,
     BinaryExpr,
     CallExpr,
@@ -20,9 +20,9 @@ from ast_nodes import (
     Statement,
     WhileStmt,
 )
-from parser import Parser
-from scope import Scope, SymbolTable
-from symbols import SemanticIssue, Symbol
+from analyzer.parser import Parser
+from analyzer.scope import Scope, SymbolTable
+from analyzer.symbols import SemanticIssue, Symbol
 
 
 TAINT_SOURCES = {"request.args.get", "request.form.get", "input"}
