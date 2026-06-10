@@ -1,0 +1,206 @@
+"""Forward dataflow taint analysis using the Worklist algorithm.
+
+Tracks untrusted data (sources) through assignments, binary ops, branches,
+and loops until it reaches a dangerous function call (sink), reporting
+SQL injection vulnerabilities.
+"""
+
+from __future__ import annotations
+
+from collections import deque
+from dataclasses import dataclass, field
+
+from analyzer.cfg_builder import CFG, BasicBlock
+from analyzer.ir import Assign, BinaryOp, Call
+from analyzer.sources_sinks import SANITIZERS, SINKS, SOURCES
+
+# Maps variable names to the set of taint sources that contaminate them.
+# A variable absent from the dict (or mapped to empty frozenset) is clean.
+TaintState = dict[str, frozenset[str]]
+
+
+@dataclass
+class Vulnerability:
+    """A tainted argument flowing into a SQL sink."""
+
+    sink: str
+    tainted_arg: str
+    taint_sources: frozenset[str]
+    line: int
+    block_id: int
+
+    def __str__(self) -> str:
+        sources = ", ".join(sorted(self.taint_sources))
+        return (
+            f"[VULN] Tainted data reaches sink '{self.sink}' "
+            f"via '{self.tainted_arg}' (sources: {sources}) at line {self.line}"
+        )
+
+
+@dataclass
+class TaintResult:
+    vulnerabilities: list[Vulnerability] = field(default_factory=list)
+    # Final OUT state for each basic block after fixpoint
+    block_out: dict[int, TaintState] = field(default_factory=dict)
+
+    @property
+    def is_vulnerable(self) -> bool:
+        return bool(self.vulnerabilities)
+
+
+class TaintEngine:
+    """Worklist-based forward dataflow taint analysis over a CFG.
+
+    Algorithm:
+      1. Initialize IN/OUT for every block to empty taint state.
+      2. Seed the worklist with all blocks so each is processed at least once.
+      3. For each block B dequeued:
+           IN[B]  = join(OUT[pred] for pred in predecessors(B))
+           OUT[B] = transfer(B, IN[B])
+         If OUT[B] changed, re-enqueue all successors of B.
+      4. Repeat until the worklist is empty (fixpoint reached).
+    """
+
+    def analyze(self, cfg: CFG) -> TaintResult:
+        result = TaintResult()
+        if not cfg.blocks or cfg.entry is None:
+            return result
+
+        in_state: dict[int, TaintState] = {b.id: {} for b in cfg.blocks}
+        out_state: dict[int, TaintState] = {b.id: {} for b in cfg.blocks}
+        # Deduplicate vulnerabilities: (sink, arg, line) uniquely identifies one report
+        reported: set[tuple[str, str, int]] = set()
+
+        # Seed with all blocks so each is processed at least once
+        worklist: deque[int] = deque(b.id for b in cfg.blocks)
+
+        while worklist:
+            block_id = worklist.popleft()
+            block = self._block_by_id(cfg, block_id)
+            if block is None:
+                continue
+
+            # IN[B] = join of OUT[pred] for every predecessor of B
+            preds = [e.source for e in cfg.edges if e.target == block_id]
+            merged: TaintState = {}
+            for pred_id in preds:
+                merged = self._join(merged, out_state[pred_id])
+            in_state[block_id] = merged
+
+            # OUT[B] = transfer(IN[B], B)
+            new_out, vulns = self._transfer(block, dict(merged))
+
+            for v in vulns:
+                key = (v.sink, v.tainted_arg, v.line)
+                if key not in reported:
+                    reported.add(key)
+                    result.vulnerabilities.append(v)
+
+            # Propagate changes to successors
+            if new_out != out_state[block_id]:
+                out_state[block_id] = new_out
+                for e in cfg.edges:
+                    if e.source == block_id:
+                        worklist.append(e.target)
+
+        result.block_out = out_state
+        return result
+
+    # ------------------------------------------------------------------ helpers
+
+    def _block_by_id(self, cfg: CFG, block_id: int) -> BasicBlock | None:
+        for b in cfg.blocks:
+            if b.id == block_id:
+                return b
+        return None
+
+    def _join(self, a: TaintState, b: TaintState) -> TaintState:
+        """Union join: a variable is tainted if tainted in either predecessor."""
+        merged = dict(a)
+        for var, sources in b.items():
+            merged[var] = merged.get(var, frozenset()) | sources
+        return merged
+
+    # ---------------------------------------------------------------- transfer
+
+    def _transfer(
+        self, block: BasicBlock, state: TaintState
+    ) -> tuple[TaintState, list[Vulnerability]]:
+        """Apply each IR instruction in block to the taint state.
+
+        Returns the updated state and any vulnerabilities detected.
+        """
+        vulns: list[Vulnerability] = []
+
+        for instr in block.instructions:
+            if isinstance(instr, Assign):
+                # target = value  →  propagate taint from value variable
+                taint = state.get(instr.value, frozenset())
+                if taint:
+                    state[instr.target] = taint
+                else:
+                    state.pop(instr.target, None)
+
+            elif isinstance(instr, BinaryOp):
+                # target = left OP right  →  union of operand taints
+                left_taint = state.get(instr.left, frozenset())
+                right_taint = state.get(instr.right, frozenset())
+                combined = left_taint | right_taint
+                if combined:
+                    state[instr.target] = combined
+                else:
+                    state.pop(instr.target, None)
+
+            elif isinstance(instr, Call):
+                self._handle_call(instr, state, vulns, block.id)
+
+        return state, vulns
+
+    def _handle_call(
+        self,
+        instr: Call,
+        state: TaintState,
+        vulns: list[Vulnerability],
+        block_id: int,
+    ) -> None:
+        fn = instr.function
+
+        if fn in SOURCES:
+            # Return value of a source is always tainted
+            if instr.target is not None:
+                state[instr.target] = frozenset({fn})
+
+        elif fn in SANITIZERS:
+            # Sanitizers produce clean output regardless of arguments
+            if instr.target is not None:
+                state.pop(instr.target, None)
+
+        elif fn in SINKS:
+            # Check every argument: tainted data reaching a sink is a vulnerability
+            for arg in instr.args:
+                arg_taint = state.get(arg, frozenset())
+                if arg_taint:
+                    vulns.append(
+                        Vulnerability(
+                            sink=fn,
+                            tainted_arg=arg,
+                            taint_sources=arg_taint,
+                            line=instr.line,
+                            block_id=block_id,
+                        )
+                    )
+
+        else:
+            # Conservative assumption: if any argument is tainted, so is the return value
+            if instr.target is not None:
+                combined = frozenset().union(
+                    *(state.get(a, frozenset()) for a in instr.args)
+                )
+                if combined:
+                    state[instr.target] = combined
+                else:
+                    state.pop(instr.target, None)
+
+
+def analyze_cfg(cfg: CFG) -> TaintResult:
+    return TaintEngine().analyze(cfg)
