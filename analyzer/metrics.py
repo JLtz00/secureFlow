@@ -25,12 +25,29 @@ class ConfusionMatrix:
         p, r = self.precision, self.recall
         return 2 * p * r / (p + r) if p + r > 0 else 0.0
 
+    @property
+    def accuracy(self) -> float:
+        total = self.tp + self.fp + self.tn + self.fn
+        return (self.tp + self.tn) / total if total > 0 else 0.0
+
+    @property
+    def fpr(self) -> float:
+        """False Positive Rate: FP / (FP + TN)"""
+        return self.fp / (self.fp + self.tn) if self.fp + self.tn > 0 else 0.0
+
+    @property
+    def fnr(self) -> float:
+        """False Negative Rate: FN / (FN + TP)"""
+        return self.fn / (self.fn + self.tp) if self.fn + self.tp > 0 else 0.0
+
     def __str__(self) -> str:
         return (
             f"TP={self.tp}  FP={self.fp}  TN={self.tn}  FN={self.fn}\n"
             f"Precision={self.precision:.3f}  "
             f"Recall={self.recall:.3f}  "
-            f"F1={self.f1_score:.3f}"
+            f"F1={self.f1_score:.3f}  "
+            f"Accuracy={self.accuracy:.3f}  "
+            f"FPR={self.fpr:.3f}  FNR={self.fnr:.3f}"
         )
 
 

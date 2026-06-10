@@ -1,0 +1,1682 @@
+[
+  {
+    "file": "case_001.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_002.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_003.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_004.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_005.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_006.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_007.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_008.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_009.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_010.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_011.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_012.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_013.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_014.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_015.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_016.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_017.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_018.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_019.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_020.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_021.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_022.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_023.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_024.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_025.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_026.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_027.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_028.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_029.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_030.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_031.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_032.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_033.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_034.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_035.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_036.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_037.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_038.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_039.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_040.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_041.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_042.py",
+    "label": "VULNERABLE",
+    "category": "A",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_043.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_044.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_045.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_046.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_047.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_048.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_049.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_050.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_051.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_052.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_053.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_054.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_055.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_056.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_057.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_058.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_059.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_060.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_061.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_062.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_063.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_064.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_065.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_066.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_067.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_068.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_069.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_070.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_071.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_072.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_073.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_074.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_075.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_076.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_077.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_078.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_079.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_080.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_081.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_082.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_083.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_084.py",
+    "label": "VULNERABLE",
+    "category": "B",
+    "vulnerability": "SQLI",
+    "source_line": 2,
+    "sink_line": 5
+  },
+  {
+    "file": "case_085.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_086.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_087.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_088.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_089.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_090.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_091.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_092.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_093.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_094.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_095.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_096.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_097.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_098.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_099.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_100.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_101.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_102.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_103.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_104.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_105.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_106.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_107.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_108.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_109.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_110.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_111.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_112.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_113.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_114.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_115.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_116.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_117.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_118.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_119.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_120.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_121.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_122.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_123.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_124.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_125.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_126.py",
+    "label": "SAFE",
+    "category": "C",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 3
+  },
+  {
+    "file": "case_127.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_128.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_129.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_130.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_131.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_132.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_133.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_134.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_135.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_136.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_137.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_138.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_139.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_140.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_141.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_142.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_143.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_144.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_145.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_146.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_147.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_148.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_149.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_150.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_151.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_152.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_153.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_154.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_155.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_156.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_157.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_158.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_159.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_160.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_161.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_162.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_163.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_164.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_165.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_166.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_167.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_168.py",
+    "label": "SAFE",
+    "category": "D",
+    "vulnerability": "NONE",
+    "source_line": 1,
+    "sink_line": 2
+  },
+  {
+    "file": "case_169.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_170.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_171.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_172.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_173.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_174.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_175.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_176.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_177.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_178.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_179.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_180.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_181.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_182.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_183.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_184.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_185.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_186.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_187.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_188.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_189.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_190.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_191.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_192.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_193.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_194.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_195.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_196.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_197.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_198.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_199.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_200.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_201.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_202.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_203.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_204.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_205.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_206.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  },
+  {
+    "file": "case_207.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_208.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 4
+  },
+  {
+    "file": "case_209.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 5
+  },
+  {
+    "file": "case_210.py",
+    "label": "VULNERABLE",
+    "category": "E",
+    "vulnerability": "SQLI",
+    "source_line": 1,
+    "sink_line": 6
+  }
+]

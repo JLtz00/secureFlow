@@ -1,0 +1,6 @@
+Tool          Avg Time (ms)
+---------------------------
+SecureFlow            0.132
+Bandit                0.000
+Semgrep               0.000
+Pysa                  0.000
