@@ -1,0 +1,131 @@
+SPRINT 10
+=========
+
+GOAL
+
+Eliminate the circular-evaluation problem: today the tool
+is evaluated only on 210 programs generated from 5 trivial
+templates (2-6 lines each) written by the same authors.
+A reviewer will reject this as both too easy and biased.
+
+Strategy: (1) make the synthetic generator genuinely hard,
+(2) add an external test set not authored by us.
+
+------------------------------------------------------------
+PART A
+HARDENED SYNTHETIC GENERATOR
+------------------------------------------------------------
+
+OBJECTIVE
+
+Expand the generator from 5 templates to a combinatorial
+generator producing structurally diverse programs.
+
+DELIVERABLES
+
+1. New vulnerable categories:
+   F  f-string interpolation into query        (VULNERABLE)
+   G  .format() / %-formatting into query      (VULNERABLE)
+   H  taint through nested call chains
+      (2-3 user functions deep)                (VULNERABLE)
+
+2. New safe categories (the hard negatives that expose
+   false positives):
+   I  tainted data used in a non-sink call,
+      query built from constants only          (SAFE)
+   J  taint overwritten before the sink
+      (kill of the definition)                 (SAFE)
+   K  sanitizer applied inside a helper
+      function (interprocedural sanitization)  (SAFE)
+
+3. Noise injection: every generated program wrapped with
+   2-10 irrelevant statements (arithmetic, unrelated calls,
+   dead branches) so detection cannot rely on position.
+
+4. Size: 500+ programs (roadmap target), balanced ~50/50
+   vulnerable/safe so accuracy is meaningful.
+
+5. Same JSON ground-truth metadata format, plus a
+   "pattern" field describing the variant for per-pattern
+   analysis.
+
+ACCEPTANCE CRITERIA
+
+- Generator is seeded and deterministic (reproducible).
+- Categories I, J, K exist specifically to punish
+  over-tainting; SecureFlow's results on them go in the
+  report whatever they are.
+
+OUTPUT
+
+tools/dataset_generator.py
+data/dataset/
+data/dataset_metadata.json
+
+------------------------------------------------------------
+PART B
+EXTERNAL TEST SET
+------------------------------------------------------------
+
+OBJECTIVE
+
+Evaluate on code NOT written by the SecureFlow authors.
+This is the single strongest answer to the construct-
+validity objection.
+
+CANDIDATE SOURCES (pick at least one)
+
+1. NIST SARD — Python SQL injection test cases
+   (curated, labeled, citable).
+2. Vulpy / PyGoat — deliberately vulnerable Python web
+   apps; extract the SQLi-relevant functions, label
+   manually, document the extraction protocol.
+3. Real CVE study: 3-5 open-source Flask/Django projects
+   with published SQLi CVEs; check whether each tool flags
+   the vulnerable function (case-study table, not metrics).
+
+DELIVERABLES
+
+1. data/external/ with the selected cases.
+2. data/external_metadata.json with ground truth and
+   provenance (origin URL, license, extraction date).
+3. A documented labeling protocol in docs/ (who labeled,
+   what rule decides VULNERABLE vs SAFE).
+4. Benchmark runner accepts a --dataset flag and runs the
+   same tool set on the external suite.
+
+HONESTY RULE
+
+If SecureFlow's parser cannot handle an external case
+(unsupported syntax), record it as UNSUPPORTED, report the
+percentage, and discuss it as a limitation. Do not delete
+hard cases.
+
+OUTPUT
+
+data/external/
+data/external_metadata.json
+docs/labeling_protocol.md
+
+------------------------------------------------------------
+PART C
+RESULTS BY DATASET
+------------------------------------------------------------
+
+OBJECTIVE
+
+Report synthetic and external results separately — never
+merged — and analyze the gap between them.
+
+DELIVERABLES
+
+1. Table: per-tool metrics on synthetic-hard dataset.
+2. Table: per-tool results on external dataset.
+3. Per-category and per-pattern breakdowns.
+4. Updated research report discussing where SecureFlow
+   degrades on external code and why.
+
+OUTPUT
+
+reports/tables/
+reports/research_report.md

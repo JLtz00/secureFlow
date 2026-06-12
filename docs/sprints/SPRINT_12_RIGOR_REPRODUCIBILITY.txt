@@ -1,0 +1,165 @@
+SPRINT 12
+=========
+
+GOAL
+
+Meet the statistical and reproducibility standards of an
+indexed software-engineering / security journal, and
+package the artifacts reviewers will actually download.
+
+This sprint produces no new analysis capability; it makes
+the existing results defensible and repeatable.
+
+------------------------------------------------------------
+PART A
+STATISTICAL RIGOR
+------------------------------------------------------------
+
+OBJECTIVE
+
+Replace single-number metric claims with statistically
+supported ones.
+
+DELIVERABLES
+
+1. Confidence intervals (95%, Wilson score) for precision,
+   recall and F1 of every tool, on every dataset.
+2. Paired significance test between SecureFlow and each
+   baseline: McNemar's test on the per-file correct /
+   incorrect contingency (the standard test for two
+   classifiers on the same cases). Report p-values.
+3. Execution-time comparison with median + IQR over N>=10
+   repeated runs, not a single run.
+4. metrics.py extended with these computations + unit
+   tests against known hand-computed examples.
+
+ACCEPTANCE CRITERIA
+
+No table in the paper states "SecureFlow outperforms X"
+without an interval or a p-value behind it.
+
+OUTPUT
+
+analyzer/metrics.py
+tests/test_evaluation.py (extended)
+reports/tables/
+
+------------------------------------------------------------
+PART B
+THREATS TO VALIDITY
+------------------------------------------------------------
+
+OBJECTIVE
+
+Write the section every empirical SE venue requires.
+
+CONTENT (minimum)
+
+1. Construct validity — binary VULNERABLE/SAFE labels per
+   file vs per-flow ground truth; synthetic generator
+   authored by us (mitigated by Sprint 10 Part B).
+2. Internal validity — tool configuration choices
+   (Semgrep ruleset, Bandit test selection) affect their
+   scores; document configs and justify them.
+3. External validity — Python subset coverage; UNSUPPORTED
+   rate on external code; single vulnerability class
+   (SQLi only).
+4. Reliability — seeds, pinned versions, hardware specs
+   recorded.
+
+OUTPUT
+
+docs/threats_to_validity.md
+(section merged into reports/research_report.md)
+
+------------------------------------------------------------
+PART C
+USABLE ENTRY POINT
+------------------------------------------------------------
+
+OBJECTIVE
+
+A reviewer must be able to run the tool on their own file
+in one command. Today only demos exist.
+
+DELIVERABLES
+
+1. python3 -m analyzer <file.py> [--json] [--harden out.py]
+   - human-readable report with source-to-sink trace
+   - --json: machine-readable output (CI/CD format)
+   - --harden: write repaired file, print verification
+     result
+   - exit code 1 when vulnerabilities found (CI-friendly)
+2. README usage section updated.
+3. tests for the CLI (subprocess-level smoke tests).
+
+OUTPUT
+
+analyzer/__main__.py
+tests/test_cli.py
+README.md
+
+------------------------------------------------------------
+PART D
+REPRODUCTION PACKAGE
+------------------------------------------------------------
+
+OBJECTIVE
+
+One command regenerates every number in the paper.
+
+DELIVERABLES
+
+1. reproduce.sh:
+   - create venv, install pinned requirements
+   - regenerate datasets (fixed seeds)
+   - run full benchmark (real tools)
+   - run repair evaluator
+   - regenerate all tables, figures, report
+   - run pytest; abort on any failure
+2. Hardware/OS/Python version captured into the report
+   header automatically.
+3. Dataset + results archived for a DOI (Zenodo) —
+   document the steps in docs/artifact.md.
+4. CI workflow (GitHub Actions) running pytest + a smoke
+   benchmark on every push.
+
+ACCEPTANCE CRITERIA
+
+A clean clone on a fresh machine reproduces Tables 1-N
+from reproduce.sh alone.
+
+OUTPUT
+
+reproduce.sh
+.github/workflows/ci.yml
+docs/artifact.md
+
+------------------------------------------------------------
+PART E
+PAPER-FACING CLEANUP
+------------------------------------------------------------
+
+OBJECTIVE
+
+Align every written claim with what is actually measured.
+
+DELIVERABLES
+
+1. README: remove or substantiate the government-systems
+   framing (RENIEC / padron electoral) — either include a
+   realistic case study or present SecureFlow as a general
+   tool with a motivating scenario.
+2. Updated reference list: add the actual baselines'
+   papers (Bandit docs, Semgrep, Pysa) and 3-5 recent
+   (2020+) taint-analysis / automated-repair papers so the
+   related-work section is current.
+3. Final research_report.md restructured as a paper
+   skeleton: Abstract, Introduction, Approach, Evaluation
+   (RQ1 detection, RQ2 comparison, RQ3 verified repair,
+   RQ4 performance), Threats, Related Work, Conclusion.
+
+OUTPUT
+
+README.md
+reports/research_report.md

@@ -28,3 +28,55 @@ Research contribution:
 - Evaluation framework with precision/recall metrics.
 
 The system must be modular and extensible.
+
+=========================================================
+PHASE 2 — PUBLICATION READINESS (Sprints 8-12)
+=========================================================
+
+Audit date: 2026-06-12. Goal: results defensible in an
+indexed peer-reviewed journal. Each sprint is specified in
+its own file and can be implemented independently, but the
+order below matters: 8 unblocks honest numbers, 9 makes
+the comparison legitimate, 10 makes it credible, 11 adds
+the novel contribution, 12 makes it publishable.
+
+STATUS TRACKING
+---------------
+
+[ ] SPRINT 8  ENGINE FIXES            (SPRINT_8_ENGINE_FIXES.txt)
+    Fix the three defects that invalidate current results:
+    interprocedural summaries never reach the taint engine
+    (category B recall = 0), parameterized queries flagged
+    as vulnerable (42 false positives), f-string/.format()
+    injection undetected.
+
+[ ] SPRINT 9  REAL BENCHMARK          (SPRINT_9_REAL_BENCHMARK.txt)
+    Replace simulated Bandit/Semgrep/Pysa with real tool
+    executions. Integrity requirement: no comparison table
+    is publishable while competitors are simulated.
+
+[ ] SPRINT 10 DATASET HARDENING       (SPRINT_10_DATASET_HARDENING.txt)
+    Break the circular evaluation: combinatorial generator
+    with hard negatives + an external test set (SARD /
+    Vulpy / real CVEs) not authored by us.
+
+[ ] SPRINT 11 VERIFIED REPAIR         (SPRINT_11_VERIFIED_REPAIR.txt)
+    The paper's headline: detect -> repair -> re-verify
+    loop and the Verified Repair Rate metric, which no
+    baseline tool can report.
+
+[ ] SPRINT 12 RIGOR & REPRODUCIBILITY (SPRINT_12_RIGOR_REPRODUCIBILITY.txt)
+    Confidence intervals, McNemar tests, threats to
+    validity, CLI entry point, reproduce.sh, CI, artifact
+    package with DOI.
+
+RULES FOR THIS PHASE
+--------------------
+
+1. Mark a sprint [x] only when its acceptance criteria
+   pass and the full pytest suite is green.
+2. Never merge results produced by different engine
+   versions into the same table — regenerate everything
+   after engine changes.
+3. Negative or modest results are reported, not hidden;
+   precision of claims beats inflation of claims.

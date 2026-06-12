@@ -1,0 +1,116 @@
+SPRINT 11
+=========
+
+GOAL
+
+Turn the hardener into the paper's distinctive scientific
+contribution: a closed DETECT -> REPAIR -> RE-VERIFY loop.
+
+Rationale: a hand-built lexer/parser is not a research
+contribution (reviewers will ask "why not the ast
+module?"), and taint analysis alone competes with Pysa.
+What Bandit, Semgrep and Pysa do NOT offer is automatic
+repair whose correctness is verified by re-running the
+same analysis. "Verified repair rate" becomes a metric no
+baseline tool can report — that is the paper's headline.
+
+------------------------------------------------------------
+PART A
+HARDENER COVERAGE
+------------------------------------------------------------
+
+OBJECTIVE
+
+Extend the hardener beyond the string-concatenation
+pattern so its coverage matches the detector's (Sprint 8
+added f-string and .format detection — repair must follow).
+
+DELIVERABLES
+
+1. Repair of f-string queries:
+   cursor.execute(f"... {user}")
+     -> cursor.execute("... ?", (user,))
+2. Repair of .format() queries.
+3. Repair of queries built across multiple statements
+   (prefix + var chains), using the taint trace to locate
+   every fragment.
+4. When a pattern cannot be repaired safely, the hardener
+   must say so explicitly (REPAIR_UNSUPPORTED), never emit
+   a guess.
+
+OUTPUT
+
+analyzer/hardener.py
+tests/test_hardener.py
+
+------------------------------------------------------------
+PART B
+RE-VERIFICATION LOOP
+------------------------------------------------------------
+
+OBJECTIVE
+
+Prove every repair, automatically.
+
+PIPELINE
+
+For each detected vulnerability:
+
+1. Hardener produces candidate fixed source.
+2. Fixed source goes through the FULL pipeline again
+   (lexer -> parser -> IR -> CFG -> taint, with
+   interprocedural summaries).
+3. Classify the outcome:
+   REPAIR_VERIFIED    vulnerability gone, file parses
+   REPAIR_FAILED      vulnerability still reported
+   REPAIR_BROKEN      hardened file no longer parses
+   REPAIR_UNSUPPORTED hardener declined
+
+DELIVERABLES
+
+1. tools/repair_evaluator.py running the loop over every
+   VULNERABLE dataset case (synthetic + external).
+2. JSON results per case with the four-way outcome.
+3. Semantic sanity check where feasible: the parameterized
+   query text equals the original with tainted fragments
+   replaced by placeholders, parameter order preserved.
+
+OUTPUT
+
+tools/repair_evaluator.py
+reports/repair/repair_results.json
+
+------------------------------------------------------------
+PART C
+THE REPAIR METRIC
+------------------------------------------------------------
+
+OBJECTIVE
+
+Define and report the headline numbers.
+
+METRICS
+
+Repair Attempt Rate    attempted / detected
+Verified Repair Rate   REPAIR_VERIFIED / detected
+Breakage Rate          REPAIR_BROKEN / attempted
+
+DELIVERABLES
+
+1. New table in the research report:
+   per category — detected, attempted, verified, broken.
+2. Explicit comparison row: Bandit / Semgrep / Pysa
+   verified-repair capability = none (cite their docs).
+3. 2-3 before/after code listings for the paper.
+
+ACCEPTANCE CRITERIA
+
+- Verified Repair Rate computed on the post-Sprint-10
+  datasets, never on the old 5-template set.
+- Every REPAIR_FAILED case examined and either fixed or
+  documented as a known limitation.
+
+OUTPUT
+
+reports/repair/
+reports/research_report.md

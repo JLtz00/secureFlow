@@ -1,0 +1,129 @@
+SPRINT 9
+========
+
+GOAL
+
+Replace the simulated competitor tools with real executions
+of Bandit, Semgrep and Pysa.
+
+This sprint is a SCIENTIFIC INTEGRITY requirement, not an
+enhancement. The current benchmark_runner.py generates the
+competitors' predictions from hand-written if/else rules
+(_simulate_bandit, _simulate_semgrep, _simulate_pysa).
+Presenting those tables as an experimental comparison in a
+journal constitutes fabricated results and guarantees
+rejection. No comparison table may be published until every
+number in it comes from a real tool run.
+
+------------------------------------------------------------
+PART A
+ENVIRONMENT AND PINNED VERSIONS
+------------------------------------------------------------
+
+OBJECTIVE
+
+Reproducible installation of all evaluated tools.
+
+DELIVERABLES
+
+1. requirements.txt (runtime: none / stdlib only — document it).
+2. requirements-bench.txt with pinned versions:
+   bandit==X.Y.Z
+   semgrep==X.Y.Z
+   pyre-check==X.Y.Z
+3. Tool versions recorded inside benchmark_results.json
+   so every report states exactly what was compared.
+
+NOTES
+
+Pysa requires a .pyre_configuration and taint models; if
+its setup proves impractical for 2-line snippets, it is
+scientifically acceptable to drop Pysa and compare against
+Bandit + Semgrep only — but it is NOT acceptable to keep a
+simulated Pysa row.
+
+OUTPUT
+
+requirements.txt
+requirements-bench.txt
+
+------------------------------------------------------------
+PART B
+REAL TOOL ADAPTERS
+------------------------------------------------------------
+
+OBJECTIVE
+
+One adapter per tool that executes the real binary on a
+dataset file and parses its machine-readable output into
+the existing BenchmarkRecord format.
+
+DELIVERABLES
+
+1. _run_bandit(filepath)  -> subprocess
+   bandit -f json <file>; prediction VULNERABLE if any
+   issue with test_id in the SQLi family (B608) is found.
+
+2. _run_semgrep(filepath) -> subprocess
+   semgrep --config p/python --json (or a pinned local
+   ruleset for offline reproducibility); prediction
+   VULNERABLE on any sql-injection rule match.
+
+3. _run_pysa(dataset_dir) -> single whole-dataset run
+   (Pysa is project-based, not per-file), results mapped
+   back to files. Optional per Part A notes.
+
+4. Delete _simulate_* functions entirely.
+
+5. Timing measured around the subprocess call. Report
+   tool startup cost separately from per-file cost if it
+   dominates (semgrep startup >> 2-line file analysis).
+
+DESIGN RULES
+
+- Adapters must fail loudly: a tool crash is recorded as
+  "ERROR", never silently converted into SAFE.
+- Raw tool output saved under reports/benchmarks/raw/
+  so results can be audited.
+
+OUTPUT
+
+tools/benchmark_runner.py
+reports/benchmarks/raw/
+
+------------------------------------------------------------
+PART C
+REGENERATED COMPARISON
+------------------------------------------------------------
+
+OBJECTIVE
+
+Produce the first honest Tables 1-3.
+
+DELIVERABLES
+
+1. Re-run full benchmark with real tools.
+2. Regenerate metrics, tables, figures, research report.
+3. A short analysis section: where each tool wins/loses
+   per category, with concrete example cases cited.
+
+ACCEPTANCE CRITERIA
+
+- Zero simulated predictions anywhere in the repo.
+- Tables show real (non-zero) execution times.
+- Per-category breakdown table added (A-E rows), since
+  aggregate F1 hides the interprocedural story.
+
+EXPECTED HONEST OUTCOME
+
+Bandit/Semgrep likely beat their simulated versions on
+some categories and lose on others. SecureFlow may no
+longer "win" every column. That is fine: the paper's claim
+becomes precise ("detects interprocedural flows that
+pattern-based tools miss") instead of inflated.
+
+OUTPUT
+
+reports/benchmarks/
+reports/tables/
+reports/research_report.md

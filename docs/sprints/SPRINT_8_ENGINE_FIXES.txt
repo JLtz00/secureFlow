@@ -1,0 +1,177 @@
+SPRINT 8
+========
+
+GOAL
+
+Fix the three engine defects that invalidate the current
+experimental results. After this sprint, SecureFlow's
+measured numbers must reflect its real capabilities.
+
+Current measured behavior on the 210-case dataset
+(verified 2026-06-12):
+
+| Category | Label      | SecureFlow result        |
+|----------|------------|--------------------------|
+| A direct | VULNERABLE | 42/42 detected   OK      |
+| B interp | VULNERABLE |  0/42 detected   BUG 1   |
+| C sanit  | SAFE       | 42/42 correct    OK      |
+| D param  | SAFE       |  0/42 correct    BUG 2   |
+| E flow   | VULNERABLE | 42/42 detected   OK      |
+
+Plus: f-string and .format() SQL injection — the most
+common real-world patterns — are not detected (BUG 3).
+
+------------------------------------------------------------
+PART A
+WIRE INTERPROCEDURAL SUMMARIES INTO THE TAINT ENGINE (BUG 1)
+------------------------------------------------------------
+
+PROBLEM
+
+analyzer/interprocedural.py computes FunctionSummary objects
+but the taint engine never consumes them. The benchmark
+analyzes only module.main.instructions, so every Category B
+case is missed (recall 0.0 on the flagship contribution).
+
+OBJECTIVE
+
+Make TaintEngine consult function summaries when handling
+calls to user-defined functions.
+
+DELIVERABLES
+
+1. TaintEngine.analyze accepts an optional
+   summaries: dict[str, FunctionSummary] parameter
+   (or analyze_cfg gains a module-level variant
+   analyze_module that builds summaries internally).
+
+2. In _handle_call, for a call to a summarized function:
+   - returns_tainted     -> target gets summary.taint_sources
+   - taints_arguments    -> target tainted if any arg tainted
+   - returns_sanitized   -> target cleared
+   - otherwise           -> existing conservative rule
+
+3. benchmark_runner._run_secureflow uses the full module
+   analysis (summaries + main CFG), not main-only.
+
+4. demos/demo_secureflow.py updated to show the same path.
+
+ACCEPTANCE CRITERIA
+
+Category B: 42/42 detected.
+No regression in categories A, C, E.
+
+OUTPUT
+
+analyzer/taint_engine.py
+tools/benchmark_runner.py
+tests/test_interprocedural.py (extended)
+
+------------------------------------------------------------
+PART B
+PARAMETERIZED QUERY FALSE POSITIVES (BUG 2)
+------------------------------------------------------------
+
+PROBLEM
+
+In _handle_call, every argument of a sink call is checked
+for taint. In cursor.execute("... = ?", (user,)) the
+parameter tuple is tainted by design and SAFE, yet it is
+reported as a vulnerability. All 42 Category D cases are
+false positives (FPR 0.50).
+
+OBJECTIVE
+
+Only the query argument (first positional argument) of a
+SQL sink is dangerous. Tainted data passed as bound
+parameters is the recommended safe pattern.
+
+DELIVERABLES
+
+1. Sink model extended: each sink declares which argument
+   positions are dangerous (cursor.execute -> position 0).
+2. _handle_call checks only dangerous positions.
+3. Unit tests: parameterized query -> SAFE,
+   tainted query string -> VULNERABLE.
+
+ACCEPTANCE CRITERIA
+
+Category D: 42/42 classified SAFE.
+Category A/E still fully detected.
+
+OUTPUT
+
+analyzer/sources_sinks.py
+analyzer/taint_engine.py
+tests/test_taint.py (extended)
+
+------------------------------------------------------------
+PART C
+F-STRING AND .format() TAINT PROPAGATION (BUG 3)
+------------------------------------------------------------
+
+PROBLEM
+
+query = f"SELECT ... {user}" and
+query = "SELECT ... {}".format(user)
+are the dominant SQLi patterns in modern Python code and
+currently produce no detection. Any reviewer will test
+exactly these.
+
+OBJECTIVE
+
+Propagate taint through f-string interpolation and through
+str.format / % formatting in the IR.
+
+DELIVERABLES
+
+1. Parser/IR: an f-string lowers to a node that records its
+   interpolated expressions; IR generation emits the
+   equivalent of a concatenation chain so existing BinaryOp
+   taint rules apply.
+2. Calls of the form X.format(args...) treated as
+   string-building: result tainted if receiver or any
+   argument is tainted.
+3. Unit tests for f-string, .format(), and % patterns
+   reaching a sink.
+
+ACCEPTANCE CRITERIA
+
+All three formatting patterns flowing into cursor.execute
+are detected with a full source-to-sink trace.
+
+OUTPUT
+
+analyzer/parser.py
+analyzer/ir_generator.py
+tests/test_taint.py (extended)
+
+------------------------------------------------------------
+PART D
+HONEST RE-MEASUREMENT
+------------------------------------------------------------
+
+OBJECTIVE
+
+Re-run the benchmark and regenerate every table so the
+repository never again contains numbers produced by the
+buggy pipeline.
+
+DELIVERABLES
+
+1. Re-run tools/benchmark_runner.py and
+   tools/performance_evaluator.py.
+2. Regenerate reports/research_report.md tables.
+3. Full pytest suite green.
+
+EXPECTED RESULT
+
+SecureFlow near-perfect on the synthetic dataset. This is
+NOT a publishable result by itself — it is the honest
+baseline that Sprint 9 (real tools) and Sprint 10 (harder
+dataset) build on.
+
+OUTPUT
+
+reports/benchmarks/
+reports/research_report.md
