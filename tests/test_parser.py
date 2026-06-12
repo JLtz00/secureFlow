@@ -13,7 +13,7 @@ from analyzer.ast_nodes import (
 )
 from analyzer.ast_visualizer import visualize
 from contextlib import redirect_stdout
-from demo_secureflow import main as demo_main
+from demos.demo_secureflow import main as demo_main
 from io import StringIO
 from analyzer.parser import Parser, parse, parse_with_errors
 

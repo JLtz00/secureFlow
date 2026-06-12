@@ -1,6 +1,6 @@
 """Sprint 7 - Part I: Research report generator.
 
-Reads all JSON outputs and produces research_report.md — a publication-ready
+Reads all JSON outputs and produces reports/research_report.md — a publication-ready
 document with detection performance tables, execution time analysis, and
 research contribution summary.
 """
@@ -11,6 +11,12 @@ import json
 from pathlib import Path
 
 from analyzer.metrics import ConfusionMatrix, evaluate
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_BENCHMARK = PROJECT_ROOT / "reports" / "benchmarks" / "benchmark_results.json"
+DEFAULT_PERFORMANCE = PROJECT_ROOT / "reports" / "performance" / "performance_report.json"
+DEFAULT_METADATA = PROJECT_ROOT / "data" / "dataset_metadata.json"
+DEFAULT_REPORT = PROJECT_ROOT / "reports" / "research_report.md"
 
 
 def _load(path: str) -> object:
@@ -32,16 +38,20 @@ def _avg_ms(records: list[dict], tool: str) -> float:
 TOOLS = ["Bandit", "Semgrep", "Pysa", "SecureFlow"]
 
 
-def generate_report() -> str:
-    records: list[dict] = _load("benchmark_results.json")  # type: ignore[assignment]
+def generate_report(
+    benchmark_file: str | Path = DEFAULT_BENCHMARK,
+    performance_file: str | Path = DEFAULT_PERFORMANCE,
+    metadata_file: str | Path = DEFAULT_METADATA,
+) -> str:
+    records: list[dict] = _load(str(benchmark_file))  # type: ignore[assignment]
 
     try:
-        perf: list[dict] = _load("performance_report.json")  # type: ignore[assignment]
+        perf: list[dict] = _load(str(performance_file))  # type: ignore[assignment]
         perf_available = True
     except FileNotFoundError:
         perf_available = False
 
-    dataset_meta: list[dict] = _load("dataset_metadata.json")  # type: ignore[assignment]
+    dataset_meta: list[dict] = _load(str(metadata_file))  # type: ignore[assignment]
     vuln_count = sum(1 for e in dataset_meta if e["label"] == "VULNERABLE")
     safe_count = sum(1 for e in dataset_meta if e["label"] == "SAFE")
 
@@ -151,8 +161,8 @@ integrated within a custom compiler infrastructure.
 
 def main() -> None:
     report = generate_report()
-    Path("research_report.md").write_text(report)
-    print("Research report written to research_report.md")
+    DEFAULT_REPORT.write_text(report)
+    print(f"Research report written to {DEFAULT_REPORT}")
 
 
 if __name__ == "__main__":

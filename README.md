@@ -20,7 +20,7 @@ Sprint 01, Sprint 02, Sprint 03 y Sprint 04 ya tienen una base ejecutable del pi
 Demo completa para clase:
 
 ```bash
-python3 demo_secureflow.py
+python3 -m demos.demo_secureflow
 ```
 
 Demo solo del arbol AST:
@@ -149,30 +149,25 @@ cursor.execute("SELECT * WHERE u=?", (usuario,))
 
 ```
 secureFlow/
-├── analyzer/
-│   ├── lexer.py
-│   ├── parser.py
-│   ├── ast_nodes.py
-│   ├── ast_visualizer.py
-│   ├── semantic.py
-│   ├── symbols.py
-│   ├── scope.py
-│   ├── ir.py
-│   ├── ir_generator.py
-│   ├── cfg_builder.py
-│   └── cfg_visualizer.py
-├── tests/
-│   ├── test_lexer.py
-│   ├── test_parser.py
-│   ├── test_semantic.py
-│   ├── test_ir_generator.py
-│   └── test_cfg.py
-├── examples/
-│   └── vulnerable_query.py
+├── analyzer/              # Pipeline del compilador y analisis de seguridad
+├── demos/                 # Demostraciones ejecutables
+│   └── demo_secureflow.py
+├── examples/              # Programas pequenos para demostracion
+├── tests/                 # Pruebas de todas las fases
+├── tools/                 # Dataset, benchmark, rendimiento e informes
+├── data/
+│   ├── dataset/           # 210 programas del benchmark
+│   └── dataset_metadata.json
+├── reports/
+│   ├── benchmarks/        # Resultados por herramienta
+│   ├── performance/       # Mediciones del pipeline
+│   ├── tables/            # Tablas para el informe
+│   ├── figures/           # Datos CSV para graficos
+│   ├── final/             # Resumen consolidado
+│   └── research_report.md
 ├── docs/
-│   └── lexer_design.md
-├── sprints/
-├── demo_secureflow.py
+│   ├── lexer_design.md
+│   └── sprints/           # Roadmap y especificaciones Sprint 01-07
 └── README.md
 ```
 
@@ -181,11 +176,22 @@ secureFlow/
 ## Uso
 
 ```bash
-# Ejecutar la demostracion completa de Sprints 01-04
-python3 demo_secureflow.py
+# Demostracion del pipeline
+python3 -m demos.demo_secureflow
 
-# Compilar todos los modulos
-python3 -m py_compile analyzer/*.py tests/*.py demo_secureflow.py
+# Generar nuevamente el dataset
+python3 -m tools.dataset_generator
+
+# Ejecutar benchmark y evaluacion de rendimiento
+python3 -m tools.benchmark_runner
+python3 -m tools.performance_evaluator
+
+# Regenerar tablas, CSV e informe de investigacion
+python3 -m tools.visualizer
+python3 -m tools.research_report
+
+# Comprobar sintaxis de todos los paquetes
+python3 -m py_compile analyzer/*.py demos/*.py tools/*.py tests/*.py
 ```
 
 ---

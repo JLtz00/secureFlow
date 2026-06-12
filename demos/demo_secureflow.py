@@ -1,7 +1,7 @@
 """End-to-end demo for SecureFlow Sprints 01 through 04.
 
 Run with:
-    python3 demo_secureflow.py
+    python3 -m demos.demo_secureflow
 """
 
 from __future__ import annotations
@@ -18,7 +18,8 @@ from analyzer.parser import Parser
 from analyzer.semantic import analyze
 
 
-DEMO_FILE = Path(__file__).parent / "examples" / "vulnerable_query.py"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEMO_FILE = PROJECT_ROOT / "examples" / "vulnerable_query.py"
 DEMO_SOURCE = DEMO_FILE.read_text(encoding="utf-8")
 
 

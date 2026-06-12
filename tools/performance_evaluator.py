@@ -1,7 +1,7 @@
 """Sprint 7 - Part G: Pipeline performance evaluation.
 
 Times each stage of the SecureFlow analysis pipeline across dataset
-batches of increasing size and writes performance_report.json.
+batches of increasing size and writes reports/performance/performance_report.json.
 """
 
 from __future__ import annotations
@@ -18,6 +18,10 @@ from analyzer.lexer import Lexer, tokenize as _lex_tokenize
 from analyzer.parser import Parser, parse
 from analyzer.semantic import analyze as analyze_semantic
 from analyzer.taint_engine import analyze_cfg
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_DATASET_DIR = PROJECT_ROOT / "data" / "dataset"
+DEFAULT_REPORT = PROJECT_ROOT / "reports" / "performance" / "performance_report.json"
 
 
 @dataclass
@@ -93,7 +97,7 @@ def _avg_timings(timings: list[StageTimings]) -> StageTimings:
 
 
 class PerformanceEvaluator:
-    def __init__(self, dataset_dir: str = "dataset") -> None:
+    def __init__(self, dataset_dir: str | Path = DEFAULT_DATASET_DIR) -> None:
         self.dataset_dir = Path(dataset_dir)
 
     def evaluate(self, batch_sizes: list[int] | None = None) -> list[BatchResult]:
@@ -130,19 +134,21 @@ class PerformanceEvaluator:
             ))
         return results
 
-    def write_report(self, results: list[BatchResult]) -> None:
+    def write_report(self, results: list[BatchResult], output_file: str | Path = "performance_report.json") -> None:
         data = [asdict(r) for r in results]
-        Path("performance_report.json").write_text(json.dumps(data, indent=2))
+        output = Path(output_file)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(data, indent=2))
 
 
 def main() -> None:
     ev = PerformanceEvaluator()
     print("Evaluating pipeline performance...")
     results = ev.evaluate()
-    ev.write_report(results)
+    ev.write_report(results, DEFAULT_REPORT)
     for r in results:
         print(f"  batch={r.batch_size:>5}  avg_total={r.avg_total_ms:.4f} ms  peak_mem={r.peak_memory_kb:.1f} KB")
-    print("Output: performance_report.json")
+    print(f"Output: {DEFAULT_REPORT}")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 """Sprint 7 - Part H: Result visualization.
 
 Reads benchmark and performance JSON files and generates publication-ready
-ASCII tables (paper_tables/) and CSV data files (paper_figures/).
+ASCII tables and CSV data files under reports/. 
 Does not require matplotlib — all output is plain text / CSV.
 """
 
@@ -12,6 +12,11 @@ import json
 from pathlib import Path
 
 from analyzer.metrics import ConfusionMatrix, evaluate
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_BENCHMARK = PROJECT_ROOT / "reports" / "benchmarks" / "benchmark_results.json"
+DEFAULT_PERFORMANCE = PROJECT_ROOT / "reports" / "performance" / "performance_report.json"
+DEFAULT_REPORTS_DIR = PROJECT_ROOT / "reports"
 
 
 def _load_json(path: str) -> list[dict]:
@@ -35,17 +40,22 @@ class Visualizer:
 
     def __init__(
         self,
-        benchmark_file: str = "benchmark_results.json",
-        performance_file: str = "performance_report.json",
+        benchmark_file: str | Path = DEFAULT_BENCHMARK,
+        performance_file: str | Path = DEFAULT_PERFORMANCE,
+        output_dir: str | Path = DEFAULT_REPORTS_DIR,
     ) -> None:
         self.records = _load_json(benchmark_file)
         try:
             self.perf = _load_json(performance_file)
         except FileNotFoundError:
             self.perf = []
-        Path("paper_tables").mkdir(exist_ok=True)
-        Path("paper_figures").mkdir(exist_ok=True)
-        Path("final_results").mkdir(exist_ok=True)
+        self.output_dir = Path(output_dir)
+        self.tables_dir = self.output_dir / "tables"
+        self.figures_dir = self.output_dir / "figures"
+        self.final_dir = self.output_dir / "final"
+        self.tables_dir.mkdir(parents=True, exist_ok=True)
+        self.figures_dir.mkdir(parents=True, exist_ok=True)
+        self.final_dir.mkdir(parents=True, exist_ok=True)
 
     def generate_all(self) -> None:
         self._table_detection_performance()
@@ -55,9 +65,9 @@ class Visualizer:
         self._csv_performance_by_batch()
         self._write_final_summary()
         print("Visualization complete:")
-        print("  paper_tables/  — detection, execution time, false positive tables")
-        print("  paper_figures/ — CSV data for precision, recall, F1, FPR charts")
-        print("  final_results/ — summary JSON")
+        print("  reports/tables/  — detection, execution time, false positive tables")
+        print("  reports/figures/ — CSV data for precision, recall, F1, FPR charts")
+        print("  reports/final/ — summary JSON")
 
     # ---------------------------------------------------------- tables
 
@@ -72,7 +82,7 @@ class Visualizer:
                 f"{cm.f1_score:>7.3f} {cm.accuracy:>9.3f}"
             )
         content = "\n".join(rows) + "\n"
-        Path("paper_tables/table1_detection_performance.txt").write_text(content)
+        self.tables_dir / "table1_detection_performance.txt".write_text(content)
 
     def _table_execution_time(self) -> None:
         header = f"{'Tool':<12} {'Avg Time (ms)':>14}"
@@ -81,7 +91,7 @@ class Visualizer:
         for tool in self.TOOLS:
             avg = _avg_time(self.records, tool)
             rows.append(f"{tool:<12} {avg:>14.3f}")
-        Path("paper_tables/table2_execution_time.txt").write_text("\n".join(rows) + "\n")
+        self.tables_dir / "table2_execution_time.txt".write_text("\n".join(rows) + "\n")
 
     def _table_false_positives(self) -> None:
         header = f"{'Tool':<12} {'FP':>4} {'FPR':>7} {'FNR':>7}"
@@ -90,12 +100,12 @@ class Visualizer:
         for tool in self.TOOLS:
             cm = _cm_for_tool(self.records, tool)
             rows.append(f"{tool:<12} {cm.fp:>4} {cm.fpr:>7.3f} {cm.fnr:>7.3f}")
-        Path("paper_tables/table3_false_positives.txt").write_text("\n".join(rows) + "\n")
+        self.tables_dir / "table3_false_positives.txt".write_text("\n".join(rows) + "\n")
 
     # ---------------------------------------------------------- CSVs
 
     def _csv_metrics_comparison(self) -> None:
-        with open("paper_figures/metrics_comparison.csv", "w", newline="") as f:
+        with open(self.figures_dir / "metrics_comparison.csv", "w", newline="") as f:
             w = csv.writer(f)
             w.writerow(["tool", "precision", "recall", "f1", "accuracy", "fpr", "fnr"])
             for tool in self.TOOLS:
@@ -106,7 +116,7 @@ class Visualizer:
     def _csv_performance_by_batch(self) -> None:
         if not self.perf:
             return
-        with open("paper_figures/performance_by_batch.csv", "w", newline="") as f:
+        with open(self.figures_dir / "performance_by_batch.csv", "w", newline="") as f:
             w = csv.writer(f)
             w.writerow(["batch_size", "avg_total_ms", "peak_memory_kb",
                          "lexer_ms", "parser_ms", "semantic_ms",
@@ -131,7 +141,7 @@ class Visualizer:
                 "fnr":       round(cm.fnr, 4),
                 "avg_time_ms": round(_avg_time(self.records, tool), 4),
             }
-        Path("final_results/summary.json").write_text(json.dumps(summary, indent=2))
+        self.final_dir / "summary.json".write_text(json.dumps(summary, indent=2))
 
 
 def main() -> None:

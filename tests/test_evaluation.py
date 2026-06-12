@@ -5,8 +5,6 @@ import json
 import tempfile
 from pathlib import Path
 
-import pytest
-
 from analyzer.metrics import ConfusionMatrix, evaluate
 
 
@@ -53,7 +51,7 @@ def test_str_contains_new_metrics():
 # ============================================= Dataset generator (Part A)
 
 def test_dataset_generator_creates_expected_file_count():
-    from dataset_generator import DatasetGenerator
+    from tools.dataset_generator import DatasetGenerator
     with tempfile.TemporaryDirectory() as tmp:
         gen = DatasetGenerator(output_dir=tmp + "/dataset")
         import os
@@ -63,7 +61,7 @@ def test_dataset_generator_creates_expected_file_count():
 
 
 def test_dataset_generator_labels_are_valid():
-    from dataset_generator import DatasetGenerator
+    from tools.dataset_generator import DatasetGenerator
     with tempfile.TemporaryDirectory() as tmp:
         import os
         os.chdir(tmp)
@@ -75,7 +73,7 @@ def test_dataset_generator_labels_are_valid():
 
 
 def test_dataset_generator_writes_metadata_json():
-    from dataset_generator import DatasetGenerator
+    from tools.dataset_generator import DatasetGenerator
     with tempfile.TemporaryDirectory() as tmp:
         import os
         os.chdir(tmp)
@@ -87,7 +85,7 @@ def test_dataset_generator_writes_metadata_json():
 
 
 def test_dataset_has_both_vulnerable_and_safe():
-    from dataset_generator import DatasetGenerator
+    from tools.dataset_generator import DatasetGenerator
     with tempfile.TemporaryDirectory() as tmp:
         import os
         os.chdir(tmp)
@@ -99,7 +97,7 @@ def test_dataset_has_both_vulnerable_and_safe():
 
 
 def test_generated_programs_parse_without_error():
-    from dataset_generator import DatasetGenerator
+    from tools.dataset_generator import DatasetGenerator
     from analyzer.parser import parse
     with tempfile.TemporaryDirectory() as tmp:
         import os
@@ -117,7 +115,7 @@ def test_generated_programs_parse_without_error():
 
 def _setup_benchmark(tmp: str, count: int = 20):
     """Helper: generate dataset and metadata in tmp dir."""
-    from dataset_generator import DatasetGenerator
+    from tools.dataset_generator import DatasetGenerator
     import os
     os.chdir(tmp)
     gen = DatasetGenerator(output_dir=tmp + "/dataset")
@@ -126,7 +124,7 @@ def _setup_benchmark(tmp: str, count: int = 20):
 
 
 def test_benchmark_runner_returns_records_for_all_tools():
-    from benchmark_runner import BenchmarkRunner
+    from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:
         ds_dir, meta_file = _setup_benchmark(tmp, 10)
         runner = BenchmarkRunner(dataset_dir=ds_dir, metadata_file=meta_file)
@@ -136,7 +134,7 @@ def test_benchmark_runner_returns_records_for_all_tools():
 
 
 def test_benchmark_runner_predictions_are_valid_labels():
-    from benchmark_runner import BenchmarkRunner
+    from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:
         ds_dir, meta_file = _setup_benchmark(tmp, 10)
         runner = BenchmarkRunner(dataset_dir=ds_dir, metadata_file=meta_file)
@@ -146,7 +144,7 @@ def test_benchmark_runner_predictions_are_valid_labels():
 
 
 def test_benchmark_runner_secureflow_detects_direct_sqli():
-    from benchmark_runner import BenchmarkRunner
+    from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:
         ds_dir, meta_file = _setup_benchmark(tmp, 50)
         runner = BenchmarkRunner(dataset_dir=ds_dir, metadata_file=meta_file)
@@ -159,7 +157,7 @@ def test_benchmark_runner_secureflow_detects_direct_sqli():
 
 
 def test_benchmark_runner_writes_json_files():
-    from benchmark_runner import BenchmarkRunner
+    from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:
         ds_dir, meta_file = _setup_benchmark(tmp, 10)
         import os
@@ -176,7 +174,7 @@ def test_benchmark_runner_writes_json_files():
 # =========================================== Performance evaluator (Part G)
 
 def test_performance_evaluator_returns_results_per_batch():
-    from performance_evaluator import PerformanceEvaluator
+    from tools.performance_evaluator import PerformanceEvaluator
     with tempfile.TemporaryDirectory() as tmp:
         _setup_benchmark(tmp, 20)
         ev = PerformanceEvaluator(dataset_dir=tmp + "/dataset")
@@ -187,7 +185,7 @@ def test_performance_evaluator_returns_results_per_batch():
 
 
 def test_performance_evaluator_timings_are_positive():
-    from performance_evaluator import PerformanceEvaluator
+    from tools.performance_evaluator import PerformanceEvaluator
     with tempfile.TemporaryDirectory() as tmp:
         _setup_benchmark(tmp, 10)
         ev = PerformanceEvaluator(dataset_dir=tmp + "/dataset")
@@ -200,7 +198,7 @@ def test_performance_evaluator_timings_are_positive():
 
 
 def test_performance_evaluator_writes_report():
-    from performance_evaluator import PerformanceEvaluator
+    from tools.performance_evaluator import PerformanceEvaluator
     with tempfile.TemporaryDirectory() as tmp:
         import os
         _setup_benchmark(tmp, 10)

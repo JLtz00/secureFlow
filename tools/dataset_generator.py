@@ -13,6 +13,9 @@ from pathlib import Path
 
 random.seed(42)
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_DATASET_DIR = PROJECT_ROOT / "data" / "dataset"
+
 SOURCES = ["request.form.get", "request.args.get", "input"]
 TABLES = ["users", "products", "orders", "accounts", "sessions"]
 COLUMNS = ["id", "name", "email", "username", "token"]
@@ -32,11 +35,11 @@ class DatasetEntry:
 
 
 class DatasetGenerator:
-    def __init__(self, output_dir: str = "dataset") -> None:
+    def __init__(self, output_dir: str | Path = DEFAULT_DATASET_DIR) -> None:
         self.output_dir = Path(output_dir)
 
     def generate(self, count: int = 210) -> list[DatasetEntry]:
-        self.output_dir.mkdir(exist_ok=True)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
         entries: list[DatasetEntry] = []
         per_cat = count // 5
 
@@ -64,7 +67,7 @@ class DatasetGenerator:
                 ))
                 idx += 1
 
-        metadata_path = Path("dataset_metadata.json")
+        metadata_path = self.output_dir.parent / "dataset_metadata.json"
         metadata_path.write_text(
             json.dumps([asdict(e) for e in entries], indent=2)
         )
@@ -193,7 +196,7 @@ def main() -> None:
     vuln = sum(1 for e in entries if e.label == "VULNERABLE")
     safe = sum(1 for e in entries if e.label == "SAFE")
     print(f"Generated {len(entries)} programs — {vuln} VULNERABLE, {safe} SAFE")
-    print(f"Metadata written to dataset_metadata.json")
+    print(f"Metadata written to {gen.output_dir.parent / 'dataset_metadata.json'}")
 
 
 if __name__ == "__main__":

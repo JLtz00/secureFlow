@@ -21,6 +21,11 @@ from analyzer.ir_generator import generate_ir
 from analyzer.parser import parse
 from analyzer.taint_engine import analyze_cfg
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_DATASET_DIR = PROJECT_ROOT / "data" / "dataset"
+DEFAULT_METADATA_FILE = PROJECT_ROOT / "data" / "dataset_metadata.json"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "reports" / "benchmarks"
+
 
 @dataclass
 class BenchmarkRecord:
@@ -92,7 +97,7 @@ def _simulate_pysa(entry: dict) -> str:
 # ---------------------------------------------------------------- Runner
 
 class BenchmarkRunner:
-    def __init__(self, dataset_dir: str = "dataset", metadata_file: str = "dataset_metadata.json") -> None:
+    def __init__(self, dataset_dir: str | Path = DEFAULT_DATASET_DIR, metadata_file: str | Path = DEFAULT_METADATA_FILE) -> None:
         self.dataset_dir = Path(dataset_dir)
         self.metadata: list[dict] = json.loads(Path(metadata_file).read_text())
 
@@ -123,24 +128,26 @@ class BenchmarkRunner:
 
         return records
 
-    def write_results(self, records: list[BenchmarkRecord]) -> None:
+    def write_results(self, records: list[BenchmarkRecord], output_dir: str | Path = ".") -> None:
+        output = Path(output_dir)
+        output.mkdir(parents=True, exist_ok=True)
         all_data = [asdict(r) for r in records]
-        Path("benchmark_results.json").write_text(json.dumps(all_data, indent=2))
+        (output / "benchmark_results.json").write_text(json.dumps(all_data, indent=2))
 
         for tool in ("Bandit", "Semgrep", "Pysa"):
             subset = [r for r in all_data if r["tool"] == tool]
             slug = tool.lower()
-            Path(f"{slug}_comparison.json").write_text(json.dumps(subset, indent=2))
+            (output / f"{slug}_comparison.json").write_text(json.dumps(subset, indent=2))
 
 
 def main() -> None:
     runner = BenchmarkRunner()
     print("Running benchmark...")
     records = runner.run()
-    runner.write_results(records)
+    runner.write_results(records, DEFAULT_OUTPUT_DIR)
     total = len([r for r in records if r.tool == "SecureFlow"])
     print(f"Benchmark complete — {total} files evaluated per tool")
-    print("Outputs: benchmark_results.json, bandit_comparison.json, semgrep_comparison.json, pysa_comparison.json")
+    print(f"Outputs written to {DEFAULT_OUTPUT_DIR}")
 
 
 if __name__ == "__main__":
