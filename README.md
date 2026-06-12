@@ -6,7 +6,7 @@ SecureFlow es un framework académico de análisis estático que integra *taint 
 
 ## Estado implementado
 
-Sprint 01, Sprint 02, Sprint 03 y Sprint 04 ya tienen una base ejecutable del pipeline:
+Los Sprints 01 al 07 forman un pipeline ejecutable de compilacion y analisis de seguridad:
 
 - `analyzer/lexer.py`: convierte codigo Python en tokens con tipo, valor, linea y columna. Incluye `INDENT`, `DEDENT`, strings multilinea, f-strings, comentarios omitidos y recuperacion con `ERROR`.
 - `analyzer/ast_nodes.py`: define el AST propio de SecureFlow, sin usar el modulo `ast` de Python.
@@ -15,6 +15,10 @@ Sprint 01, Sprint 02, Sprint 03 y Sprint 04 ya tienen una base ejecutable del pi
 - `analyzer/symbols.py`, `analyzer/scope.py` y `analyzer/semantic.py`: construyen tabla de simbolos, scopes, resolucion de nombres, tipos simples y taint inicial.
 - `analyzer/ir.py` y `analyzer/ir_generator.py`: definen y generan codigo de tres direcciones.
 - `analyzer/cfg_builder.py` y `analyzer/cfg_visualizer.py`: construyen y muestran bloques basicos mediante el algoritmo de lideres.
+- `analyzer/taint_engine.py`: propaga contaminacion con un algoritmo de worklist y confirma flujos fuente-sumidero.
+- `analyzer/interprocedural.py` y `analyzer/reporter.py`: resumen funciones y producen trazas explicables de cada hallazgo.
+- `analyzer/hardener.py`: transforma consultas vulnerables directas en consultas parametrizadas.
+- `data/`, `tools/` y `reports/`: contienen el dataset reproducible, benchmark, metricas e informe experimental.
 - `tests/`: contiene las pruebas automatizadas de las fases implementadas.
 
 Demo completa para clase:
@@ -29,7 +33,7 @@ Demo solo del arbol AST:
 python3 -m analyzer.ast_visualizer
 ```
 
-La salida muestra tokens, AST, scopes, simbolos, taint inicial, TAC y CFG. El analizador semantico ya marca como contaminados los simbolos que vienen de `request.args.get`, `request.form.get` o `input`. La vulnerabilidad completa se confirmara en el Sprint 05 con el motor de taint.
+La salida muestra tokens, AST, scopes, TAC, CFG, propagacion de taint, deteccion de SQL Injection, traza fuente-sumidero, hardening automatico y resultados del benchmark de 210 programas.
 
 ---
 
