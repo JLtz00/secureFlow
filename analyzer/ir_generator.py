@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import re
+
 from analyzer import ast_nodes as ast
 from analyzer.ir import (
     Assign,
     BinaryOp,
     BuildCollection,
+    BuildFString,
     Call,
     ConditionalJump,
     IRFunction,
@@ -23,14 +26,26 @@ class IRGenerator:
         self.current = self.module.main
         self.temp_counter = 0
         self.label_counter = 0
+        self.aliases: dict[str, str] = {}
 
     def generate(self, program: ast.Program) -> IRModule:
         for statement in program.body:
             if isinstance(statement, ast.FunctionDef):
                 self._generate_function(statement)
+            elif isinstance(statement, ast.ImportStmt):
+                self._register_import(statement)
             else:
                 self._statement(statement)
         return self.module
+
+    def _register_import(self, node: ast.ImportStmt) -> None:
+        for local, qualified in node.aliases.items():
+            if qualified == "flask.request":
+                self.aliases[local] = "request"
+            elif qualified == "sqlalchemy.text":
+                self.aliases[local] = "sqlalchemy.text"
+            else:
+                self.aliases[local] = qualified
 
     def _generate_function(self, node: ast.FunctionDef) -> None:
         previous = self.current
@@ -47,6 +62,8 @@ class IRGenerator:
         if isinstance(node, ast.Assign):
             value = self._expression(node.value)
             self._emit(Assign(line=node.line, target=node.target.name, value=value))
+        elif isinstance(node, ast.ImportStmt):
+            self._register_import(node)
         elif isinstance(node, ast.ExprStmt):
             self._expression(node.expression, discard=True)
         elif isinstance(node, ast.ReturnStmt):
@@ -133,8 +150,13 @@ class IRGenerator:
 
     def _expression(self, node: ast.Expression, discard: bool = False) -> str:
         if isinstance(node, ast.Identifier):
-            return node.name
+            return self._resolve_alias(node.name)
         if isinstance(node, ast.Literal):
+            if isinstance(node.raw, str) and node.raw.lstrip("rRuUbB").lower().startswith("f"):
+                fields = self._fstring_fields(node.raw)
+                target = self._new_temp()
+                self._emit(BuildFString(line=node.line, target=target, raw=node.raw, fields=fields))
+                return target
             return node.raw
         if isinstance(node, ast.BinaryExpr):
             left = self._expression(node.left)
@@ -169,6 +191,19 @@ class IRGenerator:
             self._emit(Call(line=node.line, function=function, args=args, target=target))
             return target or "<discarded>"
         return "<unknown>"
+
+    def _resolve_alias(self, name: str) -> str:
+        head, _, tail = name.partition(".")
+        qualified = self.aliases.get(head)
+        if qualified is None:
+            return name
+        return qualified if not tail else f"{qualified}.{tail}"
+
+    def _fstring_fields(self, raw: str) -> list[str]:
+        return [
+            self._resolve_alias(match.group(1).strip())
+            for match in re.finditer(r"\{([A-Za-z_][A-Za-z0-9_\.]*)[^}]*\}", raw)
+        ]
 
     def _emit(self, instruction) -> None:
         self.current.instructions.append(instruction)

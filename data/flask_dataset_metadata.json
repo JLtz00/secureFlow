@@ -1,0 +1,74 @@
+[
+  {
+    "file": "flask_direct_concat.py",
+    "label": "VULNERABLE",
+    "category": "direct_concat",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_alias_form.py",
+    "label": "VULNERABLE",
+    "category": "import_alias",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_fstring.py",
+    "label": "VULNERABLE",
+    "category": "fstring",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_json_interprocedural.py",
+    "label": "VULNERABLE",
+    "category": "interprocedural_json",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 14
+  },
+  {
+    "file": "flask_dbapi_parameterized.py",
+    "label": "SAFE",
+    "category": "dbapi_parameterized",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_sqlalchemy_text_parameterized.py",
+    "label": "SAFE",
+    "category": "sqlalchemy_text_parameterized",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 9,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_sanitized.py",
+    "label": "SAFE",
+    "category": "sanitized",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_sqlalchemy_concat.py",
+    "label": "VULNERABLE",
+    "category": "sqlalchemy_concat",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  }
+]

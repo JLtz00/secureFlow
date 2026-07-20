@@ -1,6 +1,6 @@
 Tool          Avg Time (ms)
 ---------------------------
-SecureFlow            0.221
+SecureFlow            0.228
 Bandit                0.001
 Semgrep               0.000
 Pysa                  0.000

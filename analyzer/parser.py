@@ -15,6 +15,7 @@ from analyzer.ast_nodes import (
     FunctionDef,
     Identifier,
     IfStmt,
+    ImportStmt,
     Literal,
     ParseErrorNode,
     Program,
@@ -79,8 +80,15 @@ class Parser:
         return Program(location=self._location(start), body=body)
 
     def _parse_statement(self) -> Statement | None:
+        if self._match_value("@"):
+            self._skip_decorator()
+            return self._parse_statement()
         if self._match_keyword("def"):
             return self._parse_function_def(self._previous())
+        if self._match_keyword("from"):
+            return self._parse_from_import(self._previous())
+        if self._match_keyword("import"):
+            return self._parse_import(self._previous())
         if self._match_keyword("if"):
             return self._parse_if_stmt(self._previous())
         if self._match_keyword("while"):
@@ -109,6 +117,45 @@ class Parser:
             params=[param.name for param in params],
             body=body,
         )
+
+    def _parse_from_import(self, token: Token) -> ImportStmt:
+        module = self._parse_dotted_name("Expected module name after 'from'")
+        self._consume_keyword("import", "Expected 'import' after module name")
+        aliases = self._parse_import_aliases(module)
+        self._match(TokenType.NEWLINE)
+        return ImportStmt(location=self._location(token), module=module, aliases=aliases)
+
+    def _parse_import(self, token: Token) -> ImportStmt:
+        aliases: dict[str, str] = {}
+        while not self._check(TokenType.EOF):
+            module = self._parse_dotted_name("Expected module name after 'import'")
+            local = module.split(".")[0]
+            if self._match_keyword("as"):
+                local = self._consume_identifier("Expected alias after 'as'").name
+            aliases[local] = module
+            if not self._match_value(","):
+                break
+        self._match(TokenType.NEWLINE)
+        return ImportStmt(location=self._location(token), module=None, aliases=aliases)
+
+    def _parse_import_aliases(self, module: str) -> dict[str, str]:
+        aliases: dict[str, str] = {}
+        while not self._check(TokenType.EOF):
+            name = self._consume_identifier("Expected imported name").name
+            local = name
+            if self._match_keyword("as"):
+                local = self._consume_identifier("Expected alias after 'as'").name
+            aliases[local] = f"{module}.{name}"
+            if not self._match_value(","):
+                break
+        return aliases
+
+    def _parse_dotted_name(self, message: str) -> str:
+        name = self._consume_identifier(message).name
+        parts = [name]
+        while self._match_value("."):
+            parts.append(self._consume_identifier("Expected identifier after '.'").name)
+        return ".".join(parts)
 
     def _parse_parameters(self) -> list[Identifier]:
         params: list[Identifier] = []
@@ -245,6 +292,8 @@ class Parser:
             return self._parse_parenthesized(token)
         if self._match_value("["):
             return self._parse_collection(token, "]", "list")
+        if self._match_value("{"):
+            return self._parse_dict(token)
         if self._check(TokenType.IDENTIFIER) or self._check(TokenType.KEYWORD):
             return self._parse_identifier_or_call()
 
@@ -293,6 +342,24 @@ class Parser:
         self._consume_value(closing, f"Expected '{closing}' after {kind}")
         return CollectionExpr(location=self._location(token), kind=kind, elements=elements)
 
+    def _parse_dict(self, token: Token) -> CollectionExpr:
+        values: list[Expression] = []
+        if self._check_value("}"):
+            self._advance()
+            return CollectionExpr(location=self._location(token), kind="dict", elements=values)
+
+        while not self._check(TokenType.EOF):
+            self._parse_expression()
+            if self._match_value(":"):
+                values.append(self._parse_expression())
+            if not self._match_value(","):
+                break
+            if self._check_value("}"):
+                break
+
+        self._consume_value("}", "Expected '}' after dict")
+        return CollectionExpr(location=self._location(token), kind="dict", elements=values)
+
     def _parse_identifier_or_call(self) -> Expression:
         first = self._advance()
         name_parts = [first.value]
@@ -325,12 +392,20 @@ class Parser:
             return args
 
         while not self._check(TokenType.EOF):
+            if self._is_keyword_argument():
+                self._advance()
+                self._consume_value("=", "Expected '=' in keyword argument")
             args.append(self._parse_expression())
             if not self._match_value(","):
                 break
             if self._check_value(")"):
                 break
         return args
+
+    def _is_keyword_argument(self) -> bool:
+        if not (self._check(TokenType.IDENTIFIER) or self._check(TokenType.KEYWORD)):
+            return False
+        return self.current + 1 < len(self.tokens) and self.tokens[self.current + 1].value == "="
 
     def _operator_value(self) -> str | None:
         if self._check(TokenType.OPERATOR):
@@ -408,6 +483,12 @@ class Parser:
     def _skip_newlines(self) -> None:
         while self._match(TokenType.NEWLINE):
             pass
+
+    def _skip_decorator(self) -> None:
+        while not self._check(TokenType.NEWLINE, TokenType.EOF):
+            self._advance()
+        self._match(TokenType.NEWLINE)
+        self._skip_newlines()
 
     def _match_keyword(self, value: str) -> bool:
         if self._check(TokenType.KEYWORD) and self._peek().value == value:

@@ -156,6 +156,23 @@ def test_benchmark_runner_secureflow_detects_direct_sqli():
         assert detected > 0, "SecureFlow should detect some direct SQLi"
 
 
+def test_flask_dataset_secureflow_profile_is_perfect_on_seed_cases():
+    from tools.benchmark_runner import BenchmarkRunner
+    from tools.flask_dataset_generator import FlaskDatasetGenerator
+    with tempfile.TemporaryDirectory() as tmp:
+        dataset_dir = Path(tmp) / "flask_dataset"
+        metadata_file = Path(tmp) / "flask_dataset_metadata.json"
+        FlaskDatasetGenerator(dataset_dir, metadata_file).generate()
+        runner = BenchmarkRunner(
+            dataset_dir=dataset_dir,
+            metadata_file=metadata_file,
+            profile="flask",
+        )
+        records = [r for r in runner.run() if r.tool == "SecureFlow"]
+        assert records
+        assert all(r.prediction == r.ground_truth for r in records)
+
+
 def test_benchmark_runner_writes_json_files():
     from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:

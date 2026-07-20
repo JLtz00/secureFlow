@@ -57,6 +57,12 @@ class FunctionDef(Statement):
 
 
 @dataclass
+class ImportStmt(Statement):
+    module: str | None
+    aliases: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
 class Assign(Statement):
     target: "Identifier"
     value: Expression

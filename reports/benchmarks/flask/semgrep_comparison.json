@@ -1,0 +1,58 @@
+[
+  {
+    "tool": "Semgrep",
+    "file": "flask_direct_concat.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_alias_form.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_fstring.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_json_interprocedural.py",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.0
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_dbapi_parameterized.py",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.001
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_sqlalchemy_text_parameterized.py",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.0
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_sanitized.py",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.001
+  },
+  {
+    "tool": "Semgrep",
+    "file": "flask_sqlalchemy_concat.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001
+  }
+]

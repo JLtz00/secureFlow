@@ -74,10 +74,10 @@ def test_comments_are_removed():
 
 
 def test_malformed_tokens_recover_and_continue():
-    tokens = strip_layout(tokenize("user = @\nnext_value = 2\n"))
+    tokens = strip_layout(tokenize("user = $\nnext_value = 2\n"))
 
     error = next(token for token in tokens if token.type == TokenType.ERROR)
-    assert error.value == "@"
+    assert error.value == "$"
     assert error.line == 1
     assert error.column == 8
     assert any(token.value == "next_value" for token in tokens)

@@ -1,6 +1,7 @@
 """Tests for Sprint 5: forward dataflow taint engine (Worklist algorithm)."""
 
 from analyzer.cfg_builder import build_cfg
+from analyzer.framework_profiles import get_profile
 from analyzer.interprocedural import analyze_module
 from analyzer.ir_generator import generate_ir
 from analyzer.parser import parse
@@ -23,6 +24,21 @@ def run_interprocedural(source: str) -> TaintResult:
     module = generate_ir(program)
     cfg = build_cfg(module.main.instructions)
     return analyze_cfg(cfg, summaries=analyze_module(module))
+
+
+def run_flask(source: str) -> TaintResult:
+    """Full pipeline with the Flask security profile enabled."""
+    profile = get_profile("flask")
+    program = parse(source)
+    module = generate_ir(program)
+    summaries = analyze_module(module, profile=profile)
+    combined = TaintResult()
+    for function in module.all_functions():
+        cfg = build_cfg(function.instructions, name=function.name)
+        result = analyze_cfg(cfg, summaries=summaries, profile=profile)
+        combined.vulnerabilities.extend(result.vulnerabilities)
+        combined.block_out.update(result.block_out)
+    return combined
 
 
 def sink_names(result: TaintResult) -> list[str]:
@@ -207,6 +223,43 @@ def test_interprocedural_sanitizer_return_cleans_value():
         'user = input()\n'
         'safe = clean(user)\n'
         'cursor.execute(safe)\n'
+    )
+    assert not result.is_vulnerable
+
+
+def test_flask_alias_source_reaches_db_session_execute():
+    result = run_flask(
+        'from flask import request as req\n'
+        '@app.route("/login", methods=["POST"])\n'
+        'def login():\n'
+        '    username = req.form.get("username")\n'
+        '    query = "SELECT * FROM users WHERE username = " + username\n'
+        '    db.session.execute(query)\n'
+    )
+    assert result.is_vulnerable
+
+
+def test_flask_fstring_query_is_vulnerable():
+    result = run_flask(
+        'from flask import request\n'
+        '@app.route("/orders")\n'
+        'def orders():\n'
+        '    order_id = request.values.get("id")\n'
+        '    query = f"SELECT * FROM orders WHERE id = {order_id}"\n'
+        '    cursor.execute(query)\n'
+    )
+    assert result.is_vulnerable
+
+
+def test_flask_sqlalchemy_text_with_bind_params_is_safe():
+    result = run_flask(
+        'from flask import request\n'
+        'from sqlalchemy import text\n'
+        '@app.route("/users")\n'
+        'def users():\n'
+        '    user = request.args.get("user")\n'
+        '    stmt = text("SELECT * FROM users WHERE name = :name")\n'
+        '    db.session.execute(stmt, {"name": user})\n'
     )
     assert not result.is_vulnerable
 

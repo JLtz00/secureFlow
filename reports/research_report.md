@@ -40,7 +40,7 @@ integrated within a custom compiler infrastructure.
 | Bandit     |         0.001 |
 | Semgrep    |         0.000 |
 | Pysa       |         0.000 |
-| SecureFlow |         0.221 |
+| SecureFlow |         0.228 |
 
 ## Table 3 — False Positive Analysis
 

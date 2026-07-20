@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from analyzer.ir import Assign, BinaryOp, BuildCollection, Call, IRFunction, IRModule, Return
-from analyzer.sources_sinks import SANITIZERS, SOURCES
+from analyzer.framework_profiles import FrameworkProfile, get_profile
+from analyzer.ir import Assign, BinaryOp, BuildCollection, BuildFString, Call, IRFunction, IRModule, Return
 
 TaintState = dict[str, frozenset[str]]
 
@@ -32,6 +32,11 @@ class InterproceduralAnalyzer:
       Pass 2 — parameters pre-tainted: detects pass-through and sanitization.
     """
 
+    def __init__(self, profile: FrameworkProfile | None = None) -> None:
+        self.profile = profile or get_profile("base")
+        self.sources = self.profile.sources
+        self.sanitizers = self.profile.sanitizers
+
     def analyze(self, module: IRModule) -> dict[str, FunctionSummary]:
         return {
             name: self._summarize(name, func)
@@ -56,7 +61,7 @@ class InterproceduralAnalyzer:
         has_sanitizer = False
         return_tainted_p = False
         for instr in func.instructions:
-            if isinstance(instr, Call) and instr.function in SANITIZERS:
+            if isinstance(instr, Call) and instr.function in self.sanitizers:
                 if instr.target is not None:
                     state_p.pop(instr.target, None)
                 has_sanitizer = True
@@ -76,7 +81,7 @@ class InterproceduralAnalyzer:
     def _apply(self, instr: object, state: TaintState) -> None:
         """Apply one IR instruction to a taint state in-place."""
         if isinstance(instr, Call):
-            if instr.function in SOURCES and instr.target is not None:
+            if instr.function in self.sources and instr.target is not None:
                 state[instr.target] = frozenset({instr.function})
             elif instr.target is not None:
                 combined = frozenset().union(
@@ -106,7 +111,18 @@ class InterproceduralAnalyzer:
                 state[instr.target] = combined
             else:
                 state.pop(instr.target, None)
+        elif isinstance(instr, BuildFString):
+            combined = frozenset().union(
+                *(state.get(field, frozenset()) for field in instr.fields)
+            )
+            if combined:
+                state[instr.target] = combined
+            else:
+                state.pop(instr.target, None)
 
 
-def analyze_module(module: IRModule) -> dict[str, FunctionSummary]:
-    return InterproceduralAnalyzer().analyze(module)
+def analyze_module(
+    module: IRModule,
+    profile: FrameworkProfile | None = None,
+) -> dict[str, FunctionSummary]:
+    return InterproceduralAnalyzer(profile=profile).analyze(module)

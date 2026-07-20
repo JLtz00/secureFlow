@@ -8,12 +8,14 @@ from analyzer.ast_nodes import (
     Assign,
     BinaryExpr,
     CallExpr,
+    CollectionExpr,
     ExprStmt,
     Expression,
     ForStmt,
     FunctionDef,
     Identifier,
     IfStmt,
+    ImportStmt,
     Literal,
     Program,
     ReturnStmt,
@@ -77,6 +79,8 @@ class SemanticAnalyzer:
     def _analyze_statement(self, statement: Statement, scope: Scope) -> None:
         if isinstance(statement, FunctionDef):
             self._analyze_function(statement, scope)
+        elif isinstance(statement, ImportStmt):
+            return
         elif isinstance(statement, Assign):
             self._analyze_assign(statement, scope)
         elif isinstance(statement, IfStmt):
@@ -214,6 +218,12 @@ class SemanticAnalyzer:
         if isinstance(expression, CallExpr):
             return self._analyze_call(expression, scope)
 
+        if isinstance(expression, CollectionExpr):
+            info = ExpressionInfo()
+            for element in expression.elements:
+                info = info.merge(self._analyze_expression(element, scope))
+            return info
+
         return ExpressionInfo()
 
     def _analyze_call(self, expression: CallExpr, scope: Scope) -> ExpressionInfo:
@@ -276,4 +286,3 @@ def analyze_source(source: str) -> SemanticResult:
             )
         )
     return result
-

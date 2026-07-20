@@ -8,6 +8,7 @@ from analyzer.ast_nodes import (
     FunctionDef,
     Identifier,
     IfStmt,
+    ImportStmt,
     Literal,
     ReturnStmt,
     WhileStmt,
@@ -99,6 +100,38 @@ def test_parse_parameter_tuple_without_errors():
     assert isinstance(call.args[1], CollectionExpr)
     assert call.args[1].kind == "tuple"
     assert len(call.args[1].elements) == 1
+
+
+def test_parse_flask_import_alias_and_decorator():
+    parser = Parser.from_source(
+        'from flask import request as req\n'
+        '\n'
+        '@app.route("/users", methods=["POST"])\n'
+        'def users():\n'
+        '    value = req.form.get("name")\n'
+    )
+    program = parser.parse()
+
+    assert not parser.errors
+    assert isinstance(program.body[0], ImportStmt)
+    assert program.body[0].aliases["req"] == "flask.request"
+    assert isinstance(program.body[1], FunctionDef)
+    assert program.body[1].name == "users"
+
+
+def test_parse_dict_argument_for_sqlalchemy_parameters():
+    parser = Parser.from_source(
+        'db.session.execute(stmt, {"name": user})\n'
+    )
+    program = parser.parse()
+
+    assert not parser.errors
+    statement = program.body[0]
+    assert isinstance(statement, ExprStmt)
+    call = statement.expression
+    assert isinstance(call, CallExpr)
+    assert isinstance(call.args[1], CollectionExpr)
+    assert call.args[1].kind == "dict"
 
 
 def test_parse_literals_and_positions():

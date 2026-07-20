@@ -1,4 +1,4 @@
-.PHONY: test compile benchmark performance report reproduce
+.PHONY: test compile benchmark flask-dataset flask-benchmark performance report reproduce
 
 PYTHON ?= python3
 
@@ -11,6 +11,12 @@ compile:
 benchmark:
 	$(PYTHON) -m tools.benchmark_runner
 
+flask-dataset:
+	$(PYTHON) -m tools.flask_dataset_generator
+
+flask-benchmark: flask-dataset
+	$(PYTHON) -m tools.benchmark_runner --profile flask
+
 performance:
 	$(PYTHON) -m tools.performance_evaluator
 
@@ -19,4 +25,3 @@ report:
 	$(PYTHON) -m tools.research_report
 
 reproduce: compile benchmark performance report
-
