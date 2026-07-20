@@ -6,6 +6,7 @@ from analyzer import ast_nodes as ast
 from analyzer.ir import (
     Assign,
     BinaryOp,
+    BuildCollection,
     Call,
     ConditionalJump,
     IRFunction,
@@ -146,6 +147,18 @@ class IRGenerator:
                     left=left,
                     operator=node.operator,
                     right=right,
+                )
+            )
+            return target
+        if isinstance(node, ast.CollectionExpr):
+            elements = [self._expression(element) for element in node.elements]
+            target = self._new_temp()
+            self._emit(
+                BuildCollection(
+                    line=node.line,
+                    target=target,
+                    kind=node.kind,
+                    elements=elements,
                 )
             )
             return target

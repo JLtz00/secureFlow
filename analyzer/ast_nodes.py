@@ -141,7 +141,15 @@ class Literal(Expression):
 
 
 @dataclass
+class CollectionExpr(Expression):
+    kind: str
+    elements: list[Expression] = field(default_factory=list)
+
+    def children(self) -> list[ASTNode]:
+        return list(self.elements)
+
+
+@dataclass
 class ParseErrorNode(Statement):
     message: str
     token_value: str
-

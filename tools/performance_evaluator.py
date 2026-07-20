@@ -13,6 +13,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from analyzer.cfg_builder import build_cfg
+from analyzer.interprocedural import analyze_module
 from analyzer.ir_generator import generate_ir
 from analyzer.lexer import Lexer, tokenize as _lex_tokenize
 from analyzer.parser import Parser, parse
@@ -68,7 +69,8 @@ def _time_pipeline(source: str) -> StageTimings:
     cfg_ms = (t() - t0) * 1000
 
     t0 = t()
-    analyze_cfg(cfg)
+    summaries = analyze_module(module)
+    analyze_cfg(cfg, summaries=summaries)
     taint_ms = (t() - t0) * 1000
 
     total = lexer_ms + parser_ms + sem_ms + ir_ms + cfg_ms + taint_ms

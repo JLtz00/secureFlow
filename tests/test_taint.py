@@ -1,6 +1,7 @@
 """Tests for Sprint 5: forward dataflow taint engine (Worklist algorithm)."""
 
 from analyzer.cfg_builder import build_cfg
+from analyzer.interprocedural import analyze_module
 from analyzer.ir_generator import generate_ir
 from analyzer.parser import parse
 from analyzer.taint_engine import TaintResult, analyze_cfg
@@ -14,6 +15,14 @@ def run(source: str) -> TaintResult:
     module = generate_ir(program)
     cfg = build_cfg(module.main.instructions)
     return analyze_cfg(cfg)
+
+
+def run_interprocedural(source: str) -> TaintResult:
+    """Full pipeline with function summaries enabled."""
+    program = parse(source)
+    module = generate_ir(program)
+    cfg = build_cfg(module.main.instructions)
+    return analyze_cfg(cfg, summaries=analyze_module(module))
 
 
 def sink_names(result: TaintResult) -> list[str]:
@@ -158,6 +167,46 @@ def test_literal_query_is_not_vulnerable():
     result = run(
         'query = "SELECT * FROM users"\n'
         'cursor.execute(query)\n'
+    )
+    assert not result.is_vulnerable
+
+
+def test_parameterized_query_with_tainted_parameter_is_not_vulnerable():
+    result = run(
+        'user = request.form.get("field")\n'
+        'cursor.execute("SELECT * FROM users WHERE id = ?", (user,))\n'
+    )
+    assert not result.is_vulnerable
+
+
+def test_tainted_query_template_is_vulnerable_even_with_parameters():
+    result = run(
+        'table = input()\n'
+        'query = "SELECT * FROM " + table + " WHERE id = ?"\n'
+        'cursor.execute(query, (user,))\n'
+    )
+    assert result.is_vulnerable
+
+
+def test_interprocedural_source_return_reaches_sink():
+    result = run_interprocedural(
+        'def get_param():\n'
+        '    return request.form.get("field")\n'
+        '\n'
+        'user = get_param()\n'
+        'cursor.execute("SELECT * FROM users WHERE id = " + user)\n'
+    )
+    assert result.is_vulnerable
+
+
+def test_interprocedural_sanitizer_return_cleans_value():
+    result = run_interprocedural(
+        'def clean(value):\n'
+        '    return sanitize(value)\n'
+        '\n'
+        'user = input()\n'
+        'safe = clean(user)\n'
+        'cursor.execute(safe)\n'
     )
     assert not result.is_vulnerable
 

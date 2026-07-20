@@ -1,4 +1,4 @@
-from analyzer.ir import Assign, BinaryOp, Call, ConditionalJump, Jump, Return
+from analyzer.ir import Assign, BinaryOp, BuildCollection, Call, ConditionalJump, Jump, Return
 from analyzer.ir_generator import generate_ir
 from analyzer.parser import parse
 
@@ -25,6 +25,19 @@ def test_generates_call_and_assignment():
     assert instructions[0].args == ['"user"']
     assert isinstance(instructions[1], Assign)
     assert instructions[1].value == instructions[0].target
+
+
+def test_generates_tuple_for_parameterized_call():
+    module = generate_ir(
+        parse('cursor.execute("SELECT * FROM users WHERE id = ?", (user,))\n')
+    )
+    instructions = module.main.instructions
+
+    assert isinstance(instructions[0], BuildCollection)
+    assert instructions[0].kind == "tuple"
+    assert instructions[0].elements == ["user"]
+    assert isinstance(instructions[1], Call)
+    assert instructions[1].args == ['"SELECT * FROM users WHERE id = ?"', instructions[0].target]
 
 
 def test_generates_functions_separately_from_main():
@@ -63,4 +76,3 @@ while query:
 
     assert sum(isinstance(item, ConditionalJump) for item in instructions) == 2
     assert sum(isinstance(item, Jump) for item in instructions) >= 2
-

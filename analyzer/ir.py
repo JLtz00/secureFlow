@@ -39,6 +39,16 @@ class BinaryOp(Instruction):
 
 
 @dataclass
+class BuildCollection(Instruction):
+    target: str
+    kind: str
+    elements: list[str] = field(default_factory=list)
+
+    def __str__(self) -> str:
+        return f"{self.target} = {self.kind}({', '.join(self.elements)})"
+
+
+@dataclass
 class UnaryOp(Instruction):
     target: str
     operator: str

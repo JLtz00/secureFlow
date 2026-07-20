@@ -82,7 +82,7 @@ class Visualizer:
                 f"{cm.f1_score:>7.3f} {cm.accuracy:>9.3f}"
             )
         content = "\n".join(rows) + "\n"
-        self.tables_dir / "table1_detection_performance.txt".write_text(content)
+        (self.tables_dir / "table1_detection_performance.txt").write_text(content)
 
     def _table_execution_time(self) -> None:
         header = f"{'Tool':<12} {'Avg Time (ms)':>14}"
@@ -91,7 +91,7 @@ class Visualizer:
         for tool in self.TOOLS:
             avg = _avg_time(self.records, tool)
             rows.append(f"{tool:<12} {avg:>14.3f}")
-        self.tables_dir / "table2_execution_time.txt".write_text("\n".join(rows) + "\n")
+        (self.tables_dir / "table2_execution_time.txt").write_text("\n".join(rows) + "\n")
 
     def _table_false_positives(self) -> None:
         header = f"{'Tool':<12} {'FP':>4} {'FPR':>7} {'FNR':>7}"
@@ -100,7 +100,7 @@ class Visualizer:
         for tool in self.TOOLS:
             cm = _cm_for_tool(self.records, tool)
             rows.append(f"{tool:<12} {cm.fp:>4} {cm.fpr:>7.3f} {cm.fnr:>7.3f}")
-        self.tables_dir / "table3_false_positives.txt".write_text("\n".join(rows) + "\n")
+        (self.tables_dir / "table3_false_positives.txt").write_text("\n".join(rows) + "\n")
 
     # ---------------------------------------------------------- CSVs
 
@@ -141,7 +141,7 @@ class Visualizer:
                 "fnr":       round(cm.fnr, 4),
                 "avg_time_ms": round(_avg_time(self.records, tool), 4),
             }
-        self.final_dir / "summary.json".write_text(json.dumps(summary, indent=2))
+        (self.final_dir / "summary.json").write_text(json.dumps(summary, indent=2))
 
 
 def main() -> None:
