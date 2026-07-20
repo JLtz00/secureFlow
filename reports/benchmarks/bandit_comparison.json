@@ -4,7 +4,7 @@
     "file": "case_001.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.002
   },
   {
     "tool": "Bandit",
@@ -18,7 +18,7 @@
     "file": "case_003.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -81,28 +81,28 @@
     "file": "case_012.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_013.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_014.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_015.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -284,7 +284,7 @@
     "file": "case_041.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001
+    "execution_time_ms": 0.0
   },
   {
     "tool": "Bandit",
@@ -326,7 +326,7 @@
     "file": "case_047.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -347,14 +347,14 @@
     "file": "case_050.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_051.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -382,77 +382,77 @@
     "file": "case_055.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_056.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_057.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_058.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_059.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001
+    "execution_time_ms": 0.0
   },
   {
     "tool": "Bandit",
     "file": "case_060.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_061.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_062.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_063.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_064.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_065.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -473,14 +473,14 @@
     "file": "case_068.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_069.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -494,7 +494,7 @@
     "file": "case_071.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -515,7 +515,7 @@
     "file": "case_074.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -543,35 +543,35 @@
     "file": "case_078.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_079.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_080.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_081.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_082.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -592,35 +592,35 @@
     "file": "case_085.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_086.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_087.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_088.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_089.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -634,7 +634,7 @@
     "file": "case_091.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -648,7 +648,7 @@
     "file": "case_093.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -676,49 +676,49 @@
     "file": "case_097.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_098.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_099.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_100.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_101.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_102.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_103.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -739,56 +739,56 @@
     "file": "case_106.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_107.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.004
   },
   {
     "tool": "Bandit",
     "file": "case_108.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_109.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_110.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_111.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_112.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_113.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -802,35 +802,35 @@
     "file": "case_115.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_116.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_117.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_118.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_119.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -844,147 +844,147 @@
     "file": "case_121.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_122.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_123.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_124.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_125.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_126.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_127.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_128.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_129.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_130.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_131.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_132.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_133.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_134.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_135.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_136.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_137.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_138.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_139.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_140.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_141.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -998,35 +998,35 @@
     "file": "case_143.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_144.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_145.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_146.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_147.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1040,126 +1040,126 @@
     "file": "case_149.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_150.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_151.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_152.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_153.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_154.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_155.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_156.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_157.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_158.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_159.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_160.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_161.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_162.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_163.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_164.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_165.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_166.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1180,7 +1180,7 @@
     "file": "case_169.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001
+    "execution_time_ms": 0.002
   },
   {
     "tool": "Bandit",
@@ -1201,7 +1201,7 @@
     "file": "case_172.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1222,14 +1222,14 @@
     "file": "case_175.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_176.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1243,28 +1243,28 @@
     "file": "case_178.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_179.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_180.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_181.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1278,14 +1278,14 @@
     "file": "case_183.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_184.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1306,28 +1306,28 @@
     "file": "case_187.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_188.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_189.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_190.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1341,70 +1341,70 @@
     "file": "case_192.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_193.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_194.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_195.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_196.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_197.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_198.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_199.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_200.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_201.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1418,14 +1418,14 @@
     "file": "case_203.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_204.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
@@ -1439,28 +1439,28 @@
     "file": "case_206.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_207.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_208.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",
     "file": "case_209.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Bandit",

@@ -9,9 +9,11 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass, field
+import re
 
 from analyzer.cfg_builder import CFG, BasicBlock
-from analyzer.ir import Assign, BinaryOp, Call
+from analyzer.interprocedural import FunctionSummary
+from analyzer.ir import Assign, BinaryOp, BuildCollection, Call
 from analyzer.sources_sinks import SANITIZERS, SINKS, SOURCES
 
 # Maps variable names to the set of taint sources that contaminate them.
@@ -60,6 +62,9 @@ class TaintEngine:
          If OUT[B] changed, re-enqueue all successors of B.
       4. Repeat until the worklist is empty (fixpoint reached).
     """
+
+    def __init__(self, summaries: dict[str, FunctionSummary] | None = None) -> None:
+        self.summaries = summaries or {}
 
     def analyze(self, cfg: CFG) -> TaintResult:
         result = TaintResult()
@@ -151,6 +156,15 @@ class TaintEngine:
                 else:
                     state.pop(instr.target, None)
 
+            elif isinstance(instr, BuildCollection):
+                combined = frozenset().union(
+                    *(state.get(element, frozenset()) for element in instr.elements)
+                )
+                if combined:
+                    state[instr.target] = combined
+                else:
+                    state.pop(instr.target, None)
+
             elif isinstance(instr, Call):
                 self._handle_call(instr, state, vulns, block.id)
 
@@ -176,6 +190,9 @@ class TaintEngine:
                 state.pop(instr.target, None)
 
         elif fn in SINKS:
+            if self._is_safe_parameterized_sql_call(instr, state):
+                return
+
             # Check every argument: tainted data reaching a sink is a vulnerability
             for arg in instr.args:
                 arg_taint = state.get(arg, frozenset())
@@ -190,6 +207,9 @@ class TaintEngine:
                         )
                     )
 
+        elif fn in self.summaries:
+            self._apply_function_summary(instr, state, self.summaries[fn])
+
         else:
             # Conservative assumption: if any argument is tainted, so is the return value
             if instr.target is not None:
@@ -201,6 +221,74 @@ class TaintEngine:
                 else:
                     state.pop(instr.target, None)
 
+    def _apply_function_summary(
+        self,
+        instr: Call,
+        state: TaintState,
+        summary: FunctionSummary,
+    ) -> None:
+        if instr.target is None:
+            return
 
-def analyze_cfg(cfg: CFG) -> TaintResult:
-    return TaintEngine().analyze(cfg)
+        if summary.returns_sanitized:
+            state.pop(instr.target, None)
+            return
+
+        if summary.returns_tainted:
+            state[instr.target] = summary.taint_sources or frozenset({summary.name})
+            return
+
+        if summary.taints_arguments:
+            combined = frozenset().union(
+                *(state.get(arg, frozenset()) for arg in instr.args)
+            )
+            if combined:
+                state[instr.target] = combined
+            else:
+                state.pop(instr.target, None)
+            return
+
+        state.pop(instr.target, None)
+
+    def _is_safe_parameterized_sql_call(self, instr: Call, state: TaintState) -> bool:
+        if len(instr.args) < 2:
+            return False
+
+        query_arg = instr.args[0]
+        if state.get(query_arg, frozenset()):
+            return False
+
+        query_text = self._literal_string_value(query_arg)
+        if query_text is None:
+            return False
+
+        return self._has_sql_placeholder(query_text)
+
+    def _literal_string_value(self, value: str) -> str | None:
+        raw = value.strip()
+        prefix_pattern = r"(?i)^(?:r|u|b|br|rb|f|fr|rf)?"
+        if not re.match(prefix_pattern + r"(['\"])", raw):
+            return None
+        quote_index = 0
+        while quote_index < len(raw) and raw[quote_index].lower() in "rubf":
+            quote_index += 1
+        if quote_index >= len(raw) or raw[quote_index] not in {"'", '"'}:
+            return None
+        quote = raw[quote_index]
+        if len(raw) < quote_index + 2 or raw[-1] != quote:
+            return None
+        return raw[quote_index + 1:-1]
+
+    def _has_sql_placeholder(self, query: str) -> bool:
+        return (
+            "?" in query
+            or "%s" in query
+            or re.search(r":\w+", query) is not None
+        )
+
+
+def analyze_cfg(
+    cfg: CFG,
+    summaries: dict[str, FunctionSummary] | None = None,
+) -> TaintResult:
+    return TaintEngine(summaries=summaries).analyze(cfg)

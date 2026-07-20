@@ -1,6 +1,6 @@
 Tool           FP     FPR     FNR
 ---------------------------------
-SecureFlow     42   0.500   0.333
+SecureFlow      0   0.000   0.000
 Bandit         42   0.500   0.508
 Semgrep        42   0.500   0.333
 Pysa           42   0.500   0.000

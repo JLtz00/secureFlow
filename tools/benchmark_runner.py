@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Callable
 
 from analyzer.cfg_builder import build_cfg
+from analyzer.interprocedural import analyze_module
 from analyzer.ir_generator import generate_ir
 from analyzer.parser import parse
 from analyzer.taint_engine import analyze_cfg
@@ -44,8 +45,9 @@ def _run_secureflow(filepath: Path) -> tuple[str, float]:
     try:
         program = parse(source)
         module = generate_ir(program)
+        summaries = analyze_module(module)
         cfg = build_cfg(module.main.instructions)
-        result = analyze_cfg(cfg)
+        result = analyze_cfg(cfg, summaries=summaries)
         prediction = "VULNERABLE" if result.is_vulnerable else "SAFE"
     except Exception:
         prediction = "SAFE"

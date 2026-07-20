@@ -2,6 +2,7 @@ from analyzer.ast_nodes import (
     Assign,
     BinaryExpr,
     CallExpr,
+    CollectionExpr,
     ExprStmt,
     ForStmt,
     FunctionDef,
@@ -81,6 +82,23 @@ def test_parse_call_statement_for_future_sink_detection():
     assert isinstance(statement.expression.callee, Identifier)
     assert statement.expression.callee.name == "cursor.execute"
     assert isinstance(statement.expression.args[0], BinaryExpr)
+
+
+def test_parse_parameter_tuple_without_errors():
+    parser = Parser.from_source(
+        'cursor.execute("SELECT * FROM users WHERE id = ?", (user,))\n'
+    )
+    program = parser.parse()
+
+    assert not parser.errors
+    statement = program.body[0]
+    assert isinstance(statement, ExprStmt)
+    call = statement.expression
+    assert isinstance(call, CallExpr)
+    assert len(call.args) == 2
+    assert isinstance(call.args[1], CollectionExpr)
+    assert call.args[1].kind == "tuple"
+    assert len(call.args[1].elements) == 1
 
 
 def test_parse_literals_and_positions():

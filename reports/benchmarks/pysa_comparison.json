@@ -4,7 +4,7 @@
     "file": "case_001.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Pysa",
@@ -347,7 +347,7 @@
     "file": "case_050.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.005
   },
   {
     "tool": "Pysa",
@@ -739,7 +739,7 @@
     "file": "case_106.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Pysa",

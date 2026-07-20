@@ -11,7 +11,7 @@
     "file": "case_002.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -81,7 +81,7 @@
     "file": "case_012.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -354,7 +354,7 @@
     "file": "case_051.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -396,21 +396,21 @@
     "file": "case_057.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_058.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_059.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001
+    "execution_time_ms": 0.0
   },
   {
     "tool": "Semgrep",
@@ -452,7 +452,7 @@
     "file": "case_065.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.004
+    "execution_time_ms": 0.0
   },
   {
     "tool": "Semgrep",
@@ -557,7 +557,7 @@
     "file": "case_080.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -578,35 +578,35 @@
     "file": "case_083.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_084.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_085.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_086.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_087.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -662,7 +662,7 @@
     "file": "case_095.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -732,7 +732,7 @@
     "file": "case_105.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -781,7 +781,7 @@
     "file": "case_112.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -886,14 +886,14 @@
     "file": "case_127.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_128.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -928,63 +928,63 @@
     "file": "case_133.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_134.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_135.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_136.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_137.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_138.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_139.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_140.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_141.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1040,21 +1040,21 @@
     "file": "case_149.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_150.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_151.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1082,14 +1082,14 @@
     "file": "case_155.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_156.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1110,7 +1110,7 @@
     "file": "case_159.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1145,21 +1145,21 @@
     "file": "case_164.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_165.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_166.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1173,14 +1173,14 @@
     "file": "case_168.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
     "file": "case_169.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1194,7 +1194,7 @@
     "file": "case_171.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1243,7 +1243,7 @@
     "file": "case_178.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1271,7 +1271,7 @@
     "file": "case_182.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",
@@ -1418,7 +1418,7 @@
     "file": "case_203.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0
+    "execution_time_ms": 0.001
   },
   {
     "tool": "Semgrep",

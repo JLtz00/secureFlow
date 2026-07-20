@@ -8,6 +8,7 @@ from analyzer.ast_nodes import (
     Assign,
     BinaryExpr,
     CallExpr,
+    CollectionExpr,
     ExprStmt,
     Expression,
     ForStmt,
@@ -241,15 +242,56 @@ class Parser:
         if self._match_keyword("None"):
             return Literal(location=self._location(token), value=None, raw=token.value)
         if self._match_value("("):
-            expression = self._parse_expression()
-            self._consume_value(")", "Expected ')' after expression")
-            return expression
+            return self._parse_parenthesized(token)
+        if self._match_value("["):
+            return self._parse_collection(token, "]", "list")
         if self._check(TokenType.IDENTIFIER) or self._check(TokenType.KEYWORD):
             return self._parse_identifier_or_call()
 
         self._record_error("Expected expression", token)
         self._advance()
         return Literal(location=self._location(token), value=None, raw=token.value)
+
+    def _parse_parenthesized(self, token: Token) -> Expression:
+        if self._check_value(")"):
+            self._advance()
+            return CollectionExpr(location=self._location(token), kind="tuple", elements=[])
+
+        first = self._parse_expression()
+        if not self._match_value(","):
+            self._consume_value(")", "Expected ')' after expression")
+            return first
+
+        elements = [first]
+        while not self._check(TokenType.EOF):
+            if self._check_value(")"):
+                break
+            elements.append(self._parse_expression())
+            if not self._match_value(","):
+                break
+
+        self._consume_value(")", "Expected ')' after tuple")
+        return CollectionExpr(
+            location=self._location(token),
+            kind="tuple",
+            elements=elements,
+        )
+
+    def _parse_collection(self, token: Token, closing: str, kind: str) -> CollectionExpr:
+        elements: list[Expression] = []
+        if self._check_value(closing):
+            self._advance()
+            return CollectionExpr(location=self._location(token), kind=kind, elements=elements)
+
+        while not self._check(TokenType.EOF):
+            elements.append(self._parse_expression())
+            if not self._match_value(","):
+                break
+            if self._check_value(closing):
+                break
+
+        self._consume_value(closing, f"Expected '{closing}' after {kind}")
+        return CollectionExpr(location=self._location(token), kind=kind, elements=elements)
 
     def _parse_identifier_or_call(self) -> Expression:
         first = self._advance()
@@ -419,4 +461,3 @@ def parse_with_errors(source: str) -> tuple[Program, list[ParseError]]:
     parser = Parser.from_source(source)
     program = parser.parse()
     return program, parser.errors
-

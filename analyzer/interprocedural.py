@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from analyzer.ir import Assign, BinaryOp, Call, IRFunction, IRModule, Return
+from analyzer.ir import Assign, BinaryOp, BuildCollection, Call, IRFunction, IRModule, Return
 from analyzer.sources_sinks import SANITIZERS, SOURCES
 
 TaintState = dict[str, frozenset[str]]
@@ -94,6 +94,14 @@ class InterproceduralAnalyzer:
                 state.pop(instr.target, None)
         elif isinstance(instr, BinaryOp):
             combined = state.get(instr.left, frozenset()) | state.get(instr.right, frozenset())
+            if combined:
+                state[instr.target] = combined
+            else:
+                state.pop(instr.target, None)
+        elif isinstance(instr, BuildCollection):
+            combined = frozenset().union(
+                *(state.get(element, frozenset()) for element in instr.elements)
+            )
             if combined:
                 state[instr.target] = combined
             else:
