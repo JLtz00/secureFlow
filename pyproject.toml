@@ -13,6 +13,10 @@ secureflow = "tools.secureflow_scan:main"
 dev = [
     "pytest>=8.0",
 ]
+baselines = [
+    "bandit>=1.9",
+    "semgrep>=1.170",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

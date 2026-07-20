@@ -274,6 +274,7 @@ def orm_lookup():
             ),
         ]
 
+        self._add_generated_cases(cases)
         entries: list[FlaskDatasetEntry] = []
         for filename, label, category, source_line, sink_line, source in cases:
             (self.output_dir / filename).write_text(source)
@@ -291,6 +292,175 @@ def orm_lookup():
 
         self.metadata_file.write_text(json.dumps([asdict(e) for e in entries], indent=2))
         return entries
+
+    def _add_generated_cases(self, cases: list[tuple[str, str, str, int, int, str]]) -> None:
+        sources = [
+            ("args", 'request.args.get("value")'),
+            ("form", 'request.form.get("value")'),
+            ("values", 'request.values.get("value")'),
+            ("headers", 'request.headers.get("X-Value")'),
+            ("cookies", 'request.cookies.get("value")'),
+            ("files", 'request.files.get("upload")'),
+            ("view_args", 'request.view_args.get("value")'),
+        ]
+        tables = ["users", "orders", "sessions", "accounts"]
+        sinks = ["cursor.execute", "db.session.execute", "connection.execute"]
+
+        index = 1
+        for source_name, source_expr in sources:
+            table = tables[index % len(tables)]
+            sink = sinks[index % len(sinks)]
+            cases.append((
+                f"flask_generated_concat_{source_name}.py",
+                "VULNERABLE",
+                f"generated_concat_{source_name}",
+                8,
+                10,
+                f'''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/generated/{source_name}")
+def generated_{source_name}():
+    value = {source_expr}
+    query = "SELECT * FROM {table} WHERE value = " + value
+    {sink}(query)
+''',
+            ))
+            index += 1
+
+        for source_name, source_expr in sources[:6]:
+            table = tables[index % len(tables)]
+            cases.append((
+                f"flask_generated_parameterized_{source_name}.py",
+                "SAFE",
+                f"generated_parameterized_{source_name}",
+                8,
+                9,
+                f'''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/safe/{source_name}")
+def safe_{source_name}():
+    value = {source_expr}
+    cursor.execute("SELECT * FROM {table} WHERE value = ?", (value,))
+''',
+            ))
+            index += 1
+
+        for source_name, source_expr in sources[:6]:
+            table = tables[index % len(tables)]
+            cases.append((
+                f"flask_generated_sanitized_{source_name}.py",
+                "SAFE",
+                f"generated_sanitized_{source_name}",
+                8,
+                10,
+                f'''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/clean/{source_name}")
+def clean_{source_name}():
+    raw = {source_expr}
+    value = sanitize(raw)
+    cursor.execute("SELECT * FROM {table} WHERE value = " + value)
+''',
+            ))
+            index += 1
+
+        format_patterns = [
+            ("format", '"SELECT * FROM users WHERE value = {}".format(value)'),
+            ("percent", '"SELECT * FROM users WHERE value = %s" % value'),
+            ("fstring", 'f"SELECT * FROM users WHERE value = {value}"'),
+        ]
+        for pattern, query_expr in format_patterns:
+            for source_name, source_expr in sources[:4]:
+                cases.append((
+                    f"flask_generated_{pattern}_{source_name}.py",
+                    "VULNERABLE",
+                    f"generated_{pattern}_{source_name}",
+                    8,
+                    10,
+                    f'''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/{pattern}/{source_name}")
+def {pattern}_{source_name}():
+    value = {source_expr}
+    query = {query_expr}
+    cursor.execute(query)
+''',
+                ))
+
+        json_cases = [
+            ("json_subscript_name", 'payload["name"]'),
+            ("json_get_name", 'payload.get("name")'),
+            ("json_subscript_id", 'payload["id"]'),
+            ("json_get_id", 'payload.get("id")'),
+        ]
+        for category, value_expr in json_cases:
+            cases.append((
+                f"flask_generated_{category}.py",
+                "VULNERABLE",
+                f"generated_{category}",
+                8,
+                11,
+                f'''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/json/{category}", methods=["POST"])
+def {category}():
+    payload = request.get_json()
+    value = {value_expr}
+    query = "SELECT * FROM users WHERE value = " + value
+    cursor.execute(query)
+''',
+            ))
+
+        for n in range(2):
+            cases.append((
+                f"flask_generated_sqlalchemy_text_safe_{n}.py",
+                "SAFE",
+                f"generated_sqlalchemy_text_safe_{n}",
+                9,
+                10,
+                f'''from flask import Flask, request
+from sqlalchemy import text
+
+app = Flask(__name__)
+
+@app.route("/text-safe-{n}")
+def text_safe_{n}():
+    value = request.args.get("value")
+    stmt = text("SELECT * FROM users WHERE value = :value")
+    db.session.execute(stmt, {{"value": value}})
+''',
+            ))
+
+        for n in range(2):
+            cases.append((
+                f"flask_generated_sqlalchemy_text_dynamic_{n}.py",
+                "VULNERABLE",
+                f"generated_sqlalchemy_text_dynamic_{n}",
+                9,
+                11,
+                f'''from flask import Flask, request
+from sqlalchemy import text
+
+app = Flask(__name__)
+
+@app.route("/text-dynamic-{n}")
+def text_dynamic_{n}():
+    value = request.args.get("value")
+    raw = "SELECT * FROM users WHERE value = " + value
+    stmt = text(raw)
+    db.session.execute(stmt)
+''',
+            ))
 
 
 @dataclass

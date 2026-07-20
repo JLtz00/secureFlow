@@ -193,6 +193,8 @@ python3 -m tools.performance_evaluator
 # Generar y ejecutar benchmark enfocado en Flask
 python3 -m tools.flask_dataset_generator
 python3 -m tools.benchmark_runner --profile flask
+python3 -m tools.flask_ablation
+python3 -m tools.real_baseline_runner
 python3 -m tools.flask_report
 
 # Escanear un proyecto Flask multiarchivo

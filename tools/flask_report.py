@@ -7,6 +7,7 @@ from pathlib import Path
 
 from analyzer.metrics import evaluate
 from analyzer.project_scanner import ProjectScanner
+from tools.statistics import metric_intervals
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BENCHMARK = PROJECT_ROOT / "reports" / "benchmarks" / "flask" / "benchmark_results.json"
@@ -39,14 +40,21 @@ def generate_report(
     metadata = _load(Path(metadata_file))
 
     metric_rows = [
-        "| Tool | Precision | Recall | F1 | Accuracy | FPR | FNR |",
+        "| Tool | Precision 95% CI | Recall 95% CI | F1 95% CI | Accuracy 95% CI | FPR | FNR |",
         "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for tool in TOOLS:
         cm = _metrics_for(records, tool)
+        pairs = [
+            (r["prediction"], r["ground_truth"])
+            for r in records
+            if r["tool"] == tool
+        ]
+        intervals = metric_intervals(pairs)
         metric_rows.append(
-            f"| {tool} | {cm.precision:.3f} | {cm.recall:.3f} | {cm.f1_score:.3f} | "
-            f"{cm.accuracy:.3f} | {cm.fpr:.3f} | {cm.fnr:.3f} |"
+            f"| {tool} | {intervals['precision'].format()} | {intervals['recall'].format()} | "
+            f"{intervals['f1'].format()} | {intervals['accuracy'].format()} | "
+            f"{cm.fpr:.3f} | {cm.fnr:.3f} |"
         )
 
     category_rows = [
@@ -105,6 +113,8 @@ def generate_report(
 - Categories: {categories}
 
 ## Detection Metrics
+
+Bootstrap intervals use 1,000 resamples with fixed seed 42.
 
 {chr(10).join(metric_rows)}
 

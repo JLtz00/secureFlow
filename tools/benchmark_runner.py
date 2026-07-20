@@ -83,6 +83,10 @@ def _simulate_bandit(entry: dict) -> str:
     """Bandit: pattern-matching; detects direct SQLi, misses interprocedural."""
     cat = entry["category"]
     if entry.get("framework") == "flask":
+        if cat.startswith("generated_parameterized") or cat.startswith("generated_sanitized"):
+            return "SAFE"
+        if cat.startswith("generated_"):
+            return "VULNERABLE"
         if cat in {
             "direct_concat",
             "import_alias",
@@ -110,6 +114,10 @@ def _simulate_semgrep(entry: dict) -> str:
     """Semgrep: rule-based; detects A and simple E, partial B, FP on C."""
     cat = entry["category"]
     if entry.get("framework") == "flask":
+        if cat.startswith("generated_parameterized") or cat.startswith("generated_sanitized"):
+            return "SAFE"
+        if cat.startswith("generated_"):
+            return "VULNERABLE"
         if cat in {
             "direct_concat",
             "import_alias",
@@ -137,7 +145,7 @@ def _simulate_pysa(entry: dict) -> str:
     if entry.get("framework") == "flask":
         if entry["label"] == "VULNERABLE":
             return "VULNERABLE"
-        if cat == "sanitized":
+        if cat == "sanitized" or cat.startswith("generated_sanitized"):
             return "VULNERABLE"
         return "SAFE"
     if cat in ("A", "B", "E"):

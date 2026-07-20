@@ -65,9 +65,13 @@ class ProjectScanner:
         root: str | Path,
         profile: FrameworkProfile | None = None,
         exclude_dirs: set[str] | None = None,
+        use_interprocedural: bool = True,
+        model_parameterized_sql: bool = True,
     ) -> None:
         self.root = Path(root)
         self.profile = profile or get_profile("flask")
+        self.use_interprocedural = use_interprocedural
+        self.model_parameterized_sql = model_parameterized_sql
         self.exclude_dirs = exclude_dirs or {
             ".git",
             ".venv",
@@ -108,11 +112,16 @@ class ProjectScanner:
                 combined.functions.setdefault(name, function)
                 combined.functions[f"{module_name}.{name}"] = function
 
-        summaries = analyze_module(combined, profile=self.profile)
+        summaries = analyze_module(combined, profile=self.profile) if self.use_interprocedural else {}
         findings: list[ScanFinding] = []
         for context in contexts:
             cfg = build_cfg(context.function.instructions, name=context.function.name)
-            result = analyze_cfg(cfg, summaries=summaries, profile=self.profile)
+            result = analyze_cfg(
+                cfg,
+                summaries=summaries,
+                profile=self.profile,
+                model_parameterized_sql=self.model_parameterized_sql,
+            )
             for vuln in result.vulnerabilities:
                 findings.append(
                     ScanFinding(
@@ -161,4 +170,3 @@ class ProjectScanner:
             return str(path.relative_to(self.root if self.root.is_dir() else self.root.parent))
         except ValueError:
             return str(path)
-

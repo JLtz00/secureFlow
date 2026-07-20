@@ -20,6 +20,14 @@ flask-benchmark: flask-dataset
 flask-report: flask-benchmark
 	$(PYTHON) -m tools.flask_report
 
+flask-ablation: flask-dataset
+	$(PYTHON) -m tools.flask_ablation
+
+flask-baselines-real: flask-dataset
+	$(PYTHON) -m tools.real_baseline_runner
+
+reproduce-flask: flask-dataset flask-benchmark flask-ablation flask-baselines-real flask-report
+
 scan-demo: flask-dataset
 	$(PYTHON) -m tools.secureflow_scan scan data/flask_projects/project_multifile_vulnerable
 

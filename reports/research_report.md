@@ -40,7 +40,7 @@ integrated within a custom compiler infrastructure.
 | Bandit     |         0.001 |
 | Semgrep    |         0.001 |
 | Pysa       |         0.000 |
-| SecureFlow |         0.240 |
+| SecureFlow |         0.232 |
 
 ## Table 3 — False Positive Analysis
 
@@ -55,11 +55,11 @@ integrated within a custom compiler infrastructure.
 
 | Batch | Avg Total (ms) | Peak Memory (KB) |
 |-------|----------------|------------------|
-|    50 |         0.7428 |             47.2 |
-|   100 |         0.8550 |             65.0 |
-|   250 |         0.9223 |            135.3 |
-|   500 |         0.9286 |            227.9 |
-|  1000 |         0.9275 |            362.4 |
+|    50 |         0.7585 |             47.2 |
+|   100 |         0.8995 |             65.0 |
+|   250 |         0.9397 |            135.1 |
+|   500 |         0.9258 |            229.0 |
+|  1000 |         0.9289 |            363.0 |
 
 ## Research Contributions
 

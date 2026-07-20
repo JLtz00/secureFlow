@@ -67,12 +67,14 @@ class TaintEngine:
         self,
         summaries: dict[str, FunctionSummary] | None = None,
         profile: FrameworkProfile | None = None,
+        model_parameterized_sql: bool = True,
     ) -> None:
         self.summaries = summaries or {}
         self.profile = profile or get_profile("base")
         self.sources = self.profile.sources
         self.sinks = self.profile.sinks
         self.sanitizers = self.profile.sanitizers
+        self.model_parameterized_sql = model_parameterized_sql
 
     def analyze(self, cfg: CFG) -> TaintResult:
         result = TaintResult()
@@ -337,6 +339,8 @@ class TaintEngine:
         state: TaintState,
         parameterized_templates: set[str],
     ) -> bool:
+        if not self.model_parameterized_sql:
+            return False
         if len(instr.args) < 2:
             return False
 
@@ -380,5 +384,10 @@ def analyze_cfg(
     cfg: CFG,
     summaries: dict[str, FunctionSummary] | None = None,
     profile: FrameworkProfile | None = None,
+    model_parameterized_sql: bool = True,
 ) -> TaintResult:
-    return TaintEngine(summaries=summaries, profile=profile).analyze(cfg)
+    return TaintEngine(
+        summaries=summaries,
+        profile=profile,
+        model_parameterized_sql=model_parameterized_sql,
+    ).analyze(cfg)
