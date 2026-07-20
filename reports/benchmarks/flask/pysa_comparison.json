@@ -22,7 +22,7 @@
     "file": "flask_fstring.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.0,
+    "execution_time_ms": 0.001,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -31,7 +31,7 @@
     "file": "flask_json_interprocedural.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.0,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -58,7 +58,7 @@
     "file": "flask_sanitized.py",
     "prediction": "VULNERABLE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0,
+    "execution_time_ms": 0.001,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -76,7 +76,7 @@
     "file": "flask_json_subscript.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.0,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -112,7 +112,7 @@
     "file": "flask_sqlalchemy_orm_safe.py",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
-    "execution_time_ms": 0.0,
+    "execution_time_ms": 0.001,
     "analysis_status": "OK",
     "error_count": 0
   }

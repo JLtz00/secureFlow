@@ -173,6 +173,76 @@ def test_flask_dataset_secureflow_profile_is_perfect_on_seed_cases():
         assert all(r.prediction == r.ground_truth for r in records)
 
 
+def test_project_scanner_detects_multifile_flask_sqli():
+    from analyzer.project_scanner import ProjectScanner
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "routes.py").write_text(
+            'from flask import request\n'
+            'from repository import query_user\n'
+            '\n'
+            'def search():\n'
+            '    name = request.args.get("name")\n'
+            '    return query_user(name)\n'
+        )
+        (root / "repository.py").write_text(
+            'def query_user(name):\n'
+            '    query = "SELECT * FROM users WHERE name = " + name\n'
+            '    return db.session.execute(query)\n'
+        )
+
+        result = ProjectScanner(root).scan()
+
+        assert result.files_total == 2
+        assert result.files_with_errors == 0
+        assert result.findings
+        assert result.findings[0].rule_id == "PY.FLASK.SQLI"
+
+
+def test_project_scanner_accepts_multifile_parameterized_query():
+    from analyzer.project_scanner import ProjectScanner
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "routes.py").write_text(
+            'from flask import request\n'
+            'from repository import query_user\n'
+            '\n'
+            'def search():\n'
+            '    name = request.form.get("name")\n'
+            '    return query_user(name)\n'
+        )
+        (root / "repository.py").write_text(
+            'def query_user(name):\n'
+            '    return cursor.execute("SELECT * FROM users WHERE name = ?", (name,))\n'
+        )
+
+        result = ProjectScanner(root).scan()
+
+        assert result.files_total == 2
+        assert result.files_with_errors == 0
+        assert not result.findings
+
+
+def test_secureflow_scan_sarif_contains_findings():
+    from tools.secureflow_scan import _sarif
+    from analyzer.project_scanner import ProjectScanner
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "app.py").write_text(
+            'from flask import request\n'
+            '\n'
+            'def search():\n'
+            '    name = request.args.get("name")\n'
+            '    cursor.execute("SELECT * FROM users WHERE name = " + name)\n'
+        )
+
+        result = ProjectScanner(root).scan()
+        sarif = _sarif(result)
+
+        assert sarif["version"] == "2.1.0"
+        assert sarif["runs"][0]["results"]
+
+
 def test_benchmark_runner_writes_json_files():
     from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:

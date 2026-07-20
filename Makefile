@@ -1,4 +1,4 @@
-.PHONY: test compile benchmark flask-dataset flask-benchmark performance report reproduce
+.PHONY: test compile benchmark flask-dataset flask-benchmark flask-report scan-demo performance report reproduce
 
 PYTHON ?= python3
 
@@ -19,6 +19,9 @@ flask-benchmark: flask-dataset
 
 flask-report: flask-benchmark
 	$(PYTHON) -m tools.flask_report
+
+scan-demo: flask-dataset
+	$(PYTHON) -m tools.secureflow_scan scan data/flask_projects/project_multifile_vulnerable
 
 performance:
 	$(PYTHON) -m tools.performance_evaluator

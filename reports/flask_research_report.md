@@ -34,6 +34,19 @@
 | sqlalchemy_text_dynamic | VULNERABLE | VULNERABLE | VULNERABLE | VULNERABLE | VULNERABLE |
 | sqlalchemy_orm_safe | SAFE | SAFE | SAFE | SAFE | SAFE |
 
+## Multi-File Flask Projects
+
+- Projects: 4
+- Correct project-level classifications: 4/4
+
+| Project | Category | Label | Prediction | Files | Errors | Findings |
+|---|---|---|---|---:|---:|---:|
+| project_multifile_vulnerable | route_service_repository | VULNERABLE | VULNERABLE | 4 | 0 | 1 |
+| project_multifile_parameterized | route_service_parameterized | SAFE | SAFE | 2 | 0 | 0 |
+| project_multifile_json_format | json_service_format | VULNERABLE | VULNERABLE | 2 | 0 | 1 |
+| project_multifile_sanitized | service_sanitized | SAFE | SAFE | 2 | 0 | 0 |
+
+
 ## Scope
 
 This Flask profile models common request sources, DB-API and SQLAlchemy raw-query sinks, import aliases, route decorators, f-strings, percent formatting, `.format()`, JSON body extraction through subscripts and `.get()`, and parameterized query patterns.

@@ -195,6 +195,10 @@ python3 -m tools.flask_dataset_generator
 python3 -m tools.benchmark_runner --profile flask
 python3 -m tools.flask_report
 
+# Escanear un proyecto Flask multiarchivo
+python3 -m tools.secureflow_scan scan ./data/flask_projects/project_multifile_vulnerable
+python3 -m tools.secureflow_scan scan ./data/flask_projects/project_multifile_vulnerable --format sarif -o reports/secureflow.sarif
+
 # Regenerar tablas, CSV e informe de investigacion
 python3 -m tools.visualizer
 python3 -m tools.research_report
