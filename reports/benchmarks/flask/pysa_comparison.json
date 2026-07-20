@@ -1,0 +1,119 @@
+[
+  {
+    "tool": "Pysa",
+    "file": "flask_direct_concat.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_alias_form.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_fstring.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_json_interprocedural.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_dbapi_parameterized.py",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.001,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_sqlalchemy_text_parameterized.py",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.001,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_sanitized.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_sqlalchemy_concat.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_json_subscript.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.001,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_json_get_format.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_percent_formatting.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_sqlalchemy_text_dynamic.py",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  },
+  {
+    "tool": "Pysa",
+    "file": "flask_sqlalchemy_orm_safe.py",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "execution_time_ms": 0.0,
+    "analysis_status": "OK",
+    "error_count": 0
+  }
+]

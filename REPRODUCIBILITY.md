@@ -36,7 +36,16 @@ This command regenerates:
 - `reports/final/summary.json`
 - `reports/research_report.md`
 
+## Flask-Focused Benchmark
+
+```bash
+make flask-dataset
+make flask-benchmark
+make flask-report
+```
+
+The Flask profile writes its benchmark outputs to `reports/benchmarks/flask/`, uses `data/flask_dataset_metadata.json`, and writes a Flask-specific report to `reports/flask_research_report.md`.
+
 ## Current Scope
 
-SecureFlow now enables function-summary taint propagation in the main benchmark and models parameterized SQL calls with literal placeholders as safe when untrusted values are supplied through separate parameter arguments.
-
+SecureFlow now enables function-summary taint propagation in the main benchmark, models parameterized SQL calls with literal placeholders as safe when untrusted values are supplied through separate parameter arguments, and includes a Flask-specific profile for request sources, endpoint functions, DB-API sinks, SQLAlchemy sinks, f-strings, and import aliases.

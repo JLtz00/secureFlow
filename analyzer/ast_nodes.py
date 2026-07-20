@@ -57,6 +57,12 @@ class FunctionDef(Statement):
 
 
 @dataclass
+class ImportStmt(Statement):
+    module: str | None
+    aliases: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
 class Assign(Statement):
     target: "Identifier"
     value: Expression
@@ -117,6 +123,25 @@ class CallExpr(Expression):
 
     def children(self) -> list[ASTNode]:
         return [self.callee, *self.args]
+
+
+@dataclass
+class MethodCallExpr(Expression):
+    receiver: Expression
+    method: str
+    args: list[Expression] = field(default_factory=list)
+
+    def children(self) -> list[ASTNode]:
+        return [self.receiver, *self.args]
+
+
+@dataclass
+class SubscriptExpr(Expression):
+    collection: Expression
+    index: Expression
+
+    def children(self) -> list[ASTNode]:
+        return [self.collection, self.index]
 
 
 @dataclass

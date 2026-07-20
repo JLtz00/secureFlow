@@ -2,21 +2,9 @@
 
 from __future__ import annotations
 
-# Functions that introduce untrusted external data into the program
-SOURCES: frozenset[str] = frozenset({
-    "request.args.get",
-    "request.form.get",
-    "input",
-})
+from analyzer.framework_profiles import BASE_PROFILE
 
-# Dangerous functions where tainted data causes SQL injection
-SINKS: frozenset[str] = frozenset({
-    "cursor.execute",
-    "engine.execute",
-})
-
-# Functions that neutralize taint — output is considered safe
-SANITIZERS: frozenset[str] = frozenset({
-    "escape",
-    "sanitize",
-})
+# Default profile kept for backwards-compatible imports.
+SOURCES: frozenset[str] = BASE_PROFILE.sources
+SINKS: frozenset[str] = BASE_PROFILE.sinks
+SANITIZERS: frozenset[str] = BASE_PROFILE.sanitizers

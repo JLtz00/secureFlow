@@ -190,6 +190,11 @@ python3 -m tools.dataset_generator
 python3 -m tools.benchmark_runner
 python3 -m tools.performance_evaluator
 
+# Generar y ejecutar benchmark enfocado en Flask
+python3 -m tools.flask_dataset_generator
+python3 -m tools.benchmark_runner --profile flask
+python3 -m tools.flask_report
+
 # Regenerar tablas, CSV e informe de investigacion
 python3 -m tools.visualizer
 python3 -m tools.research_report

@@ -49,6 +49,26 @@ class BuildCollection(Instruction):
 
 
 @dataclass
+class BuildFString(Instruction):
+    target: str
+    raw: str
+    fields: list[str] = field(default_factory=list)
+
+    def __str__(self) -> str:
+        return f"{self.target} = fstring({', '.join(self.fields)})"
+
+
+@dataclass
+class Subscript(Instruction):
+    target: str
+    collection: str
+    index: str
+
+    def __str__(self) -> str:
+        return f"{self.target} = {self.collection}[{self.index}]"
+
+
+@dataclass
 class UnaryOp(Instruction):
     target: str
     operator: str

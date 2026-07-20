@@ -71,6 +71,8 @@ def _time_pipeline(source: str) -> StageTimings:
     t0 = t()
     summaries = analyze_module(module)
     analyze_cfg(cfg, summaries=summaries)
+    for function in module.functions.values():
+        analyze_cfg(build_cfg(function.instructions, name=function.name), summaries=summaries)
     taint_ms = (t() - t0) * 1000
 
     total = lexer_ms + parser_ms + sem_ms + ir_ms + cfg_ms + taint_ms

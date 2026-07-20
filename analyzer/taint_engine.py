@@ -12,9 +12,9 @@ from dataclasses import dataclass, field
 import re
 
 from analyzer.cfg_builder import CFG, BasicBlock
+from analyzer.framework_profiles import FrameworkProfile, get_profile
 from analyzer.interprocedural import FunctionSummary
-from analyzer.ir import Assign, BinaryOp, BuildCollection, Call
-from analyzer.sources_sinks import SANITIZERS, SINKS, SOURCES
+from analyzer.ir import Assign, BinaryOp, BuildCollection, BuildFString, Call, Subscript
 
 # Maps variable names to the set of taint sources that contaminate them.
 # A variable absent from the dict (or mapped to empty frozenset) is clean.
@@ -63,8 +63,16 @@ class TaintEngine:
       4. Repeat until the worklist is empty (fixpoint reached).
     """
 
-    def __init__(self, summaries: dict[str, FunctionSummary] | None = None) -> None:
+    def __init__(
+        self,
+        summaries: dict[str, FunctionSummary] | None = None,
+        profile: FrameworkProfile | None = None,
+    ) -> None:
         self.summaries = summaries or {}
+        self.profile = profile or get_profile("base")
+        self.sources = self.profile.sources
+        self.sinks = self.profile.sinks
+        self.sanitizers = self.profile.sanitizers
 
     def analyze(self, cfg: CFG) -> TaintResult:
         result = TaintResult()
@@ -136,17 +144,23 @@ class TaintEngine:
         Returns the updated state and any vulnerabilities detected.
         """
         vulns: list[Vulnerability] = []
+        parameterized_templates: set[str] = set()
 
         for instr in block.instructions:
             if isinstance(instr, Assign):
                 # target = value  →  propagate taint from value variable
                 taint = state.get(instr.value, frozenset())
+                if instr.value in parameterized_templates:
+                    parameterized_templates.add(instr.target)
+                else:
+                    parameterized_templates.discard(instr.target)
                 if taint:
                     state[instr.target] = taint
                 else:
                     state.pop(instr.target, None)
 
             elif isinstance(instr, BinaryOp):
+                parameterized_templates.discard(instr.target)
                 # target = left OP right  →  union of operand taints
                 left_taint = state.get(instr.left, frozenset())
                 right_taint = state.get(instr.right, frozenset())
@@ -157,6 +171,7 @@ class TaintEngine:
                     state.pop(instr.target, None)
 
             elif isinstance(instr, BuildCollection):
+                parameterized_templates.discard(instr.target)
                 combined = frozenset().union(
                     *(state.get(element, frozenset()) for element in instr.elements)
                 )
@@ -165,8 +180,26 @@ class TaintEngine:
                 else:
                     state.pop(instr.target, None)
 
+            elif isinstance(instr, BuildFString):
+                parameterized_templates.discard(instr.target)
+                combined = frozenset().union(
+                    *(state.get(field, frozenset()) for field in instr.fields)
+                )
+                if combined:
+                    state[instr.target] = combined
+                else:
+                    state.pop(instr.target, None)
+
+            elif isinstance(instr, Subscript):
+                parameterized_templates.discard(instr.target)
+                combined = state.get(instr.collection, frozenset()) | state.get(instr.index, frozenset())
+                if combined:
+                    state[instr.target] = combined
+                else:
+                    state.pop(instr.target, None)
+
             elif isinstance(instr, Call):
-                self._handle_call(instr, state, vulns, block.id)
+                self._handle_call(instr, state, vulns, block.id, parameterized_templates)
 
         return state, vulns
 
@@ -176,21 +209,24 @@ class TaintEngine:
         state: TaintState,
         vulns: list[Vulnerability],
         block_id: int,
+        parameterized_templates: set[str],
     ) -> None:
         fn = instr.function
+        if instr.target is not None:
+            parameterized_templates.discard(instr.target)
 
-        if fn in SOURCES:
+        if fn in self.sources:
             # Return value of a source is always tainted
             if instr.target is not None:
                 state[instr.target] = frozenset({fn})
 
-        elif fn in SANITIZERS:
+        elif fn in self.sanitizers:
             # Sanitizers produce clean output regardless of arguments
             if instr.target is not None:
                 state.pop(instr.target, None)
 
-        elif fn in SINKS:
-            if self._is_safe_parameterized_sql_call(instr, state):
+        elif fn in self.sinks:
+            if self._is_safe_parameterized_sql_call(instr, state, parameterized_templates):
                 return
 
             # Check every argument: tainted data reaching a sink is a vulnerability
@@ -210,12 +246,14 @@ class TaintEngine:
         elif fn in self.summaries:
             self._apply_function_summary(instr, state, self.summaries[fn])
 
+        elif fn == "sqlalchemy.text":
+            if instr.target is not None:
+                self._mark_sqlalchemy_text(instr, state, parameterized_templates)
+
         else:
             # Conservative assumption: if any argument is tainted, so is the return value
             if instr.target is not None:
-                combined = frozenset().union(
-                    *(state.get(a, frozenset()) for a in instr.args)
-                )
+                combined = self._call_input_taint(instr, state)
                 if combined:
                     state[instr.target] = combined
                 else:
@@ -239,9 +277,7 @@ class TaintEngine:
             return
 
         if summary.taints_arguments:
-            combined = frozenset().union(
-                *(state.get(arg, frozenset()) for arg in instr.args)
-            )
+            combined = self._call_input_taint(instr, state)
             if combined:
                 state[instr.target] = combined
             else:
@@ -250,13 +286,47 @@ class TaintEngine:
 
         state.pop(instr.target, None)
 
-    def _is_safe_parameterized_sql_call(self, instr: Call, state: TaintState) -> bool:
+    def _mark_sqlalchemy_text(
+        self,
+        instr: Call,
+        state: TaintState,
+        parameterized_templates: set[str],
+    ) -> None:
+        if instr.target is None:
+            return
+
+        query_text = self._literal_string_value(instr.args[0]) if instr.args else None
+        if query_text is not None and self._has_sql_placeholder(query_text):
+            parameterized_templates.add(instr.target)
+
+        combined = frozenset().union(*(state.get(arg, frozenset()) for arg in instr.args))
+        if combined:
+            state[instr.target] = combined
+        else:
+            state.pop(instr.target, None)
+
+    def _call_input_taint(self, instr: Call, state: TaintState) -> frozenset[str]:
+        receiver = instr.function.rsplit(".", 1)[0] if "." in instr.function else ""
+        return frozenset().union(
+            state.get(receiver, frozenset()),
+            *(state.get(arg, frozenset()) for arg in instr.args),
+        )
+
+    def _is_safe_parameterized_sql_call(
+        self,
+        instr: Call,
+        state: TaintState,
+        parameterized_templates: set[str],
+    ) -> bool:
         if len(instr.args) < 2:
             return False
 
         query_arg = instr.args[0]
         if state.get(query_arg, frozenset()):
             return False
+
+        if query_arg in parameterized_templates:
+            return True
 
         query_text = self._literal_string_value(query_arg)
         if query_text is None:
@@ -290,5 +360,6 @@ class TaintEngine:
 def analyze_cfg(
     cfg: CFG,
     summaries: dict[str, FunctionSummary] | None = None,
+    profile: FrameworkProfile | None = None,
 ) -> TaintResult:
-    return TaintEngine(summaries=summaries).analyze(cfg)
+    return TaintEngine(summaries=summaries, profile=profile).analyze(cfg)
