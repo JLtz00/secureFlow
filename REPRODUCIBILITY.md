@@ -46,6 +46,19 @@ make flask-report
 
 The Flask profile writes its benchmark outputs to `reports/benchmarks/flask/`, uses `data/flask_dataset_metadata.json`, and writes a Flask-specific report to `reports/flask_research_report.md`.
 
+## Project Scanner
+
+```bash
+python3 -m tools.secureflow_scan scan data/flask_projects/project_multifile_vulnerable
+python3 -m tools.secureflow_scan scan data/flask_projects/project_multifile_vulnerable --format sarif -o reports/secureflow.sarif
+```
+
+When installed with `python3 -m pip install -e .`, the same scanner is available as:
+
+```bash
+secureflow scan data/flask_projects/project_multifile_vulnerable
+```
+
 ## Current Scope
 
 SecureFlow now enables function-summary taint propagation in the main benchmark, models parameterized SQL calls with literal placeholders as safe when untrusted values are supplied through separate parameter arguments, and includes a Flask-specific profile for request sources, endpoint functions, DB-API sinks, SQLAlchemy sinks, f-strings, and import aliases.

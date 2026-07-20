@@ -6,10 +6,13 @@ import json
 from pathlib import Path
 
 from analyzer.metrics import evaluate
+from analyzer.project_scanner import ProjectScanner
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BENCHMARK = PROJECT_ROOT / "reports" / "benchmarks" / "flask" / "benchmark_results.json"
 DEFAULT_METADATA = PROJECT_ROOT / "data" / "flask_dataset_metadata.json"
+DEFAULT_PROJECTS = PROJECT_ROOT / "data" / "flask_projects"
+DEFAULT_PROJECTS_METADATA = PROJECT_ROOT / "data" / "flask_projects_metadata.json"
 DEFAULT_REPORT = PROJECT_ROOT / "reports" / "flask_research_report.md"
 
 TOOLS = ["SecureFlow", "Bandit", "Semgrep", "Pysa"]
@@ -29,10 +32,11 @@ def _metrics_for(records: list[dict], tool: str):
 def generate_report(
     benchmark_file: str | Path = DEFAULT_BENCHMARK,
     metadata_file: str | Path = DEFAULT_METADATA,
+    projects_dir: str | Path = DEFAULT_PROJECTS,
+    projects_metadata_file: str | Path = DEFAULT_PROJECTS_METADATA,
 ) -> str:
     records = _load(Path(benchmark_file))
     metadata = _load(Path(metadata_file))
-    by_file = {entry["file"]: entry for entry in metadata}
 
     metric_rows = [
         "| Tool | Precision | Recall | F1 | Accuracy | FPR | FNR |",
@@ -64,6 +68,32 @@ def generate_report(
     vulnerable = sum(1 for entry in metadata if entry["label"] == "VULNERABLE")
     safe = len(metadata) - vulnerable
     categories = ", ".join(sorted({entry["category"] for entry in metadata}))
+    project_metadata = _load(Path(projects_metadata_file)) if Path(projects_metadata_file).exists() else []
+    project_rows = [
+        "| Project | Category | Label | Prediction | Files | Errors | Findings |",
+        "|---|---|---|---|---:|---:|---:|",
+    ]
+    project_correct = 0
+    for entry in project_metadata:
+        result = ProjectScanner(Path(projects_dir) / entry["project"]).scan()
+        prediction = "VULNERABLE" if result.findings else "SAFE"
+        if prediction == entry["label"]:
+            project_correct += 1
+        project_rows.append(
+            f"| {entry['project']} | {entry['category']} | {entry['label']} | "
+            f"{prediction} | {result.files_total} | {result.files_with_errors} | "
+            f"{len(result.findings)} |"
+        )
+    project_section = ""
+    if project_metadata:
+        project_section = f"""
+## Multi-File Flask Projects
+
+- Projects: {len(project_metadata)}
+- Correct project-level classifications: {project_correct}/{len(project_metadata)}
+
+{chr(10).join(project_rows)}
+"""
 
     return f"""# Flask SQL Injection Evaluation
 
@@ -81,6 +111,7 @@ def generate_report(
 ## Category-Level Results
 
 {chr(10).join(category_rows)}
+{project_section}
 
 ## Scope
 
@@ -96,4 +127,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

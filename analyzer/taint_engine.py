@@ -244,7 +244,13 @@ class TaintEngine:
                     )
 
         elif fn in self.summaries:
-            self._apply_function_summary(instr, state, self.summaries[fn])
+            self._apply_function_summary(
+                instr,
+                state,
+                self.summaries[fn],
+                vulns,
+                block_id,
+            )
 
         elif fn == "sqlalchemy.text":
             if instr.target is not None:
@@ -264,7 +270,21 @@ class TaintEngine:
         instr: Call,
         state: TaintState,
         summary: FunctionSummary,
+        vulns: list[Vulnerability],
+        block_id: int,
     ) -> None:
+        combined = self._call_input_taint(instr, state)
+        if summary.tainted_arguments_reach_sink and combined:
+            vulns.append(
+                Vulnerability(
+                    sink=summary.sink or instr.function,
+                    tainted_arg=instr.args[0] if instr.args else instr.function,
+                    taint_sources=combined,
+                    line=instr.line,
+                    block_id=block_id,
+                )
+            )
+
         if instr.target is None:
             return
 
@@ -277,7 +297,6 @@ class TaintEngine:
             return
 
         if summary.taints_arguments:
-            combined = self._call_input_taint(instr, state)
             if combined:
                 state[instr.target] = combined
             else:

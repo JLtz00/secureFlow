@@ -400,7 +400,7 @@
     "file": "case_045.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.012,
+    "execution_time_ms": 0.001,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -418,7 +418,7 @@
     "file": "case_047.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.005,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -481,7 +481,7 @@
     "file": "case_054.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.004,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -1525,7 +1525,7 @@
     "file": "case_170.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.002,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -1723,7 +1723,7 @@
     "file": "case_192.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.006,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -1831,7 +1831,7 @@
     "file": "case_204.py",
     "prediction": "VULNERABLE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.001,
+    "execution_time_ms": 0.002,
     "analysis_status": "OK",
     "error_count": 0
   },
@@ -1876,7 +1876,7 @@
     "file": "case_209.py",
     "prediction": "SAFE",
     "ground_truth": "VULNERABLE",
-    "execution_time_ms": 0.002,
+    "execution_time_ms": 0.001,
     "analysis_status": "OK",
     "error_count": 0
   },

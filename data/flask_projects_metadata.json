@@ -1,0 +1,42 @@
+[
+  {
+    "project": "project_multifile_vulnerable",
+    "label": "VULNERABLE",
+    "category": "route_service_repository",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_file": "routes.py",
+    "sink_file": "repository.py",
+    "sink_line": 3
+  },
+  {
+    "project": "project_multifile_parameterized",
+    "label": "SAFE",
+    "category": "route_service_parameterized",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_file": "routes.py",
+    "sink_file": "repository.py",
+    "sink_line": 2
+  },
+  {
+    "project": "project_multifile_json_format",
+    "label": "VULNERABLE",
+    "category": "json_service_format",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_file": "routes.py",
+    "sink_file": "routes.py",
+    "sink_line": 8
+  },
+  {
+    "project": "project_multifile_sanitized",
+    "label": "SAFE",
+    "category": "service_sanitized",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_file": "routes.py",
+    "sink_file": "routes.py",
+    "sink_line": 7
+  }
+]
