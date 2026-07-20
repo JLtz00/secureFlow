@@ -41,10 +41,26 @@ This command regenerates:
 ```bash
 make flask-dataset
 make flask-benchmark
+make flask-ablation
+make flask-baselines-real
 make flask-report
 ```
 
 The Flask profile writes its benchmark outputs to `reports/benchmarks/flask/`, uses `data/flask_dataset_metadata.json`, and writes a Flask-specific report to `reports/flask_research_report.md`.
+
+To regenerate all Flask-focused artifacts:
+
+```bash
+make reproduce-flask
+```
+
+Real baselines require Bandit and Semgrep. A local virtual environment keeps them isolated:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install ".[baselines]"
+.venv/bin/python -m tools.real_baseline_runner
+```
 
 ## Project Scanner
 

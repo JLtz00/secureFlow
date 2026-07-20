@@ -115,5 +115,356 @@
     "vulnerability": "NONE",
     "source_line": 7,
     "sink_line": 8
+  },
+  {
+    "file": "flask_generated_concat_args.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_args",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_concat_form.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_form",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_concat_values.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_values",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_concat_headers.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_headers",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_concat_cookies.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_cookies",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_concat_files.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_files",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_concat_view_args.py",
+    "label": "VULNERABLE",
+    "category": "generated_concat_view_args",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_parameterized_args.py",
+    "label": "SAFE",
+    "category": "generated_parameterized_args",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_generated_parameterized_form.py",
+    "label": "SAFE",
+    "category": "generated_parameterized_form",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_generated_parameterized_values.py",
+    "label": "SAFE",
+    "category": "generated_parameterized_values",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_generated_parameterized_headers.py",
+    "label": "SAFE",
+    "category": "generated_parameterized_headers",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_generated_parameterized_cookies.py",
+    "label": "SAFE",
+    "category": "generated_parameterized_cookies",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_generated_parameterized_files.py",
+    "label": "SAFE",
+    "category": "generated_parameterized_files",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_generated_sanitized_args.py",
+    "label": "SAFE",
+    "category": "generated_sanitized_args",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sanitized_form.py",
+    "label": "SAFE",
+    "category": "generated_sanitized_form",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sanitized_values.py",
+    "label": "SAFE",
+    "category": "generated_sanitized_values",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sanitized_headers.py",
+    "label": "SAFE",
+    "category": "generated_sanitized_headers",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sanitized_cookies.py",
+    "label": "SAFE",
+    "category": "generated_sanitized_cookies",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sanitized_files.py",
+    "label": "SAFE",
+    "category": "generated_sanitized_files",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_format_args.py",
+    "label": "VULNERABLE",
+    "category": "generated_format_args",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_format_form.py",
+    "label": "VULNERABLE",
+    "category": "generated_format_form",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_format_values.py",
+    "label": "VULNERABLE",
+    "category": "generated_format_values",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_format_headers.py",
+    "label": "VULNERABLE",
+    "category": "generated_format_headers",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_percent_args.py",
+    "label": "VULNERABLE",
+    "category": "generated_percent_args",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_percent_form.py",
+    "label": "VULNERABLE",
+    "category": "generated_percent_form",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_percent_values.py",
+    "label": "VULNERABLE",
+    "category": "generated_percent_values",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_percent_headers.py",
+    "label": "VULNERABLE",
+    "category": "generated_percent_headers",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_fstring_args.py",
+    "label": "VULNERABLE",
+    "category": "generated_fstring_args",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_fstring_form.py",
+    "label": "VULNERABLE",
+    "category": "generated_fstring_form",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_fstring_values.py",
+    "label": "VULNERABLE",
+    "category": "generated_fstring_values",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_fstring_headers.py",
+    "label": "VULNERABLE",
+    "category": "generated_fstring_headers",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_json_subscript_name.py",
+    "label": "VULNERABLE",
+    "category": "generated_json_subscript_name",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_generated_json_get_name.py",
+    "label": "VULNERABLE",
+    "category": "generated_json_get_name",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_generated_json_subscript_id.py",
+    "label": "VULNERABLE",
+    "category": "generated_json_subscript_id",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_generated_json_get_id.py",
+    "label": "VULNERABLE",
+    "category": "generated_json_get_id",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_generated_sqlalchemy_text_safe_0.py",
+    "label": "SAFE",
+    "category": "generated_sqlalchemy_text_safe_0",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 9,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sqlalchemy_text_safe_1.py",
+    "label": "SAFE",
+    "category": "generated_sqlalchemy_text_safe_1",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 9,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_generated_sqlalchemy_text_dynamic_0.py",
+    "label": "VULNERABLE",
+    "category": "generated_sqlalchemy_text_dynamic_0",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 9,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_generated_sqlalchemy_text_dynamic_1.py",
+    "label": "VULNERABLE",
+    "category": "generated_sqlalchemy_text_dynamic_1",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 9,
+    "sink_line": 11
   }
 ]

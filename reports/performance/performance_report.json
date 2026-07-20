@@ -1,72 +1,72 @@
 [
   {
     "batch_size": 50,
-    "avg_total_ms": 1.0008,
+    "avg_total_ms": 0.7585,
     "avg_stage": {
-      "lexer_ms": 0.4369,
-      "parser_ms": 0.2064,
-      "semantic_ms": 0.1037,
-      "ir_ms": 0.0738,
-      "cfg_ms": 0.0672,
-      "taint_ms": 0.1129,
-      "total_ms": 1.0008
+      "lexer_ms": 0.341,
+      "parser_ms": 0.1542,
+      "semantic_ms": 0.0765,
+      "ir_ms": 0.0545,
+      "cfg_ms": 0.0443,
+      "taint_ms": 0.088,
+      "total_ms": 0.7585
     },
-    "peak_memory_kb": 47.15
+    "peak_memory_kb": 47.17
   },
   {
     "batch_size": 100,
-    "avg_total_ms": 0.9092,
+    "avg_total_ms": 0.8995,
     "avg_stage": {
-      "lexer_ms": 0.405,
-      "parser_ms": 0.1839,
-      "semantic_ms": 0.088,
-      "ir_ms": 0.0649,
-      "cfg_ms": 0.0458,
-      "taint_ms": 0.1215,
-      "total_ms": 0.9092
+      "lexer_ms": 0.4036,
+      "parser_ms": 0.1813,
+      "semantic_ms": 0.0858,
+      "ir_ms": 0.0638,
+      "cfg_ms": 0.0442,
+      "taint_ms": 0.1208,
+      "total_ms": 0.8995
     },
-    "peak_memory_kb": 65.48
+    "peak_memory_kb": 64.98
   },
   {
     "batch_size": 250,
-    "avg_total_ms": 0.9446,
+    "avg_total_ms": 0.9397,
     "avg_stage": {
-      "lexer_ms": 0.4221,
-      "parser_ms": 0.1993,
-      "semantic_ms": 0.0917,
-      "ir_ms": 0.064,
-      "cfg_ms": 0.0528,
-      "taint_ms": 0.1147,
-      "total_ms": 0.9446
+      "lexer_ms": 0.4203,
+      "parser_ms": 0.1991,
+      "semantic_ms": 0.0894,
+      "ir_ms": 0.0648,
+      "cfg_ms": 0.0519,
+      "taint_ms": 0.1141,
+      "total_ms": 0.9397
     },
-    "peak_memory_kb": 134.6
+    "peak_memory_kb": 135.13
   },
   {
     "batch_size": 500,
-    "avg_total_ms": 0.9385,
+    "avg_total_ms": 0.9258,
     "avg_stage": {
-      "lexer_ms": 0.413,
-      "parser_ms": 0.2014,
-      "semantic_ms": 0.0903,
-      "ir_ms": 0.0644,
-      "cfg_ms": 0.0503,
-      "taint_ms": 0.1192,
-      "total_ms": 0.9385
+      "lexer_ms": 0.407,
+      "parser_ms": 0.2003,
+      "semantic_ms": 0.0889,
+      "ir_ms": 0.0633,
+      "cfg_ms": 0.0496,
+      "taint_ms": 0.1166,
+      "total_ms": 0.9258
     },
-    "peak_memory_kb": 227.75
+    "peak_memory_kb": 229.03
   },
   {
     "batch_size": 1000,
-    "avg_total_ms": 0.9509,
+    "avg_total_ms": 0.9289,
     "avg_stage": {
-      "lexer_ms": 0.4174,
-      "parser_ms": 0.208,
-      "semantic_ms": 0.0923,
-      "ir_ms": 0.0649,
-      "cfg_ms": 0.0514,
-      "taint_ms": 0.1169,
-      "total_ms": 0.9509
+      "lexer_ms": 0.4077,
+      "parser_ms": 0.2042,
+      "semantic_ms": 0.0894,
+      "ir_ms": 0.064,
+      "cfg_ms": 0.05,
+      "taint_ms": 0.1136,
+      "total_ms": 0.9289
     },
-    "peak_memory_kb": 361.44
+    "peak_memory_kb": 363.01
   }
 ]

@@ -1,0 +1,1826 @@
+[
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_direct_concat.py",
+    "category": "direct_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_alias_form.py",
+    "category": "import_alias",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_fstring.py",
+    "category": "fstring",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_json_interprocedural.py",
+    "category": "interprocedural_json",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_dbapi_parameterized.py",
+    "category": "dbapi_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_sqlalchemy_text_parameterized.py",
+    "category": "sqlalchemy_text_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_sanitized.py",
+    "category": "sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_sqlalchemy_concat.py",
+    "category": "sqlalchemy_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_json_subscript.py",
+    "category": "json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_json_get_format.py",
+    "category": "json_get_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_percent_formatting.py",
+    "category": "percent_formatting",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_sqlalchemy_text_dynamic.py",
+    "category": "sqlalchemy_text_dynamic",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_sqlalchemy_orm_safe.py",
+    "category": "sqlalchemy_orm_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_args.py",
+    "category": "generated_concat_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_form.py",
+    "category": "generated_concat_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_values.py",
+    "category": "generated_concat_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_headers.py",
+    "category": "generated_concat_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_cookies.py",
+    "category": "generated_concat_cookies",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_files.py",
+    "category": "generated_concat_files",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_concat_view_args.py",
+    "category": "generated_concat_view_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_parameterized_args.py",
+    "category": "generated_parameterized_args",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_parameterized_form.py",
+    "category": "generated_parameterized_form",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_parameterized_values.py",
+    "category": "generated_parameterized_values",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_parameterized_headers.py",
+    "category": "generated_parameterized_headers",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_parameterized_cookies.py",
+    "category": "generated_parameterized_cookies",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_parameterized_files.py",
+    "category": "generated_parameterized_files",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sanitized_args.py",
+    "category": "generated_sanitized_args",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sanitized_form.py",
+    "category": "generated_sanitized_form",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sanitized_values.py",
+    "category": "generated_sanitized_values",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sanitized_headers.py",
+    "category": "generated_sanitized_headers",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sanitized_cookies.py",
+    "category": "generated_sanitized_cookies",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sanitized_files.py",
+    "category": "generated_sanitized_files",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_format_args.py",
+    "category": "generated_format_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_format_form.py",
+    "category": "generated_format_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_format_values.py",
+    "category": "generated_format_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_format_headers.py",
+    "category": "generated_format_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_percent_args.py",
+    "category": "generated_percent_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_percent_form.py",
+    "category": "generated_percent_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_percent_values.py",
+    "category": "generated_percent_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_percent_headers.py",
+    "category": "generated_percent_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_fstring_args.py",
+    "category": "generated_fstring_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_fstring_form.py",
+    "category": "generated_fstring_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_fstring_values.py",
+    "category": "generated_fstring_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_fstring_headers.py",
+    "category": "generated_fstring_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_json_subscript_name.py",
+    "category": "generated_json_subscript_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_json_get_name.py",
+    "category": "generated_json_get_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_json_subscript_id.py",
+    "category": "generated_json_subscript_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_json_get_id.py",
+    "category": "generated_json_get_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sqlalchemy_text_safe_0.py",
+    "category": "generated_sqlalchemy_text_safe_0",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sqlalchemy_text_safe_1.py",
+    "category": "generated_sqlalchemy_text_safe_1",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sqlalchemy_text_dynamic_0.py",
+    "category": "generated_sqlalchemy_text_dynamic_0",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_generated_sqlalchemy_text_dynamic_1.py",
+    "category": "generated_sqlalchemy_text_dynamic_1",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_multifile_vulnerable",
+    "category": "route_service_repository",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 4,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_multifile_parameterized",
+    "category": "route_service_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_multifile_json_format",
+    "category": "json_service_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_multifile_sanitized",
+    "category": "service_sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_direct_concat.py",
+    "category": "direct_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_alias_form.py",
+    "category": "import_alias",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_fstring.py",
+    "category": "fstring",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_json_interprocedural.py",
+    "category": "interprocedural_json",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_dbapi_parameterized.py",
+    "category": "dbapi_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_sqlalchemy_text_parameterized.py",
+    "category": "sqlalchemy_text_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_sanitized.py",
+    "category": "sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_sqlalchemy_concat.py",
+    "category": "sqlalchemy_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_json_subscript.py",
+    "category": "json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_json_get_format.py",
+    "category": "json_get_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_percent_formatting.py",
+    "category": "percent_formatting",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_sqlalchemy_text_dynamic.py",
+    "category": "sqlalchemy_text_dynamic",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_sqlalchemy_orm_safe.py",
+    "category": "sqlalchemy_orm_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_args.py",
+    "category": "generated_concat_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_form.py",
+    "category": "generated_concat_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_values.py",
+    "category": "generated_concat_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_headers.py",
+    "category": "generated_concat_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_cookies.py",
+    "category": "generated_concat_cookies",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_files.py",
+    "category": "generated_concat_files",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_concat_view_args.py",
+    "category": "generated_concat_view_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_parameterized_args.py",
+    "category": "generated_parameterized_args",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_parameterized_form.py",
+    "category": "generated_parameterized_form",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_parameterized_values.py",
+    "category": "generated_parameterized_values",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_parameterized_headers.py",
+    "category": "generated_parameterized_headers",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_parameterized_cookies.py",
+    "category": "generated_parameterized_cookies",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_parameterized_files.py",
+    "category": "generated_parameterized_files",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sanitized_args.py",
+    "category": "generated_sanitized_args",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sanitized_form.py",
+    "category": "generated_sanitized_form",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sanitized_values.py",
+    "category": "generated_sanitized_values",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sanitized_headers.py",
+    "category": "generated_sanitized_headers",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sanitized_cookies.py",
+    "category": "generated_sanitized_cookies",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sanitized_files.py",
+    "category": "generated_sanitized_files",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_format_args.py",
+    "category": "generated_format_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_format_form.py",
+    "category": "generated_format_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_format_values.py",
+    "category": "generated_format_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_format_headers.py",
+    "category": "generated_format_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_percent_args.py",
+    "category": "generated_percent_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_percent_form.py",
+    "category": "generated_percent_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_percent_values.py",
+    "category": "generated_percent_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_percent_headers.py",
+    "category": "generated_percent_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_fstring_args.py",
+    "category": "generated_fstring_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_fstring_form.py",
+    "category": "generated_fstring_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_fstring_values.py",
+    "category": "generated_fstring_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_fstring_headers.py",
+    "category": "generated_fstring_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_json_subscript_name.py",
+    "category": "generated_json_subscript_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_json_get_name.py",
+    "category": "generated_json_get_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_json_subscript_id.py",
+    "category": "generated_json_subscript_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_json_get_id.py",
+    "category": "generated_json_get_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sqlalchemy_text_safe_0.py",
+    "category": "generated_sqlalchemy_text_safe_0",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sqlalchemy_text_safe_1.py",
+    "category": "generated_sqlalchemy_text_safe_1",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sqlalchemy_text_dynamic_0.py",
+    "category": "generated_sqlalchemy_text_dynamic_0",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_generated_sqlalchemy_text_dynamic_1.py",
+    "category": "generated_sqlalchemy_text_dynamic_1",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_multifile_vulnerable",
+    "category": "route_service_repository",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 4,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_multifile_parameterized",
+    "category": "route_service_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_multifile_json_format",
+    "category": "json_service_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_multifile_sanitized",
+    "category": "service_sanitized",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_direct_concat.py",
+    "category": "direct_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_alias_form.py",
+    "category": "import_alias",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_fstring.py",
+    "category": "fstring",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_json_interprocedural.py",
+    "category": "interprocedural_json",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_dbapi_parameterized.py",
+    "category": "dbapi_parameterized",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_sqlalchemy_text_parameterized.py",
+    "category": "sqlalchemy_text_parameterized",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_sanitized.py",
+    "category": "sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_sqlalchemy_concat.py",
+    "category": "sqlalchemy_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_json_subscript.py",
+    "category": "json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_json_get_format.py",
+    "category": "json_get_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_percent_formatting.py",
+    "category": "percent_formatting",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_sqlalchemy_text_dynamic.py",
+    "category": "sqlalchemy_text_dynamic",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_sqlalchemy_orm_safe.py",
+    "category": "sqlalchemy_orm_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_args.py",
+    "category": "generated_concat_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_form.py",
+    "category": "generated_concat_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_values.py",
+    "category": "generated_concat_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_headers.py",
+    "category": "generated_concat_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_cookies.py",
+    "category": "generated_concat_cookies",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_files.py",
+    "category": "generated_concat_files",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_concat_view_args.py",
+    "category": "generated_concat_view_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_parameterized_args.py",
+    "category": "generated_parameterized_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_parameterized_form.py",
+    "category": "generated_parameterized_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_parameterized_values.py",
+    "category": "generated_parameterized_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_parameterized_headers.py",
+    "category": "generated_parameterized_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_parameterized_cookies.py",
+    "category": "generated_parameterized_cookies",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_parameterized_files.py",
+    "category": "generated_parameterized_files",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sanitized_args.py",
+    "category": "generated_sanitized_args",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sanitized_form.py",
+    "category": "generated_sanitized_form",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sanitized_values.py",
+    "category": "generated_sanitized_values",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sanitized_headers.py",
+    "category": "generated_sanitized_headers",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sanitized_cookies.py",
+    "category": "generated_sanitized_cookies",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sanitized_files.py",
+    "category": "generated_sanitized_files",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_format_args.py",
+    "category": "generated_format_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_format_form.py",
+    "category": "generated_format_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_format_values.py",
+    "category": "generated_format_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_format_headers.py",
+    "category": "generated_format_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_percent_args.py",
+    "category": "generated_percent_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_percent_form.py",
+    "category": "generated_percent_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_percent_values.py",
+    "category": "generated_percent_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_percent_headers.py",
+    "category": "generated_percent_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_fstring_args.py",
+    "category": "generated_fstring_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_fstring_form.py",
+    "category": "generated_fstring_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_fstring_values.py",
+    "category": "generated_fstring_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_fstring_headers.py",
+    "category": "generated_fstring_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_json_subscript_name.py",
+    "category": "generated_json_subscript_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_json_get_name.py",
+    "category": "generated_json_get_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_json_subscript_id.py",
+    "category": "generated_json_subscript_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_json_get_id.py",
+    "category": "generated_json_get_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_safe_0.py",
+    "category": "generated_sqlalchemy_text_safe_0",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_safe_1.py",
+    "category": "generated_sqlalchemy_text_safe_1",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_dynamic_0.py",
+    "category": "generated_sqlalchemy_text_dynamic_0",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_dynamic_1.py",
+    "category": "generated_sqlalchemy_text_dynamic_1",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_multifile_vulnerable",
+    "category": "route_service_repository",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 4,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_multifile_parameterized",
+    "category": "route_service_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_multifile_json_format",
+    "category": "json_service_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_multifile_sanitized",
+    "category": "service_sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_direct_concat.py",
+    "category": "direct_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_alias_form.py",
+    "category": "import_alias",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_fstring.py",
+    "category": "fstring",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_json_interprocedural.py",
+    "category": "interprocedural_json",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_dbapi_parameterized.py",
+    "category": "dbapi_parameterized",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_sqlalchemy_text_parameterized.py",
+    "category": "sqlalchemy_text_parameterized",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_sanitized.py",
+    "category": "sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_sqlalchemy_concat.py",
+    "category": "sqlalchemy_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_json_subscript.py",
+    "category": "json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_json_get_format.py",
+    "category": "json_get_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_percent_formatting.py",
+    "category": "percent_formatting",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_sqlalchemy_text_dynamic.py",
+    "category": "sqlalchemy_text_dynamic",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_sqlalchemy_orm_safe.py",
+    "category": "sqlalchemy_orm_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_args.py",
+    "category": "generated_concat_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_form.py",
+    "category": "generated_concat_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_values.py",
+    "category": "generated_concat_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_headers.py",
+    "category": "generated_concat_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_cookies.py",
+    "category": "generated_concat_cookies",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_files.py",
+    "category": "generated_concat_files",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_concat_view_args.py",
+    "category": "generated_concat_view_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_parameterized_args.py",
+    "category": "generated_parameterized_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_parameterized_form.py",
+    "category": "generated_parameterized_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_parameterized_values.py",
+    "category": "generated_parameterized_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_parameterized_headers.py",
+    "category": "generated_parameterized_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_parameterized_cookies.py",
+    "category": "generated_parameterized_cookies",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_parameterized_files.py",
+    "category": "generated_parameterized_files",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sanitized_args.py",
+    "category": "generated_sanitized_args",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sanitized_form.py",
+    "category": "generated_sanitized_form",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sanitized_values.py",
+    "category": "generated_sanitized_values",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sanitized_headers.py",
+    "category": "generated_sanitized_headers",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sanitized_cookies.py",
+    "category": "generated_sanitized_cookies",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sanitized_files.py",
+    "category": "generated_sanitized_files",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_format_args.py",
+    "category": "generated_format_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_format_form.py",
+    "category": "generated_format_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_format_values.py",
+    "category": "generated_format_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_format_headers.py",
+    "category": "generated_format_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_percent_args.py",
+    "category": "generated_percent_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_percent_form.py",
+    "category": "generated_percent_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_percent_values.py",
+    "category": "generated_percent_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_percent_headers.py",
+    "category": "generated_percent_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_fstring_args.py",
+    "category": "generated_fstring_args",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_fstring_form.py",
+    "category": "generated_fstring_form",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_fstring_values.py",
+    "category": "generated_fstring_values",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_fstring_headers.py",
+    "category": "generated_fstring_headers",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_json_subscript_name.py",
+    "category": "generated_json_subscript_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_json_get_name.py",
+    "category": "generated_json_get_name",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_json_subscript_id.py",
+    "category": "generated_json_subscript_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_json_get_id.py",
+    "category": "generated_json_get_id",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_safe_0.py",
+    "category": "generated_sqlalchemy_text_safe_0",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_safe_1.py",
+    "category": "generated_sqlalchemy_text_safe_1",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_dynamic_0.py",
+    "category": "generated_sqlalchemy_text_dynamic_0",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_generated_sqlalchemy_text_dynamic_1.py",
+    "category": "generated_sqlalchemy_text_dynamic_1",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_multifile_vulnerable",
+    "category": "route_service_repository",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 4,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_multifile_parameterized",
+    "category": "route_service_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_multifile_json_format",
+    "category": "json_service_format",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_multifile_sanitized",
+    "category": "service_sanitized",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  }
+]

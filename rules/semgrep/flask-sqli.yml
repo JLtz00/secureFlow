@@ -1,0 +1,16 @@
+rules:
+  - id: secureflow.flask.raw-sql-string-formatting
+    message: User-controlled data may reach raw SQL execution.
+    languages: [python]
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: $DB.execute($SQL + $X)
+          - pattern: $DB.execute($SQL % $X)
+          - pattern: $DB.execute($SQL.format(...))
+          - pattern: $DB.execute(f"...{$X}...")
+          - pattern: $SESSION.execute($SQL + $X)
+          - pattern: $SESSION.execute($SQL % $X)
+          - pattern: $SESSION.execute($SQL.format(...))
+          - pattern: $SESSION.execute(f"...{$X}...")
+
