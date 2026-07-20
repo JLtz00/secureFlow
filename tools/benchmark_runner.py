@@ -21,7 +21,7 @@ from analyzer.cfg_builder import build_cfg
 from analyzer.framework_profiles import get_profile
 from analyzer.interprocedural import analyze_module
 from analyzer.ir_generator import generate_ir
-from analyzer.parser import parse
+from analyzer.parser import Parser
 from analyzer.taint_engine import analyze_cfg
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -40,15 +40,23 @@ class BenchmarkRecord:
     prediction: str       # "VULNERABLE" or "SAFE"
     ground_truth: str
     execution_time_ms: float
+    analysis_status: str = "OK"
+    error_count: int = 0
 
 
 # ---------------------------------------------------------------- SecureFlow
 
-def _run_secureflow(filepath: Path, profile_name: str = "base") -> tuple[str, float]:
+def _run_secureflow(filepath: Path, profile_name: str = "base") -> tuple[str, float, str, int]:
     source = filepath.read_text()
     t0 = time.perf_counter()
+    status = "OK"
+    error_count = 0
     try:
-        program = parse(source)
+        parser = Parser.from_source(source)
+        program = parser.parse()
+        if parser.errors:
+            status = "PARSE_ERROR"
+            error_count = len(parser.errors)
         module = generate_ir(program)
         profile = get_profile(profile_name)
         summaries = analyze_module(module, profile=profile)
@@ -61,8 +69,10 @@ def _run_secureflow(filepath: Path, profile_name: str = "base") -> tuple[str, fl
                 break
     except Exception:
         prediction = "SAFE"
+        status = "ANALYSIS_ERROR"
+        error_count = 1
     elapsed = (time.perf_counter() - t0) * 1000
-    return prediction, elapsed
+    return prediction, elapsed, status, error_count
 
 
 # ---- Simulated tools ------------------------------------------------
@@ -73,7 +83,15 @@ def _simulate_bandit(entry: dict) -> str:
     """Bandit: pattern-matching; detects direct SQLi, misses interprocedural."""
     cat = entry["category"]
     if entry.get("framework") == "flask":
-        if cat in {"direct_concat", "import_alias", "fstring", "sqlalchemy_concat"}:
+        if cat in {
+            "direct_concat",
+            "import_alias",
+            "fstring",
+            "sqlalchemy_concat",
+            "json_get_format",
+            "percent_formatting",
+            "sqlalchemy_text_dynamic",
+        }:
             return "VULNERABLE"
         return "SAFE"
     if cat == "A":
@@ -92,7 +110,16 @@ def _simulate_semgrep(entry: dict) -> str:
     """Semgrep: rule-based; detects A and simple E, partial B, FP on C."""
     cat = entry["category"]
     if entry.get("framework") == "flask":
-        if cat in {"direct_concat", "import_alias", "fstring", "sqlalchemy_concat"}:
+        if cat in {
+            "direct_concat",
+            "import_alias",
+            "fstring",
+            "sqlalchemy_concat",
+            "json_subscript",
+            "json_get_format",
+            "percent_formatting",
+            "sqlalchemy_text_dynamic",
+        }:
             return "VULNERABLE"
         return "SAFE"
     if cat in ("A", "E"):
@@ -149,14 +176,18 @@ class BenchmarkRunner:
 
             for tool_name, sim_fn in tool_configs:
                 if sim_fn is None:
-                    pred, ms = _run_secureflow(filepath, self.profile)
+                    pred, ms, status, error_count = _run_secureflow(filepath, self.profile)
                 else:
                     t0 = time.perf_counter()
                     pred = sim_fn(entry)
                     ms = (time.perf_counter() - t0) * 1000
+                    status = "OK"
+                    error_count = 0
                 records.append(BenchmarkRecord(tool=tool_name, file=entry["file"],
                                                prediction=pred, ground_truth=gt,
-                                               execution_time_ms=round(ms, 3)))
+                                               execution_time_ms=round(ms, 3),
+                                               analysis_status=status,
+                                               error_count=error_count))
 
         return records
 

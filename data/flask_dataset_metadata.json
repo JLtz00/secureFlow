@@ -70,5 +70,50 @@
     "vulnerability": "SQLI",
     "source_line": 8,
     "sink_line": 10
+  },
+  {
+    "file": "flask_json_subscript.py",
+    "label": "VULNERABLE",
+    "category": "json_subscript",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_json_get_format.py",
+    "label": "VULNERABLE",
+    "category": "json_get_format",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_percent_formatting.py",
+    "label": "VULNERABLE",
+    "category": "percent_formatting",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 10
+  },
+  {
+    "file": "flask_sqlalchemy_text_dynamic.py",
+    "label": "VULNERABLE",
+    "category": "sqlalchemy_text_dynamic",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 9,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_sqlalchemy_orm_safe.py",
+    "label": "SAFE",
+    "category": "sqlalchemy_orm_safe",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 7,
+    "sink_line": 8
   }
 ]

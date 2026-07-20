@@ -17,9 +17,11 @@ from analyzer.ast_nodes import (
     IfStmt,
     ImportStmt,
     Literal,
+    MethodCallExpr,
     Program,
     ReturnStmt,
     Statement,
+    SubscriptExpr,
     WhileStmt,
 )
 from analyzer.parser import Parser
@@ -217,6 +219,17 @@ class SemanticAnalyzer:
 
         if isinstance(expression, CallExpr):
             return self._analyze_call(expression, scope)
+
+        if isinstance(expression, MethodCallExpr):
+            info = self._analyze_expression(expression.receiver, scope)
+            for arg in expression.args:
+                info = info.merge(self._analyze_expression(arg, scope))
+            return info
+
+        if isinstance(expression, SubscriptExpr):
+            collection = self._analyze_expression(expression.collection, scope)
+            index = self._analyze_expression(expression.index, scope)
+            return collection.merge(index)
 
         if isinstance(expression, CollectionExpr):
             info = ExpressionInfo()

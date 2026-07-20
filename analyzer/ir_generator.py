@@ -17,6 +17,7 @@ from analyzer.ir import (
     Jump,
     Label,
     Return,
+    Subscript,
 )
 
 
@@ -184,11 +185,38 @@ class IRGenerator:
                 )
             )
             return target
+        if isinstance(node, ast.SubscriptExpr):
+            collection = self._expression(node.collection)
+            index = self._expression(node.index)
+            target = self._new_temp()
+            self._emit(
+                Subscript(
+                    line=node.line,
+                    target=target,
+                    collection=collection,
+                    index=index,
+                )
+            )
+            return target
         if isinstance(node, ast.CallExpr):
             function = self._expression(node.callee)
             args = [self._expression(arg) for arg in node.args]
             target = None if discard else self._new_temp()
             self._emit(Call(line=node.line, function=function, args=args, target=target))
+            return target or "<discarded>"
+        if isinstance(node, ast.MethodCallExpr):
+            receiver = self._expression(node.receiver)
+            args = [self._expression(arg) for arg in node.args]
+            function = "str.format" if node.method == "format" else f"{receiver}.{node.method}"
+            target = None if discard else self._new_temp()
+            self._emit(
+                Call(
+                    line=node.line,
+                    function=function,
+                    args=[receiver, *args],
+                    target=target,
+                )
+            )
             return target or "<discarded>"
         return "<unknown>"
 

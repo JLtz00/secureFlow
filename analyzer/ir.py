@@ -59,6 +59,16 @@ class BuildFString(Instruction):
 
 
 @dataclass
+class Subscript(Instruction):
+    target: str
+    collection: str
+    index: str
+
+    def __str__(self) -> str:
+        return f"{self.target} = {self.collection}[{self.index}]"
+
+
+@dataclass
 class UnaryOp(Instruction):
     target: str
     operator: str

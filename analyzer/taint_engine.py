@@ -14,7 +14,7 @@ import re
 from analyzer.cfg_builder import CFG, BasicBlock
 from analyzer.framework_profiles import FrameworkProfile, get_profile
 from analyzer.interprocedural import FunctionSummary
-from analyzer.ir import Assign, BinaryOp, BuildCollection, BuildFString, Call
+from analyzer.ir import Assign, BinaryOp, BuildCollection, BuildFString, Call, Subscript
 
 # Maps variable names to the set of taint sources that contaminate them.
 # A variable absent from the dict (or mapped to empty frozenset) is clean.
@@ -190,6 +190,14 @@ class TaintEngine:
                 else:
                     state.pop(instr.target, None)
 
+            elif isinstance(instr, Subscript):
+                parameterized_templates.discard(instr.target)
+                combined = state.get(instr.collection, frozenset()) | state.get(instr.index, frozenset())
+                if combined:
+                    state[instr.target] = combined
+                else:
+                    state.pop(instr.target, None)
+
             elif isinstance(instr, Call):
                 self._handle_call(instr, state, vulns, block.id, parameterized_templates)
 
@@ -245,9 +253,7 @@ class TaintEngine:
         else:
             # Conservative assumption: if any argument is tainted, so is the return value
             if instr.target is not None:
-                combined = frozenset().union(
-                    *(state.get(a, frozenset()) for a in instr.args)
-                )
+                combined = self._call_input_taint(instr, state)
                 if combined:
                     state[instr.target] = combined
                 else:
@@ -271,9 +277,7 @@ class TaintEngine:
             return
 
         if summary.taints_arguments:
-            combined = frozenset().union(
-                *(state.get(arg, frozenset()) for arg in instr.args)
-            )
+            combined = self._call_input_taint(instr, state)
             if combined:
                 state[instr.target] = combined
             else:
@@ -300,6 +304,13 @@ class TaintEngine:
             state[instr.target] = combined
         else:
             state.pop(instr.target, None)
+
+    def _call_input_taint(self, instr: Call, state: TaintState) -> frozenset[str]:
+        receiver = instr.function.rsplit(".", 1)[0] if "." in instr.function else ""
+        return frozenset().union(
+            state.get(receiver, frozenset()),
+            *(state.get(arg, frozenset()) for arg in instr.args),
+        )
 
     def _is_safe_parameterized_sql_call(
         self,

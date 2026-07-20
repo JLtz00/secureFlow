@@ -10,7 +10,9 @@ from analyzer.ast_nodes import (
     IfStmt,
     ImportStmt,
     Literal,
+    MethodCallExpr,
     ReturnStmt,
+    SubscriptExpr,
     WhileStmt,
 )
 from analyzer.ast_visualizer import visualize
@@ -132,6 +134,32 @@ def test_parse_dict_argument_for_sqlalchemy_parameters():
     assert isinstance(call, CallExpr)
     assert isinstance(call.args[1], CollectionExpr)
     assert call.args[1].kind == "dict"
+
+
+def test_parse_subscript_from_json_payload():
+    parser = Parser.from_source(
+        'data = request.get_json()\n'
+        'user = data["user"]\n'
+    )
+    program = parser.parse()
+
+    assert not parser.errors
+    assignment = program.body[1]
+    assert isinstance(assignment, Assign)
+    assert isinstance(assignment.value, SubscriptExpr)
+
+
+def test_parse_string_format_call():
+    parser = Parser.from_source(
+        'query = "SELECT * FROM users WHERE name = {}".format(user)\n'
+    )
+    program = parser.parse()
+
+    assert not parser.errors
+    assignment = program.body[0]
+    assert isinstance(assignment, Assign)
+    assert isinstance(assignment.value, MethodCallExpr)
+    assert assignment.value.method == "format"
 
 
 def test_parse_literals_and_positions():

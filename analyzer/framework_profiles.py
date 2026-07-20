@@ -37,6 +37,8 @@ FLASK_PROFILE = FrameworkProfile(
         "request.values.get",
         "request.cookies.get",
         "request.headers.get",
+        "request.files.get",
+        "request.view_args.get",
         "request.json.get",
         "request.get_json",
         "flask.request.args.get",
@@ -44,6 +46,8 @@ FLASK_PROFILE = FrameworkProfile(
         "flask.request.values.get",
         "flask.request.cookies.get",
         "flask.request.headers.get",
+        "flask.request.files.get",
+        "flask.request.view_args.get",
         "flask.request.json.get",
         "flask.request.get_json",
     }),
@@ -67,4 +71,3 @@ PROFILES: dict[str, FrameworkProfile] = {
 
 def get_profile(name: str = "base") -> FrameworkProfile:
     return PROFILES.get(name, BASE_PROFILE)
-

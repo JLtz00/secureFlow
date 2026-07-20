@@ -264,6 +264,43 @@ def test_flask_sqlalchemy_text_with_bind_params_is_safe():
     assert not result.is_vulnerable
 
 
+def test_flask_json_subscript_reaches_sink():
+    result = run_flask(
+        'from flask import request\n'
+        '@app.route("/users", methods=["POST"])\n'
+        'def users():\n'
+        '    data = request.get_json()\n'
+        '    user = data["user"]\n'
+        '    cursor.execute("SELECT * FROM users WHERE name = " + user)\n'
+    )
+    assert result.is_vulnerable
+
+
+def test_flask_json_get_method_reaches_format_sink():
+    result = run_flask(
+        'from flask import request\n'
+        '@app.route("/users", methods=["POST"])\n'
+        'def users():\n'
+        '    data = request.get_json()\n'
+        '    user = data.get("user")\n'
+        '    query = "SELECT * FROM users WHERE name = {}".format(user)\n'
+        '    cursor.execute(query)\n'
+    )
+    assert result.is_vulnerable
+
+
+def test_flask_percent_formatting_reaches_sink():
+    result = run_flask(
+        'from flask import request\n'
+        '@app.route("/users")\n'
+        'def users():\n'
+        '    user = request.args.get("user")\n'
+        '    query = "SELECT * FROM users WHERE name = %s" % user\n'
+        '    cursor.execute(query)\n'
+    )
+    assert result.is_vulnerable
+
+
 def test_is_vulnerable_property():
     clean = run('cursor.execute("SELECT 1")\n')
     dirty = run('x = input()\ncursor.execute(x)\n')

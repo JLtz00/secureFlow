@@ -179,6 +179,97 @@ def admin():
     db.session.execute(query)
 ''',
             ),
+            (
+                "flask_json_subscript.py",
+                "VULNERABLE",
+                "json_subscript",
+                8,
+                10,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/api/users", methods=["POST"])
+def users():
+    cursor = get_cursor()
+    data = request.get_json()
+    user = data["user"]
+    cursor.execute("SELECT * FROM users WHERE name = " + user)
+''',
+            ),
+            (
+                "flask_json_get_format.py",
+                "VULNERABLE",
+                "json_get_format",
+                8,
+                11,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/api/search", methods=["POST"])
+def search():
+    cursor = get_cursor()
+    data = request.get_json()
+    user = data.get("user")
+    query = "SELECT * FROM users WHERE name = {}".format(user)
+    cursor.execute(query)
+''',
+            ),
+            (
+                "flask_percent_formatting.py",
+                "VULNERABLE",
+                "percent_formatting",
+                8,
+                10,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/legacy")
+def legacy():
+    cursor = get_cursor()
+    user = request.args.get("user")
+    query = "SELECT * FROM users WHERE name = %s" % user
+    cursor.execute(query)
+''',
+            ),
+            (
+                "flask_sqlalchemy_text_dynamic.py",
+                "VULNERABLE",
+                "sqlalchemy_text_dynamic",
+                9,
+                11,
+                '''from flask import Flask, request
+from sqlalchemy import text
+
+app = Flask(__name__)
+
+@app.route("/reports")
+def reports():
+    user = request.args.get("user")
+    raw = "SELECT * FROM users WHERE name = " + user
+    stmt = text(raw)
+    db.session.execute(stmt)
+''',
+            ),
+            (
+                "flask_sqlalchemy_orm_safe.py",
+                "SAFE",
+                "sqlalchemy_orm_safe",
+                7,
+                8,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/orm")
+def orm_lookup():
+    user = request.args.get("user")
+    result = User.query.filter_by(name=user).first()
+    return result
+''',
+            ),
         ]
 
         entries: list[FlaskDatasetEntry] = []
@@ -210,4 +301,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -17,6 +17,9 @@ flask-dataset:
 flask-benchmark: flask-dataset
 	$(PYTHON) -m tools.benchmark_runner --profile flask
 
+flask-report: flask-benchmark
+	$(PYTHON) -m tools.flask_report
+
 performance:
 	$(PYTHON) -m tools.performance_evaluator
 

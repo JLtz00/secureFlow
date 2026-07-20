@@ -17,11 +17,13 @@ from analyzer.ast_nodes import (
     IfStmt,
     ImportStmt,
     Literal,
+    MethodCallExpr,
     ParseErrorNode,
     Program,
     ReturnStmt,
     SourceLocation,
     Statement,
+    SubscriptExpr,
     WhileStmt,
 )
 from analyzer.lexer import Lexer, Token, TokenType
@@ -275,31 +277,72 @@ class Parser:
         token = self._peek()
 
         if self._match(TokenType.NUMBER):
-            return Literal(
+            return self._parse_postfix(Literal(
                 location=self._location(token),
                 value=self._parse_number_value(token.value),
                 raw=token.value,
-            )
+            ))
         if self._match(TokenType.STRING, TokenType.FSTRING):
-            return Literal(location=self._location(token), value=token.value, raw=token.value)
+            return self._parse_postfix(
+                Literal(location=self._location(token), value=token.value, raw=token.value)
+            )
         if self._match_keyword("True"):
-            return Literal(location=self._location(token), value=True, raw=token.value)
+            return self._parse_postfix(Literal(location=self._location(token), value=True, raw=token.value))
         if self._match_keyword("False"):
-            return Literal(location=self._location(token), value=False, raw=token.value)
+            return self._parse_postfix(Literal(location=self._location(token), value=False, raw=token.value))
         if self._match_keyword("None"):
-            return Literal(location=self._location(token), value=None, raw=token.value)
+            return self._parse_postfix(Literal(location=self._location(token), value=None, raw=token.value))
         if self._match_value("("):
-            return self._parse_parenthesized(token)
+            return self._parse_postfix(self._parse_parenthesized(token))
         if self._match_value("["):
-            return self._parse_collection(token, "]", "list")
+            return self._parse_postfix(self._parse_collection(token, "]", "list"))
         if self._match_value("{"):
-            return self._parse_dict(token)
+            return self._parse_postfix(self._parse_dict(token))
         if self._check(TokenType.IDENTIFIER) or self._check(TokenType.KEYWORD):
-            return self._parse_identifier_or_call()
+            return self._parse_postfix(self._parse_identifier_or_call())
 
         self._record_error("Expected expression", token)
         self._advance()
-        return Literal(location=self._location(token), value=None, raw=token.value)
+        return self._parse_postfix(Literal(location=self._location(token), value=None, raw=token.value))
+
+    def _parse_postfix(self, expression: Expression) -> Expression:
+        while True:
+            if self._match_value("["):
+                index = self._parse_expression()
+                self._consume_value("]", "Expected ']' after subscript")
+                expression = SubscriptExpr(
+                    location=expression.location,
+                    collection=expression,
+                    index=index,
+                )
+                continue
+
+            if self._match_value("."):
+                method = self._consume_identifier("Expected attribute or method name after '.'")
+                if not self._match_value("("):
+                    expression = Identifier(
+                        location=expression.location,
+                        name=f"{self._expression_name(expression)}.{method.name}",
+                    )
+                    continue
+                args = self._parse_arguments()
+                self._consume_value(")", "Expected ')' after method call arguments")
+                expression = MethodCallExpr(
+                    location=expression.location,
+                    receiver=expression,
+                    method=method.name,
+                    args=args,
+                )
+                continue
+
+            return expression
+
+    def _expression_name(self, expression: Expression) -> str:
+        if isinstance(expression, Identifier):
+            return expression.name
+        if isinstance(expression, Literal):
+            return expression.raw
+        return "<expr>"
 
     def _parse_parenthesized(self, token: Token) -> Expression:
         if self._check_value(")"):

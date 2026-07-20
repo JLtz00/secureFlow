@@ -41,9 +41,10 @@ This command regenerates:
 ```bash
 make flask-dataset
 make flask-benchmark
+make flask-report
 ```
 
-The Flask profile writes its benchmark outputs to `reports/benchmarks/flask/` and uses `data/flask_dataset_metadata.json`.
+The Flask profile writes its benchmark outputs to `reports/benchmarks/flask/`, uses `data/flask_dataset_metadata.json`, and writes a Flask-specific report to `reports/flask_research_report.md`.
 
 ## Current Scope
 

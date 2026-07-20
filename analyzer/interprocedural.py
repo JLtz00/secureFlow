@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from analyzer.framework_profiles import FrameworkProfile, get_profile
-from analyzer.ir import Assign, BinaryOp, BuildCollection, BuildFString, Call, IRFunction, IRModule, Return
+from analyzer.ir import Assign, BinaryOp, BuildCollection, BuildFString, Call, IRFunction, IRModule, Return, Subscript
 
 TaintState = dict[str, frozenset[str]]
 
@@ -84,9 +84,7 @@ class InterproceduralAnalyzer:
             if instr.function in self.sources and instr.target is not None:
                 state[instr.target] = frozenset({instr.function})
             elif instr.target is not None:
-                combined = frozenset().union(
-                    *(state.get(a, frozenset()) for a in instr.args)
-                )
+                combined = self._call_input_taint(instr, state)
                 if combined:
                     state[instr.target] = combined
                 else:
@@ -119,6 +117,19 @@ class InterproceduralAnalyzer:
                 state[instr.target] = combined
             else:
                 state.pop(instr.target, None)
+        elif isinstance(instr, Subscript):
+            combined = state.get(instr.collection, frozenset()) | state.get(instr.index, frozenset())
+            if combined:
+                state[instr.target] = combined
+            else:
+                state.pop(instr.target, None)
+
+    def _call_input_taint(self, instr: Call, state: TaintState) -> frozenset[str]:
+        receiver = instr.function.rsplit(".", 1)[0] if "." in instr.function else ""
+        return frozenset().union(
+            state.get(receiver, frozenset()),
+            *(state.get(arg, frozenset()) for arg in instr.args),
+        )
 
 
 def analyze_module(
