@@ -163,6 +163,63 @@ def test_hardener_handles_engine_execute():
     assert "?" in result.source
 
 
+def test_hardener_handles_inferred_cursor_variable_name():
+    source = 'cur.execute("DELETE FROM users WHERE name = " + name)\n'
+    result = harden_source(source)
+    assert result.was_modified
+    assert "cur.execute" in result.source
+    assert "(name,)" in result.source
+
+
+def test_hardener_handles_flask_db_session_execute_with_return():
+    source = 'return db.session.execute("SELECT * FROM users WHERE name = " + name)\n'
+    result = harden_source(source)
+    assert result.was_modified
+    assert result.source.startswith("return db.session.execute")
+    assert "SELECT * FROM users WHERE name = ?" in result.source
+    assert "(name,)" in result.source
+
+
+def test_hardener_handles_executemany_sink():
+    source = 'cursor.executemany("DELETE FROM logs WHERE owner = " + owner)\n'
+    result = harden_source(source)
+    assert result.was_modified
+    assert "cursor.executemany" in result.source
+    assert "(owner,)" in result.source
+
+
+def test_hardener_emits_unified_diff():
+    source = 'cursor.execute("SELECT * FROM users WHERE id = " + uid)\n'
+    result = harden_source(source)
+    assert result.was_modified
+    assert "--- before.py" in result.diff
+    assert "+++ after.py" in result.diff
+
+
+def test_hardener_handles_query_assigned_before_execute():
+    source = (
+        'query = "SELECT * FROM users WHERE name = " + name\n'
+        'cursor.execute(query)\n'
+    )
+    result = harden_source(source)
+    assert result.was_modified
+    assert "SELECT * FROM users WHERE name = ?" in result.source
+    assert "cursor.execute(query, (name,))" in result.source
+
+
+def test_hardener_handles_query_built_across_assignments():
+    source = (
+        'query = "SELECT * FROM users WHERE name = "\n'
+        'query = query + name\n'
+        'query = query + " AND active = 1"\n'
+        'return db.session.execute(query)\n'
+    )
+    result = harden_source(source)
+    assert result.was_modified
+    assert "SELECT * FROM users WHERE name = ? AND active = 1" in result.source
+    assert "return db.session.execute(query, (name,))" in result.source
+
+
 def test_hardener_reports_modified_line_numbers():
     source = (
         'query = "SELECT 1"\n'

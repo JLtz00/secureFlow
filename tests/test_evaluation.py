@@ -123,14 +123,14 @@ def _setup_benchmark(tmp: str, count: int = 20):
     return tmp + "/dataset", tmp + "/dataset_metadata.json"
 
 
-def test_benchmark_runner_returns_records_for_all_tools():
+def test_benchmark_runner_returns_only_secureflow_records():
     from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:
         ds_dir, meta_file = _setup_benchmark(tmp, 10)
         runner = BenchmarkRunner(dataset_dir=ds_dir, metadata_file=meta_file)
         records = runner.run()
         tools = {r.tool for r in records}
-        assert {"SecureFlow", "Bandit", "Semgrep", "Pysa"} == tools
+        assert {"SecureFlow"} == tools
 
 
 def test_benchmark_runner_predictions_are_valid_labels():
@@ -199,6 +199,31 @@ def test_project_scanner_detects_multifile_flask_sqli():
         assert result.findings[0].rule_id == "PY.FLASK.SQLI"
 
 
+def test_project_scanner_python_ast_frontend_handles_real_flask_syntax():
+    from analyzer.project_scanner import ProjectScanner
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "app.py").write_text(
+            'from flask import request\n'
+            'from contextlib import closing\n'
+            '\n'
+            'def search() -> object:\n'
+            '    try:\n'
+            '        user: str = request.args.get("user")\n'
+            '        with closing(get_cursor()) as cursor:\n'
+            '            query = "SELECT * FROM users WHERE name = " + user\n'
+            '            return cursor.execute(query)\n'
+            '    except Exception as exc:\n'
+            '        raise exc\n'
+        )
+
+        result = ProjectScanner(root, frontend="python-ast").scan()
+
+        assert result.frontend == "python-ast"
+        assert result.files_with_errors == 0
+        assert result.findings
+
+
 def test_project_scanner_accepts_multifile_parameterized_query():
     from analyzer.project_scanner import ProjectScanner
     with tempfile.TemporaryDirectory() as tmp:
@@ -243,6 +268,46 @@ def test_secureflow_scan_sarif_contains_findings():
         assert sarif["runs"][0]["results"]
 
 
+def test_secureflow_scan_text_report_explains_vulnerable_flow():
+    from analyzer.project_scanner import ProjectScanner
+    from tools.secureflow_scan import _text_report
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "app.py").write_text(
+            'from flask import request\n'
+            '\n'
+            'def search():\n'
+            '    name = request.args.get("name")\n'
+            '    cursor.execute("SELECT * FROM users WHERE name = " + name)\n'
+        )
+
+        report = _text_report(ProjectScanner(root).scan())
+
+        assert "SE DETECTO 1 VULNERABILIDAD" in report
+        assert "request.args.get ->" in report
+        assert "-> cursor.execute" in report
+        assert "app.py:5 (search())" in report
+
+
+def test_secureflow_scan_text_report_explains_safe_result():
+    from analyzer.project_scanner import ProjectScanner
+    from tools.secureflow_scan import _text_report
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "app.py").write_text(
+            'from flask import request\n'
+            '\n'
+            'def search():\n'
+            '    name = request.args.get("name")\n'
+            '    cursor.execute("SELECT * FROM users WHERE name = ?", (name,))\n'
+        )
+
+        report = _text_report(ProjectScanner(root).scan())
+
+        assert "NO SE DETECTARON VULNERABILIDADES" in report
+        assert "No hubo errores, nodos ignorados ni llamadas internas sin enlace" in report
+
+
 def test_benchmark_runner_writes_json_files():
     from tools.benchmark_runner import BenchmarkRunner
     with tempfile.TemporaryDirectory() as tmp:
@@ -253,9 +318,9 @@ def test_benchmark_runner_writes_json_files():
         records = runner.run()
         runner.write_results(records)
         assert Path(tmp + "/benchmark_results.json").exists()
-        assert Path(tmp + "/bandit_comparison.json").exists()
-        assert Path(tmp + "/semgrep_comparison.json").exists()
-        assert Path(tmp + "/pysa_comparison.json").exists()
+        assert not Path(tmp + "/bandit_comparison.json").exists()
+        assert not Path(tmp + "/semgrep_comparison.json").exists()
+        assert not Path(tmp + "/pysa_comparison.json").exists()
 
 
 # =========================================== Performance evaluator (Part G)

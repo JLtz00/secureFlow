@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-07-20T16:51:37Z",
+  "generated_at": "2026-07-24T00:13:41Z",
   "metrics": {
     "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_multifile_json_format/routes.py": {
       "CONFIDENCE.HIGH": 0,
@@ -132,16 +132,120 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_mysql_connector_vulnerable/repository.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 1,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 1,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 6,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_mysql_connector_vulnerable/routes.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 5,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_psycopg_parameterized/repository.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 5,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_psycopg_parameterized/routes.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 5,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_sqlalchemy_session_parameterized/repository.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 6,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_sqlalchemy_session_parameterized/routes.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 5,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_sqlite_dbapi_vulnerable/repository.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 1,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 1,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 6,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_sqlite_dbapi_vulnerable/routes.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 5,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "_totals": {
       "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 2,
+      "CONFIDENCE.LOW": 4,
       "CONFIDENCE.MEDIUM": 1,
       "CONFIDENCE.UNDEFINED": 0,
       "SEVERITY.HIGH": 0,
       "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 3,
+      "SEVERITY.MEDIUM": 5,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 39,
+      "loc": 82,
       "nosec": 0,
       "skipped_tests": 0
     }
@@ -202,6 +306,46 @@
       "line_number": 2,
       "line_range": [
         2
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
+      "test_id": "B608",
+      "test_name": "hardcoded_sql_expressions"
+    },
+    {
+      "code": "5     cursor = connection.cursor()\n6     query = f\"SELECT * FROM orders WHERE id = {order_id}\"\n7     return cursor.execute(query)\n",
+      "col_offset": 14,
+      "end_col_offset": 46,
+      "filename": "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_mysql_connector_vulnerable/repository.py",
+      "issue_confidence": "LOW",
+      "issue_cwe": {
+        "id": 89,
+        "link": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 6,
+      "line_range": [
+        6
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
+      "test_id": "B608",
+      "test_name": "hardcoded_sql_expressions"
+    },
+    {
+      "code": "5     cursor = connection.cursor()\n6     query = \"SELECT * FROM users WHERE name = '\" + name + \"'\"\n7     return cursor.execute(query)\n",
+      "col_offset": 12,
+      "end_col_offset": 48,
+      "filename": "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_projects/project_sqlite_dbapi_vulnerable/repository.py",
+      "issue_confidence": "LOW",
+      "issue_cwe": {
+        "id": 89,
+        "link": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 6,
+      "line_range": [
+        6
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
       "test_id": "B608",

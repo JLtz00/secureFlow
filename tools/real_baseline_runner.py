@@ -245,22 +245,35 @@ def _tool_versions(runs: list[ToolRun]) -> dict[str, str]:
 
 def format_report(records: list[RealBaselineRecord]) -> str:
     rows = [
-        "| Tool | Dataset | Status | TP | FP | TN | FN | Precision | Recall | F1 | Accuracy |",
+        "| Tool | Evaluation set | Status | TP | FP | TN | FN | Precision | Recall | F1 | Accuracy |",
         "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for tool in ("Bandit", "Semgrep"):
-        for dataset in ("flask_snippet", "flask_project", "combined"):
+        for dataset in ("flask_snippet", "flask_project", "total"):
             subset = [
                 record for record in records
-                if record.tool == tool and (dataset == "combined" or record.dataset == dataset)
+                if record.tool == tool and (dataset == "total" or record.dataset == dataset)
             ]
             statuses = ",".join(sorted({record.analysis_status for record in subset})) or "-"
-            predicted = {record.case for record in subset if record.prediction == "VULNERABLE"}
-            actual = {record.case for record in subset if record.ground_truth == "VULNERABLE"}
-            universe = {record.case for record in subset}
+            predicted = {
+                f"{record.dataset}:{record.case}"
+                for record in subset
+                if record.prediction == "VULNERABLE"
+            }
+            actual = {
+                f"{record.dataset}:{record.case}"
+                for record in subset
+                if record.ground_truth == "VULNERABLE"
+            }
+            universe = {f"{record.dataset}:{record.case}" for record in subset}
             cm = evaluate(predicted, actual, universe)
+            label = {
+                "flask_snippet": "Flask snippets",
+                "flask_project": "Flask projects",
+                "total": "Total (snippets + projects)",
+            }[dataset]
             rows.append(
-                f"| {tool} | {dataset} | {statuses} | {cm.tp} | {cm.fp} | {cm.tn} | {cm.fn} | "
+                f"| {tool} | {label} | {statuses} | {cm.tp} | {cm.fp} | {cm.tn} | {cm.fn} | "
                 f"{cm.precision:.3f} | {cm.recall:.3f} | {cm.f1_score:.3f} | {cm.accuracy:.3f} |"
             )
     versions = json.loads(VERSIONS_OUTPUT.read_text()) if VERSIONS_OUTPUT.exists() else {}
@@ -273,6 +286,7 @@ def format_report(records: list[RealBaselineRecord]) -> str:
         "## Tool Versions\n\n"
         f"{version_lines}\n\n"
         "## Metrics\n\n"
+        "The total row combines snippets and projects; it is not a separate dataset.\n\n"
         + "\n".join(rows)
         + "\n"
     )

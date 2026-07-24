@@ -7,11 +7,13 @@
 
 ## Metrics
 
-| Tool | Dataset | Status | TP | FP | TN | FN | Precision | Recall | F1 | Accuracy |
+The total row combines snippets and projects; it is not a separate dataset.
+
+| Tool | Evaluation set | Status | TP | FP | TN | FN | Precision | Recall | F1 | Accuracy |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Bandit | flask_snippet | OK | 34 | 7 | 11 | 0 | 0.829 | 1.000 | 0.907 | 0.865 |
-| Bandit | flask_project | OK | 2 | 1 | 1 | 0 | 0.667 | 1.000 | 0.800 | 0.750 |
-| Bandit | combined | OK | 36 | 8 | 12 | 0 | 0.818 | 1.000 | 0.900 | 0.857 |
-| Semgrep | flask_snippet | OK | 2 | 7 | 11 | 32 | 0.222 | 0.059 | 0.093 | 0.250 |
-| Semgrep | flask_project | OK | 0 | 1 | 1 | 2 | 0.000 | 0.000 | 0.000 | 0.250 |
-| Semgrep | combined | OK | 2 | 8 | 12 | 34 | 0.200 | 0.056 | 0.087 | 0.250 |
+| Bandit | Flask snippets | OK | 37 | 7 | 13 | 1 | 0.841 | 0.974 | 0.902 | 0.862 |
+| Bandit | Flask projects | OK | 4 | 1 | 3 | 0 | 0.800 | 1.000 | 0.889 | 0.875 |
+| Bandit | Total (snippets + projects) | OK | 41 | 8 | 16 | 1 | 0.837 | 0.976 | 0.901 | 0.864 |
+| Semgrep | Flask snippets | OK | 2 | 7 | 13 | 36 | 0.222 | 0.053 | 0.085 | 0.259 |
+| Semgrep | Flask projects | OK | 0 | 1 | 3 | 4 | 0.000 | 0.000 | 0.000 | 0.375 |
+| Semgrep | Total (snippets + projects) | OK | 2 | 8 | 16 | 40 | 0.200 | 0.048 | 0.077 | 0.273 |

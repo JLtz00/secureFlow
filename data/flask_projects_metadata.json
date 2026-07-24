@@ -38,5 +38,45 @@
     "source_file": "routes.py",
     "sink_file": "routes.py",
     "sink_line": 7
+  },
+  {
+    "project": "project_sqlite_dbapi_vulnerable",
+    "label": "VULNERABLE",
+    "category": "sqlite_repository_concat",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_file": "routes.py",
+    "sink_file": "repository.py",
+    "sink_line": 7
+  },
+  {
+    "project": "project_psycopg_parameterized",
+    "label": "SAFE",
+    "category": "psycopg_repository_parameterized",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_file": "routes.py",
+    "sink_file": "repository.py",
+    "sink_line": 6
+  },
+  {
+    "project": "project_mysql_connector_vulnerable",
+    "label": "VULNERABLE",
+    "category": "mysql_repository_fstring",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_file": "routes.py",
+    "sink_file": "repository.py",
+    "sink_line": 7
+  },
+  {
+    "project": "project_sqlalchemy_session_parameterized",
+    "label": "SAFE",
+    "category": "sqlalchemy_session_named_parameter",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_file": "routes.py",
+    "sink_file": "repository.py",
+    "sink_line": 7
   }
 ]

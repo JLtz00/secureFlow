@@ -1,4 +1,4 @@
-"""End-to-end demo for SecureFlow Sprints 01 through 04.
+"""End-to-end presentation demo for SecureFlow.
 
 Run with:
     python3 -m demos.demo_secureflow
@@ -11,16 +11,22 @@ from pathlib import Path
 from analyzer.ast_visualizer import visualize
 from analyzer.cfg_builder import build_cfg
 from analyzer.cfg_visualizer import visualize_cfg
+from analyzer.hardener import harden_source
+from analyzer.interprocedural import analyze_module
 from analyzer.ir import format_module
 from analyzer.ir_generator import generate_ir
 from analyzer.lexer import Lexer, TokenType
 from analyzer.parser import Parser
+from analyzer.project_scanner import ProjectScanner
+from analyzer.reporter import Reporter
 from analyzer.semantic import analyze
+from analyzer.taint_engine import TaintResult, analyze_cfg
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEMO_FILE = PROJECT_ROOT / "examples" / "vulnerable_query.py"
 DEMO_SOURCE = DEMO_FILE.read_text(encoding="utf-8")
+FLASK_DEMO_PROJECT = PROJECT_ROOT / "data" / "flask_projects" / "project_multifile_vulnerable"
 
 
 def print_section(title: str) -> None:
@@ -128,8 +134,76 @@ def show_cfg() -> None:
         print()
 
 
-def explain_next_step() -> None:
-    print_section("7. Que demuestra esto")
+def _run_taint_analysis():
+    _, program = parse_demo()
+    module = generate_ir(program)
+    summaries = analyze_module(module)
+    combined = TaintResult()
+    instructions_by_function = {}
+
+    for function in module.all_functions():
+        instructions_by_function[function.name] = function.instructions
+        cfg = build_cfg(function.instructions, function.name)
+        result = analyze_cfg(cfg, summaries=summaries)
+        combined.vulnerabilities.extend(result.vulnerabilities)
+        combined.block_out.update(result.block_out)
+
+    return module, combined, instructions_by_function
+
+
+def show_taint_result() -> None:
+    print_section("7. Taint analysis: deteccion real de SQL Injection")
+    _, result, instructions_by_function = _run_taint_analysis()
+
+    if not result.vulnerabilities:
+        print("Resultado: no se detectaron vulnerabilidades.")
+        return
+
+    print(f"Vulnerabilidades detectadas: {len(result.vulnerabilities)}")
+    reporter = Reporter()
+    for index, vulnerability in enumerate(result.vulnerabilities, start=1):
+        print()
+        print(f"[{index}] {vulnerability}")
+        trace = reporter.generate_trace(
+            vulnerability,
+            instructions_by_function.get("<main>", []),
+        )
+        print(trace.format())
+
+
+def show_hardening() -> None:
+    print_section("8. Hardening automatico: consulta vulnerable a parametrizada")
+    vulnerable_line = 'cursor.execute("SELECT * FROM users WHERE name=" + user)\n'
+    hardened = harden_source(vulnerable_line)
+
+    print("Original:")
+    print(vulnerable_line.rstrip())
+    print()
+    print("Corregido:")
+    print(hardened.source.rstrip())
+    print()
+    print(f"Lineas modificadas: {hardened.modified_lines}")
+
+
+def show_flask_project_scan() -> None:
+    print_section("9. Scanner Flask multiarchivo")
+    result = ProjectScanner(FLASK_DEMO_PROJECT).scan()
+
+    print(f"Proyecto: {FLASK_DEMO_PROJECT.relative_to(PROJECT_ROOT)}")
+    print(f"Archivos analizados: {result.files_analyzed}/{result.files_total}")
+    print(f"Funciones analizadas: {result.functions_analyzed}")
+    print(f"Hallazgos: {len(result.findings)}")
+    for finding in result.findings:
+        sources = ", ".join(finding.sources)
+        print(
+            f"- {finding.severity} {finding.rule_id}: {finding.file}:{finding.line} "
+            f"{finding.function}() -> {finding.sink} "
+            f"(fuentes: {sources})"
+        )
+
+
+def explain_result() -> None:
+    print_section("10. Que demuestra esto")
     print(
         "- El lexer reconoce palabras, identificadores, strings, operadores y posiciones."
     )
@@ -138,9 +212,9 @@ def explain_next_step() -> None:
     print("- Tambien marca taint inicial cuando ve fuentes como request.args.get.")
     print("- El generador IR transforma expresiones en instrucciones de tres direcciones.")
     print("- El CFG separa ramas y saltos en bloques basicos conectados por aristas.")
-    print(
-        "- Todavia no declara vulnerabilidad SQL Injection; eso vendra con el motor de taint."
-    )
+    print("- El motor de taint detecta SQL Injection con resumenes interprocedurales.")
+    print("- El scanner Flask encuentra el flujo vulnerable incluso en un proyecto multiarchivo.")
+    print("- El hardener muestra como convertir concatenacion SQL en consulta parametrizada.")
 
 
 def main() -> None:
@@ -150,7 +224,10 @@ def main() -> None:
     show_semantic_analysis()
     show_ir()
     show_cfg()
-    explain_next_step()
+    show_taint_result()
+    show_hardening()
+    show_flask_project_scan()
+    explain_result()
 
 
 if __name__ == "__main__":

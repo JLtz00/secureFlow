@@ -35,7 +35,7 @@ def _avg_ms(records: list[dict], tool: str) -> float:
     return sum(times) / len(times) if times else 0.0
 
 
-TOOLS = ["Bandit", "Semgrep", "Pysa", "SecureFlow"]
+TOOLS = ["SecureFlow"]
 
 
 def generate_report(
@@ -91,9 +91,7 @@ def generate_report(
         perf_section = "\n## Performance Evaluation\n\n" + "\n".join(perf_rows)
 
     sf_cm = _cm(records, "SecureFlow")
-    bandit_cm = _cm(records, "Bandit")
-
-    report = f"""# SecureFlow: Research Evaluation Report
+    report = f"""# SecureFlow: Internal Validation Report
 
 ## Abstract
 
@@ -119,7 +117,7 @@ integrated within a custom compiler infrastructure.
 | D        | Parameterized queries      | SAFE       |
 | E        | Complex flow (loops, branches, aliases) | VULNERABLE |
 
-## Table 1 — Detection Performance
+## Table 1 — SecureFlow Detection Performance
 
 {chr(10).join(t1_rows)}
 
@@ -145,9 +143,10 @@ integrated within a custom compiler infrastructure.
 3. **Automatic code hardening** — the hardener transforms string-concatenation
    SQL calls into parameterized queries automatically (`analyzer/hardener.py`).
 
-4. **Competitive precision/recall** — SecureFlow achieves
-   precision={sf_cm.precision:.3f}, recall={sf_cm.recall:.3f}, F1={sf_cm.f1_score:.3f}
-   vs Bandit precision={bandit_cm.precision:.3f}, recall={bandit_cm.recall:.3f}.
+4. **Measured internal-validation results** — SecureFlow achieves
+   precision={sf_cm.precision:.3f}, recall={sf_cm.recall:.3f}, and
+   F1={sf_cm.f1_score:.3f} on this synthetic regression corpus. These values
+   are not an external-tool comparison.
 
 5. **Full compiler-integrated pipeline** — all analysis phases share a unified
    IR and CFG, enabling precise dataflow reasoning unavailable to
@@ -155,6 +154,12 @@ integrated within a custom compiler infrastructure.
 
 6. **Reproducible benchmark dataset** — 210 synthetic programs with JSON
    ground-truth labels across five vulnerability categories.
+
+## Comparison Scope
+
+This report does not simulate external tools. Empirical Bandit and Semgrep
+results are generated separately by `tools/real_baseline_runner.py` and
+summarized in `reports/final/presentation_report.md`.
 """
     return report
 

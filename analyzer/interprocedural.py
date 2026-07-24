@@ -25,7 +25,11 @@ class FunctionSummary:
     tainted_arguments_reach_sink: bool = False
     sink: str | None = None
     sink_line: int | None = None
+    sink_function: str | None = None
     taint_sources: frozenset[str] = field(default_factory=frozenset)
+    return_tainted_params: frozenset[int] = field(default_factory=frozenset)
+    sink_tainted_params: frozenset[int] = field(default_factory=frozenset)
+    sanitized_return_params: frozenset[int] = field(default_factory=frozenset)
 
 
 class InterproceduralAnalyzer:
@@ -38,8 +42,6 @@ class InterproceduralAnalyzer:
 
     def __init__(self, profile: FrameworkProfile | None = None) -> None:
         self.profile = profile or get_profile("base")
-        self.sources = self.profile.sources
-        self.sanitizers = self.profile.sanitizers
         self.summaries: dict[str, FunctionSummary] = {}
 
     def analyze(self, module: IRModule) -> dict[str, FunctionSummary]:
@@ -65,44 +67,64 @@ class InterproceduralAnalyzer:
         for instr in func.instructions:
             self._apply(instr, state)
             if isinstance(instr, Return) and instr.value:
-                taint = state.get(instr.value, frozenset())
+                taint = self._lookup_taint(state, instr.value)
                 if taint:
                     summary.returns_tainted = True
                     summary.taint_sources = taint
 
-        # --- Pass 2: all params pre-tainted ---
-        state_p: TaintState = {p: frozenset({f"param:{p}"}) for p in func.params}
-        has_sanitizer = False
-        return_tainted_p = False
-        for instr in func.instructions:
-            if isinstance(instr, Call) and instr.function in self.sanitizers:
-                if instr.target is not None:
-                    state_p.pop(instr.target, None)
-                has_sanitizer = True
-            else:
-                self._apply(instr, state_p)
-            if isinstance(instr, Call):
-                sink = self._tainted_sink(instr, state_p)
-                if sink is not None:
-                    summary.tainted_arguments_reach_sink = True
-                    summary.sink = sink
-                    summary.sink_line = instr.line
-            if isinstance(instr, Return) and instr.value:
-                if state_p.get(instr.value, frozenset()):
-                    return_tainted_p = True
+        return_params: set[int] = set()
+        sink_params: set[int] = set()
+        sanitized_params: set[int] = set()
 
-        if return_tainted_p:
-            summary.taints_arguments = True
-        if has_sanitizer and not return_tainted_p and func.params:
-            summary.returns_sanitized = True
+        # Analyze each parameter independently so wrappers with multiple
+        # arguments do not contaminate unrelated call-site values.
+        for index, param in enumerate(func.params):
+            state_p: TaintState = {param: frozenset({f"param:{param}"})}
+            parameterized_templates: set[str] = set()
+            sanitizer_seen_for_param = False
+            return_tainted = False
+            for instr in func.instructions:
+                if isinstance(instr, Call) and self.profile.is_sanitizer(instr.function):
+                    if self._call_input_taint(instr, state_p):
+                        sanitizer_seen_for_param = True
+                self._update_parameterized_templates(instr, parameterized_templates)
+                self._apply(instr, state_p)
+                if isinstance(instr, Call):
+                    sink = self._tainted_sink(instr, state_p, parameterized_templates)
+                    if sink is not None:
+                        sink_params.add(index)
+                        summary.sink = sink
+                        nested = self.summaries.get(instr.function)
+                        if nested is not None and nested.tainted_arguments_reach_sink:
+                            summary.sink_line = nested.sink_line or instr.line
+                            summary.sink_function = nested.sink_function or instr.function
+                        else:
+                            summary.sink_line = instr.line
+                            summary.sink_function = name
+                if isinstance(instr, Return) and instr.value:
+                    if self._lookup_taint(state_p, instr.value):
+                        return_tainted = True
+            if return_tainted:
+                return_params.add(index)
+            elif sanitizer_seen_for_param:
+                sanitized_params.add(index)
+
+        summary.return_tainted_params = frozenset(return_params)
+        summary.sink_tainted_params = frozenset(sink_params)
+        summary.sanitized_return_params = frozenset(sanitized_params)
+        summary.taints_arguments = bool(return_params)
+        summary.tainted_arguments_reach_sink = bool(sink_params)
+        summary.returns_sanitized = bool(sanitized_params) and not return_params
 
         return summary
 
     def _apply(self, instr: object, state: TaintState) -> None:
         """Apply one IR instruction to a taint state in-place."""
         if isinstance(instr, Call):
-            if instr.function in self.sources and instr.target is not None:
+            if self.profile.is_source(instr.function) and instr.target is not None:
                 state[instr.target] = frozenset({instr.function})
+            elif self.profile.is_sanitizer(instr.function) and instr.target is not None:
+                state.pop(instr.target, None)
             elif instr.function in self.summaries and instr.target is not None:
                 self._apply_summary(instr, state, self.summaries[instr.function])
             elif instr.target is not None:
@@ -112,20 +134,22 @@ class InterproceduralAnalyzer:
                 else:
                     state.pop(instr.target, None)
         elif isinstance(instr, Assign):
-            taint = state.get(instr.value, frozenset())
+            taint = self._lookup_taint(state, instr.value)
             if taint:
                 state[instr.target] = taint
             else:
                 state.pop(instr.target, None)
         elif isinstance(instr, BinaryOp):
-            combined = state.get(instr.left, frozenset()) | state.get(instr.right, frozenset())
+            combined = self._lookup_taint(state, instr.left) | self._lookup_taint(
+                state, instr.right
+            )
             if combined:
                 state[instr.target] = combined
             else:
                 state.pop(instr.target, None)
         elif isinstance(instr, BuildCollection):
             combined = frozenset().union(
-                *(state.get(element, frozenset()) for element in instr.elements)
+                *(self._lookup_taint(state, element) for element in instr.elements)
             )
             if combined:
                 state[instr.target] = combined
@@ -133,41 +157,87 @@ class InterproceduralAnalyzer:
                 state.pop(instr.target, None)
         elif isinstance(instr, BuildFString):
             combined = frozenset().union(
-                *(state.get(field, frozenset()) for field in instr.fields)
+                *(self._lookup_taint(state, field) for field in instr.fields)
             )
             if combined:
                 state[instr.target] = combined
             else:
                 state.pop(instr.target, None)
         elif isinstance(instr, Subscript):
-            combined = state.get(instr.collection, frozenset()) | state.get(instr.index, frozenset())
+            combined = (
+                self._lookup_taint(state, instr.access_path or "")
+                | self._lookup_taint(state, instr.collection)
+                | self._lookup_taint(state, instr.index)
+            )
             if combined:
                 state[instr.target] = combined
             else:
                 state.pop(instr.target, None)
 
-    def _tainted_sink(self, instr: Call, state: TaintState) -> str | None:
-        if instr.function in self.profile.sinks:
-            if self._is_parameterized_sink(instr, state):
+    def _tainted_sink(
+        self,
+        instr: Call,
+        state: TaintState,
+        parameterized_templates: set[str],
+    ) -> str | None:
+        if self.profile.is_sink(instr.function):
+            if self._is_parameterized_sink(instr, state, parameterized_templates):
                 return None
-            if any(state.get(arg, frozenset()) for arg in instr.args):
+            if any(self._lookup_taint(state, arg) for arg in instr.args):
                 return instr.function
         summary = self.summaries.get(instr.function)
         if summary is not None and summary.tainted_arguments_reach_sink:
-            if self._call_input_taint(instr, state):
+            if self._summary_input_taint(instr, state, summary.sink_tainted_params):
                 return summary.sink or instr.function
         return None
 
-    def _is_parameterized_sink(self, instr: Call, state: TaintState) -> bool:
+    def _is_parameterized_sink(
+        self,
+        instr: Call,
+        state: TaintState,
+        parameterized_templates: set[str],
+    ) -> bool:
         if len(instr.args) < 2:
             return False
         query_arg = instr.args[0]
-        if state.get(query_arg, frozenset()):
+        if self._lookup_taint(state, query_arg):
             return False
+        if query_arg in parameterized_templates:
+            return True
         query_text = self._literal_string_value(query_arg)
         if query_text is None:
             return False
-        return "?" in query_text or "%s" in query_text or re.search(r":\w+", query_text) is not None
+        return (
+            "?" in query_text
+            or "%s" in query_text
+            or re.search(r"%\([^)]+\)s", query_text) is not None
+            or re.search(r":\w+", query_text) is not None
+        )
+
+    def _update_parameterized_templates(
+        self,
+        instr: object,
+        templates: set[str],
+    ) -> None:
+        if isinstance(instr, Assign):
+            if instr.value in templates:
+                templates.add(instr.target)
+            else:
+                templates.discard(instr.target)
+            return
+        if not isinstance(instr, Call) or instr.target is None:
+            return
+        templates.discard(instr.target)
+        if instr.function != "sqlalchemy.text" or not instr.args:
+            return
+        query = self._literal_string_value(instr.args[0])
+        if query is not None and (
+            "?" in query
+            or "%s" in query
+            or re.search(r"%\([^)]+\)s", query) is not None
+            or re.search(r":\w+", query) is not None
+        ):
+            templates.add(instr.target)
 
     def _literal_string_value(self, value: str) -> str | None:
         raw = value.strip()
@@ -192,27 +262,52 @@ class InterproceduralAnalyzer:
     ) -> None:
         if instr.target is None:
             return
-        if summary.returns_sanitized:
-            state.pop(instr.target, None)
-            return
+        combined = self._summary_input_taint(
+            instr,
+            state,
+            summary.return_tainted_params,
+        )
         if summary.returns_tainted:
-            state[instr.target] = summary.taint_sources or frozenset({summary.name})
-            return
-        if summary.taints_arguments:
-            combined = self._call_input_taint(instr, state)
-            if combined:
-                state[instr.target] = combined
-            else:
-                state.pop(instr.target, None)
-            return
-        state.pop(instr.target, None)
+            combined |= summary.taint_sources or frozenset({summary.name})
+        if combined:
+            state[instr.target] = combined
+        else:
+            state.pop(instr.target, None)
 
     def _call_input_taint(self, instr: Call, state: TaintState) -> frozenset[str]:
         receiver = instr.function.rsplit(".", 1)[0] if "." in instr.function else ""
         return frozenset().union(
-            state.get(receiver, frozenset()),
-            *(state.get(arg, frozenset()) for arg in instr.args),
+            self._lookup_taint(state, receiver),
+            *(self._lookup_taint(state, arg) for arg in instr.args),
         )
+
+    def _summary_input_taint(
+        self,
+        instr: Call,
+        state: TaintState,
+        parameter_indexes: frozenset[int],
+    ) -> frozenset[str]:
+        return frozenset().union(
+            *(
+                self._lookup_taint(state, instr.args[index])
+                for index in parameter_indexes
+                if index < len(instr.args)
+            )
+        )
+
+    def _lookup_taint(self, state: TaintState, value: str) -> frozenset[str]:
+        current = value
+        while current:
+            taint = state.get(current, frozenset())
+            if taint:
+                return taint
+            if current.endswith("]") and "[" in current:
+                current = current.rsplit("[", 1)[0]
+            elif "." in current:
+                current = current.rsplit(".", 1)[0]
+            else:
+                break
+        return frozenset()
 
 
 def analyze_module(

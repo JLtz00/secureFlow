@@ -117,6 +117,60 @@
     "sink_line": 8
   },
   {
+    "file": "flask_blueprint_try_with.py",
+    "label": "VULNERABLE",
+    "category": "blueprint_try_with",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 10,
+    "sink_line": 13
+  },
+  {
+    "file": "flask_methodview_vulnerable.py",
+    "label": "VULNERABLE",
+    "category": "methodview_concat",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 9,
+    "sink_line": 11
+  },
+  {
+    "file": "flask_multistep_query.py",
+    "label": "VULNERABLE",
+    "category": "multistep_query",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 12
+  },
+  {
+    "file": "flask_nested_json_subscript.py",
+    "label": "VULNERABLE",
+    "category": "nested_json_subscript",
+    "framework": "flask",
+    "vulnerability": "SQLI",
+    "source_line": 8,
+    "sink_line": 12
+  },
+  {
+    "file": "flask_named_parameter_safe.py",
+    "label": "SAFE",
+    "category": "named_parameter_safe",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 9
+  },
+  {
+    "file": "flask_repository_parameterized_safe.py",
+    "label": "SAFE",
+    "category": "repository_parameterized_safe",
+    "framework": "flask",
+    "vulnerability": "NONE",
+    "source_line": 8,
+    "sink_line": 12
+  },
+  {
     "file": "flask_generated_concat_args.py",
     "label": "VULNERABLE",
     "category": "generated_concat_args",

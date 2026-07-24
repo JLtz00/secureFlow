@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Compiler-integrated taint analysis framework for SQL injection detection in a Python subset."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "tomli>=2.0; python_version < '3.11'",
+]
 
 [project.scripts]
 secureflow = "tools.secureflow_scan:main"
@@ -12,6 +14,9 @@ secureflow = "tools.secureflow_scan:main"
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+]
+prod = [
+    "libcst>=1.8",
 ]
 baselines = [
     "bandit>=1.9",

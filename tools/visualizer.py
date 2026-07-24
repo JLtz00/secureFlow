@@ -36,7 +36,7 @@ def _avg_time(records: list[dict], tool: str) -> float:
 
 
 class Visualizer:
-    TOOLS = ["SecureFlow", "Bandit", "Semgrep", "Pysa"]
+    TOOLS = ["SecureFlow"]
 
     def __init__(
         self,
