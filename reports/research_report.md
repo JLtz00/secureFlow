@@ -1,4 +1,4 @@
-# SecureFlow: Research Evaluation Report
+# SecureFlow: Internal Validation Report
 
 ## Abstract
 
@@ -24,31 +24,22 @@ integrated within a custom compiler infrastructure.
 | D        | Parameterized queries      | SAFE       |
 | E        | Complex flow (loops, branches, aliases) | VULNERABLE |
 
-## Table 1 — Detection Performance
+## Table 1 — SecureFlow Detection Performance
 
 | Tool       | Precision | Recall | F1    | Accuracy |
 |------------|-----------|--------|-------|----------|
-| Bandit     |     0.596 |  0.492 | 0.539 |    0.495 |
-| Semgrep    |     0.667 |  0.667 | 0.667 |    0.600 |
-| Pysa       |     0.750 |  1.000 | 0.857 |    0.800 |
 | SecureFlow |     1.000 |  1.000 | 1.000 |    1.000 |
 
 ## Table 2 — Execution Time
 
 | Tool       | Avg Time (ms) |
 |------------|---------------|
-| Bandit     |         0.001 |
-| Semgrep    |         0.001 |
-| Pysa       |         0.000 |
-| SecureFlow |         0.232 |
+| SecureFlow |         0.102 |
 
 ## Table 3 — False Positive Analysis
 
 | Tool       | FP  | FPR   | FNR   |
 |------------|-----|-------|-------|
-| Bandit     |  42 | 0.500 | 0.508 |
-| Semgrep    |  42 | 0.500 | 0.333 |
-| Pysa       |  42 | 0.500 | 0.000 |
 | SecureFlow |   0 | 0.000 | 0.000 |
 
 ## Performance Evaluation
@@ -74,9 +65,10 @@ integrated within a custom compiler infrastructure.
 3. **Automatic code hardening** — the hardener transforms string-concatenation
    SQL calls into parameterized queries automatically (`analyzer/hardener.py`).
 
-4. **Competitive precision/recall** — SecureFlow achieves
-   precision=1.000, recall=1.000, F1=1.000
-   vs Bandit precision=0.596, recall=0.492.
+4. **Measured internal-validation results** — SecureFlow achieves
+   precision=1.000, recall=1.000, and
+   F1=1.000 on this synthetic regression corpus. These values
+   are not an external-tool comparison.
 
 5. **Full compiler-integrated pipeline** — all analysis phases share a unified
    IR and CFG, enabling precise dataflow reasoning unavailable to
@@ -84,3 +76,9 @@ integrated within a custom compiler infrastructure.
 
 6. **Reproducible benchmark dataset** — 210 synthetic programs with JSON
    ground-truth labels across five vulnerability categories.
+
+## Comparison Scope
+
+This report does not simulate external tools. Empirical Bandit and Semgrep
+results are generated separately by `tools/real_baseline_runner.py` and
+summarized in `reports/final/presentation_report.md`.

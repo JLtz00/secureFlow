@@ -63,9 +63,11 @@ class Subscript(Instruction):
     target: str
     collection: str
     index: str
+    access_path: str | None = None
 
     def __str__(self) -> str:
-        return f"{self.target} = {self.collection}[{self.index}]"
+        path = self.access_path or f"{self.collection}[{self.index}]"
+        return f"{self.target} = {path}"
 
 
 @dataclass
@@ -83,6 +85,7 @@ class Call(Instruction):
     function: str
     args: list[str] = field(default_factory=list)
     target: str | None = None
+    return_kind: str | None = None
 
     def __str__(self) -> str:
         call = f"call {self.function}({', '.join(self.args)})"

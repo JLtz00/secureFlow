@@ -63,6 +63,14 @@ class Reporter:
                     combined = frozenset().union(*(tainted.get(a, frozenset()) for a in instr.args))
                     if combined:
                         tainted[instr.target] = combined
+                        trace.steps.append(
+                            TraceStep(
+                                "FLOW",
+                                instr.target,
+                                instr.line,
+                                f"← {instr.function}({', '.join(instr.args)})",
+                            )
+                        )
 
             elif isinstance(instr, Assign):
                 if instr.value in tainted:

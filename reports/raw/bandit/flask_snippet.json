@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-07-20T16:51:37Z",
+  "generated_at": "2026-07-24T00:13:41Z",
   "metrics": {
     "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_alias_form.py": {
       "CONFIDENCE.HIGH": 0,
@@ -12,6 +12,19 @@
       "SEVERITY.MEDIUM": 1,
       "SEVERITY.UNDEFINED": 0,
       "loc": 8,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_blueprint_try_with.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 1,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 1,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 13,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -600,6 +613,58 @@
       "nosec": 0,
       "skipped_tests": 0
     },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_methodview_vulnerable.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 1,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 1,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 8,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_multistep_query.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 10,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_named_parameter_safe.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 7,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_nested_json_subscript.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 1,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 1,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 10,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
     "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_percent_formatting.py": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 1,
@@ -610,6 +675,19 @@
       "SEVERITY.MEDIUM": 1,
       "SEVERITY.UNDEFINED": 0,
       "loc": 8,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_repository_parameterized_safe.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 9,
       "nosec": 0,
       "skipped_tests": 0
     },
@@ -680,14 +758,14 @@
     },
     "_totals": {
       "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 32,
+      "CONFIDENCE.LOW": 35,
       "CONFIDENCE.MEDIUM": 9,
       "CONFIDENCE.UNDEFINED": 0,
       "SEVERITY.HIGH": 0,
       "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 41,
+      "SEVERITY.MEDIUM": 44,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 382,
+      "loc": 439,
       "nosec": 0,
       "skipped_tests": 0
     }
@@ -708,6 +786,26 @@
       "line_number": 9,
       "line_range": [
         9
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
+      "test_id": "B608",
+      "test_name": "hardcoded_sql_expressions"
+    },
+    {
+      "code": "11         with closing(cursor):\n12             query = \"SELECT * FROM users WHERE name = \" + user\n13             return cursor.execute(query)\n",
+      "col_offset": 20,
+      "end_col_offset": 55,
+      "filename": "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_blueprint_try_with.py",
+      "issue_confidence": "LOW",
+      "issue_cwe": {
+        "id": 89,
+        "link": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 12,
+      "line_range": [
+        12
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
       "test_id": "B608",
@@ -1428,6 +1526,46 @@
       "line_number": 10,
       "line_range": [
         10
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
+      "test_id": "B608",
+      "test_name": "hardcoded_sql_expressions"
+    },
+    {
+      "code": "7         user = request.args.get(\"user\")\n8         query = \"SELECT * FROM users WHERE name = \" + user\n9         return cursor.execute(query)\n",
+      "col_offset": 16,
+      "end_col_offset": 51,
+      "filename": "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_methodview_vulnerable.py",
+      "issue_confidence": "LOW",
+      "issue_cwe": {
+        "id": 89,
+        "link": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 8,
+      "line_range": [
+        8
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
+      "test_id": "B608",
+      "test_name": "hardcoded_sql_expressions"
+    },
+    {
+      "code": "10     user = filters[\"name\"]\n11     query = \"SELECT * FROM users WHERE name = \" + user\n12     return cursor.execute(query)\n",
+      "col_offset": 12,
+      "end_col_offset": 47,
+      "filename": "/home/lorenzo/UNSA/2026A/compiladores/secureFlow/data/flask_dataset/flask_nested_json_subscript.py",
+      "issue_confidence": "LOW",
+      "issue_cwe": {
+        "id": 89,
+        "link": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 11,
+      "line_range": [
+        11
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
       "test_id": "B608",

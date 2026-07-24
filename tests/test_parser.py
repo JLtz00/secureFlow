@@ -224,13 +224,14 @@ def test_demo_script_runs_end_to_end():
         demo_main()
 
     output = output_buffer.getvalue()
-    assert "Sprint 1: analisis lexico" in output
-    assert "Sprint 2: AST propio" in output
+    assert "Lexer: codigo convertido a tokens" in output
+    assert "Parser: tokens convertidos a AST propio" in output
     assert "request.args.get" in output
     assert "cursor.execute" in output
-    assert "Sprint 5: motor de taint" in output
+    assert "Taint analysis: deteccion real de SQL Injection" in output
     assert "Vulnerabilidades detectadas: 1" in output
-    assert "Traza explicable" in output
-    assert "Endurecimiento automatico" in output
-    assert "Sprint 7: dataset y evaluacion experimental" in output
-    assert "Dataset reproducible: 210 programas" in output
+    assert "SOURCE  line" in output
+    assert "Hardening automatico" in output
+    assert "Scanner Flask multiarchivo" in output
+    assert "Archivos analizados: 4/4" in output
+    assert "Hallazgos: 1" in output

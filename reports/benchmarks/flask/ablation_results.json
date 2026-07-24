@@ -106,6 +106,54 @@
   {
     "dataset": "snippet",
     "variant": "full",
+    "case": "flask_blueprint_try_with.py",
+    "category": "blueprint_try_with",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_methodview_vulnerable.py",
+    "category": "methodview_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_multistep_query.py",
+    "category": "multistep_query",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_nested_json_subscript.py",
+    "category": "nested_json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_named_parameter_safe.py",
+    "category": "named_parameter_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
+    "case": "flask_repository_parameterized_safe.py",
+    "category": "repository_parameterized_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "full",
     "case": "flask_generated_concat_args.py",
     "category": "generated_concat_args",
     "prediction": "VULNERABLE",
@@ -450,6 +498,46 @@
     "variant": "full",
     "case": "project_multifile_sanitized",
     "category": "service_sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_sqlite_dbapi_vulnerable",
+    "category": "sqlite_repository_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_psycopg_parameterized",
+    "category": "psycopg_repository_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_mysql_connector_vulnerable",
+    "category": "mysql_repository_fstring",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "full",
+    "case": "project_sqlalchemy_session_parameterized",
+    "category": "sqlalchemy_session_named_parameter",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
     "files_total": 2,
@@ -562,6 +650,54 @@
   {
     "dataset": "snippet",
     "variant": "no_interprocedural",
+    "case": "flask_blueprint_try_with.py",
+    "category": "blueprint_try_with",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_methodview_vulnerable.py",
+    "category": "methodview_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_multistep_query.py",
+    "category": "multistep_query",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_nested_json_subscript.py",
+    "category": "nested_json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_named_parameter_safe.py",
+    "category": "named_parameter_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
+    "case": "flask_repository_parameterized_safe.py",
+    "category": "repository_parameterized_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_interprocedural",
     "case": "flask_generated_concat_args.py",
     "category": "generated_concat_args",
     "prediction": "VULNERABLE",
@@ -907,6 +1043,46 @@
     "case": "project_multifile_sanitized",
     "category": "service_sanitized",
     "prediction": "VULNERABLE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_sqlite_dbapi_vulnerable",
+    "category": "sqlite_repository_concat",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_psycopg_parameterized",
+    "category": "psycopg_repository_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_mysql_connector_vulnerable",
+    "category": "mysql_repository_fstring",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_interprocedural",
+    "case": "project_sqlalchemy_session_parameterized",
+    "category": "sqlalchemy_session_named_parameter",
+    "prediction": "SAFE",
     "ground_truth": "SAFE",
     "files_total": 2,
     "files_with_errors": 0
@@ -1018,6 +1194,54 @@
   {
     "dataset": "snippet",
     "variant": "no_parameterized_model",
+    "case": "flask_blueprint_try_with.py",
+    "category": "blueprint_try_with",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_methodview_vulnerable.py",
+    "category": "methodview_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_multistep_query.py",
+    "category": "multistep_query",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_nested_json_subscript.py",
+    "category": "nested_json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_named_parameter_safe.py",
+    "category": "named_parameter_safe",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
+    "case": "flask_repository_parameterized_safe.py",
+    "category": "repository_parameterized_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "no_parameterized_model",
     "case": "flask_generated_concat_args.py",
     "category": "generated_concat_args",
     "prediction": "VULNERABLE",
@@ -1362,6 +1586,46 @@
     "variant": "no_parameterized_model",
     "case": "project_multifile_sanitized",
     "category": "service_sanitized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_sqlite_dbapi_vulnerable",
+    "category": "sqlite_repository_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_psycopg_parameterized",
+    "category": "psycopg_repository_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_mysql_connector_vulnerable",
+    "category": "mysql_repository_fstring",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "no_parameterized_model",
+    "case": "project_sqlalchemy_session_parameterized",
+    "category": "sqlalchemy_session_named_parameter",
     "prediction": "SAFE",
     "ground_truth": "SAFE",
     "files_total": 2,
@@ -1474,6 +1738,54 @@
   {
     "dataset": "snippet",
     "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_blueprint_try_with.py",
+    "category": "blueprint_try_with",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_methodview_vulnerable.py",
+    "category": "methodview_concat",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_multistep_query.py",
+    "category": "multistep_query",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_nested_json_subscript.py",
+    "category": "nested_json_subscript",
+    "prediction": "VULNERABLE",
+    "ground_truth": "VULNERABLE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_named_parameter_safe.py",
+    "category": "named_parameter_safe",
+    "prediction": "VULNERABLE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "flask_repository_parameterized_safe.py",
+    "category": "repository_parameterized_safe",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE"
+  },
+  {
+    "dataset": "snippet",
+    "variant": "intraprocedural_no_parameterized_model",
     "case": "flask_generated_concat_args.py",
     "category": "generated_concat_args",
     "prediction": "VULNERABLE",
@@ -1819,6 +2131,46 @@
     "case": "project_multifile_sanitized",
     "category": "service_sanitized",
     "prediction": "VULNERABLE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_sqlite_dbapi_vulnerable",
+    "category": "sqlite_repository_concat",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_psycopg_parameterized",
+    "category": "psycopg_repository_parameterized",
+    "prediction": "SAFE",
+    "ground_truth": "SAFE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_mysql_connector_vulnerable",
+    "category": "mysql_repository_fstring",
+    "prediction": "SAFE",
+    "ground_truth": "VULNERABLE",
+    "files_total": 2,
+    "files_with_errors": 0
+  },
+  {
+    "dataset": "project",
+    "variant": "intraprocedural_no_parameterized_model",
+    "case": "project_sqlalchemy_session_parameterized",
+    "category": "sqlalchemy_session_named_parameter",
+    "prediction": "SAFE",
     "ground_truth": "SAFE",
     "files_total": 2,
     "files_with_errors": 0

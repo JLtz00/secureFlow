@@ -1,0 +1,22 @@
+[profile]
+name = "flask-project"
+extends = "flask"
+sources = ["company_web.current_request.parameter"]
+sinks = ["company_database.Client.run_query"]
+sanitizers = ["company_security.validate_identifier"]
+source_patterns = ["company_web.request.*"]
+sink_patterns = []
+sanitizer_patterns = []
+
+[[call_returns]]
+pattern = "company_database.connect"
+returns = "company.database.connection"
+
+[[method_returns]]
+receiver = "company.database.connection"
+method = "cursor"
+returns = "company.database.cursor"
+
+[[sink_methods]]
+receiver = "company.database.cursor"
+method = "execute"

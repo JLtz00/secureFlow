@@ -16,7 +16,7 @@ DEFAULT_PROJECTS = PROJECT_ROOT / "data" / "flask_projects"
 DEFAULT_PROJECTS_METADATA = PROJECT_ROOT / "data" / "flask_projects_metadata.json"
 DEFAULT_REPORT = PROJECT_ROOT / "reports" / "flask_research_report.md"
 
-TOOLS = ["SecureFlow", "Bandit", "Semgrep", "Pysa"]
+TOOLS = ["SecureFlow"]
 
 
 def _load(path: Path) -> list[dict]:
@@ -58,8 +58,8 @@ def generate_report(
         )
 
     category_rows = [
-        "| Category | Label | SecureFlow | Bandit | Semgrep | Pysa |",
-        "|---|---|---|---|---|---|",
+        "| Category | Label | SecureFlow |",
+        "|---|---|---|",
     ]
     for entry in metadata:
         preds = {
@@ -69,8 +69,7 @@ def generate_report(
         }
         category_rows.append(
             f"| {entry['category']} | {entry['label']} | "
-            f"{preds.get('SecureFlow', '-')} | {preds.get('Bandit', '-')} | "
-            f"{preds.get('Semgrep', '-')} | {preds.get('Pysa', '-')} |"
+            f"{preds.get('SecureFlow', '-')} |"
         )
 
     vulnerable = sum(1 for entry in metadata if entry["label"] == "VULNERABLE")
@@ -78,8 +77,8 @@ def generate_report(
     categories = ", ".join(sorted({entry["category"] for entry in metadata}))
     project_metadata = _load(Path(projects_metadata_file)) if Path(projects_metadata_file).exists() else []
     project_rows = [
-        "| Project | Category | Label | Prediction | Files | Errors | Findings |",
-        "|---|---|---|---|---:|---:|---:|",
+        "| Project | Category | Label | Prediction | Files | Partial | Coverage | Internal unlinked | External conservative | Findings |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|---:|",
     ]
     project_correct = 0
     for entry in project_metadata:
@@ -89,7 +88,9 @@ def generate_report(
             project_correct += 1
         project_rows.append(
             f"| {entry['project']} | {entry['category']} | {entry['label']} | "
-            f"{prediction} | {result.files_total} | {result.files_with_errors} | "
+            f"{prediction} | {result.files_total} | {result.files_partial} | "
+            f"{result.coverage_ratio:.1%} | {result.unresolved_calls} | "
+            f"{result.conservative_calls} | "
             f"{len(result.findings)} |"
         )
     project_section = ""
@@ -103,7 +104,7 @@ def generate_report(
 {chr(10).join(project_rows)}
 """
 
-    return f"""# Flask SQL Injection Evaluation
+    return f"""# SecureFlow Flask Internal Validation
 
 ## Dataset
 
@@ -125,7 +126,11 @@ Bootstrap intervals use 1,000 resamples with fixed seed 42.
 
 ## Scope
 
-This Flask profile models common request sources, DB-API and SQLAlchemy raw-query sinks, import aliases, route decorators, f-strings, percent formatting, `.format()`, JSON body extraction through subscripts and `.get()`, and parameterized query patterns.
+This Flask profile models common request sources, DB-API drivers, SQLite, PostgreSQL, MySQL, SQLAlchemy raw-query sinks, import aliases, route decorators, f-strings, percent formatting, `.format()`, access paths, JSON extraction and parameterized query patterns. Ignored nodes, unlinked internal calls and external APIs handled with conservative taint propagation are reported separately.
+
+This report contains SecureFlow internal-validation results only. Empirical
+comparisons with real Bandit and Semgrep executions are reported in
+`reports/final/presentation_report.md`.
 """
 
 

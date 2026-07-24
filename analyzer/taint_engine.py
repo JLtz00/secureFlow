@@ -30,6 +30,7 @@ class Vulnerability:
     taint_sources: frozenset[str]
     line: int
     block_id: int
+    sink_function: str | None = None
 
     def __str__(self) -> str:
         sources = ", ".join(sorted(self.taint_sources))
@@ -71,9 +72,6 @@ class TaintEngine:
     ) -> None:
         self.summaries = summaries or {}
         self.profile = profile or get_profile("base")
-        self.sources = self.profile.sources
-        self.sinks = self.profile.sinks
-        self.sanitizers = self.profile.sanitizers
         self.model_parameterized_sql = model_parameterized_sql
 
     def analyze(self, cfg: CFG) -> TaintResult:
@@ -83,6 +81,17 @@ class TaintEngine:
 
         in_state: dict[int, TaintState] = {b.id: {} for b in cfg.blocks}
         out_state: dict[int, TaintState] = {b.id: {} for b in cfg.blocks}
+        template_universe = {
+            target
+            for block in cfg.blocks
+            for instruction in block.instructions
+            if (target := getattr(instruction, "target", None)) is not None
+        }
+        out_templates: dict[int, set[str]] = {
+            block.id: set(template_universe)
+            for block in cfg.blocks
+        }
+        out_templates[cfg.entry] = set()
         # Deduplicate vulnerabilities: (sink, arg, line) uniquely identifies one report
         reported: set[tuple[str, str, int]] = set()
 
@@ -101,9 +110,16 @@ class TaintEngine:
             for pred_id in preds:
                 merged = self._join(merged, out_state[pred_id])
             in_state[block_id] = merged
+            merged_templates = self._join_templates(
+                [out_templates[pred_id] for pred_id in preds]
+            )
 
             # OUT[B] = transfer(IN[B], B)
-            new_out, vulns = self._transfer(block, dict(merged))
+            new_out, new_templates, vulns = self._transfer(
+                block,
+                dict(merged),
+                merged_templates,
+            )
 
             for v in vulns:
                 key = (v.sink, v.tainted_arg, v.line)
@@ -112,8 +128,12 @@ class TaintEngine:
                     result.vulnerabilities.append(v)
 
             # Propagate changes to successors
-            if new_out != out_state[block_id]:
+            if (
+                new_out != out_state[block_id]
+                or new_templates != out_templates[block_id]
+            ):
                 out_state[block_id] = new_out
+                out_templates[block_id] = new_templates
                 for e in cfg.edges:
                     if e.source == block_id:
                         worklist.append(e.target)
@@ -136,22 +156,34 @@ class TaintEngine:
             merged[var] = merged.get(var, frozenset()) | sources
         return merged
 
+    def _join_templates(self, predecessors: list[set[str]]) -> set[str]:
+        """A query is definitely parameterized only when every path agrees."""
+        if not predecessors:
+            return set()
+        merged = set(predecessors[0])
+        for templates in predecessors[1:]:
+            merged.intersection_update(templates)
+        return merged
+
     # ---------------------------------------------------------------- transfer
 
     def _transfer(
-        self, block: BasicBlock, state: TaintState
-    ) -> tuple[TaintState, list[Vulnerability]]:
+        self,
+        block: BasicBlock,
+        state: TaintState,
+        parameterized_templates: set[str],
+    ) -> tuple[TaintState, set[str], list[Vulnerability]]:
         """Apply each IR instruction in block to the taint state.
 
         Returns the updated state and any vulnerabilities detected.
         """
         vulns: list[Vulnerability] = []
-        parameterized_templates: set[str] = set()
+        parameterized_templates = set(parameterized_templates)
 
         for instr in block.instructions:
             if isinstance(instr, Assign):
                 # target = value  →  propagate taint from value variable
-                taint = state.get(instr.value, frozenset())
+                taint = self._lookup_taint(state, instr.value)
                 if instr.value in parameterized_templates:
                     parameterized_templates.add(instr.target)
                 else:
@@ -164,8 +196,8 @@ class TaintEngine:
             elif isinstance(instr, BinaryOp):
                 parameterized_templates.discard(instr.target)
                 # target = left OP right  →  union of operand taints
-                left_taint = state.get(instr.left, frozenset())
-                right_taint = state.get(instr.right, frozenset())
+                left_taint = self._lookup_taint(state, instr.left)
+                right_taint = self._lookup_taint(state, instr.right)
                 combined = left_taint | right_taint
                 if combined:
                     state[instr.target] = combined
@@ -175,7 +207,7 @@ class TaintEngine:
             elif isinstance(instr, BuildCollection):
                 parameterized_templates.discard(instr.target)
                 combined = frozenset().union(
-                    *(state.get(element, frozenset()) for element in instr.elements)
+                    *(self._lookup_taint(state, element) for element in instr.elements)
                 )
                 if combined:
                     state[instr.target] = combined
@@ -185,7 +217,7 @@ class TaintEngine:
             elif isinstance(instr, BuildFString):
                 parameterized_templates.discard(instr.target)
                 combined = frozenset().union(
-                    *(state.get(field, frozenset()) for field in instr.fields)
+                    *(self._lookup_taint(state, field) for field in instr.fields)
                 )
                 if combined:
                     state[instr.target] = combined
@@ -194,7 +226,11 @@ class TaintEngine:
 
             elif isinstance(instr, Subscript):
                 parameterized_templates.discard(instr.target)
-                combined = state.get(instr.collection, frozenset()) | state.get(instr.index, frozenset())
+                combined = (
+                    self._lookup_taint(state, instr.access_path or "")
+                    | self._lookup_taint(state, instr.collection)
+                    | self._lookup_taint(state, instr.index)
+                )
                 if combined:
                     state[instr.target] = combined
                 else:
@@ -203,7 +239,7 @@ class TaintEngine:
             elif isinstance(instr, Call):
                 self._handle_call(instr, state, vulns, block.id, parameterized_templates)
 
-        return state, vulns
+        return state, parameterized_templates, vulns
 
     def _handle_call(
         self,
@@ -217,23 +253,23 @@ class TaintEngine:
         if instr.target is not None:
             parameterized_templates.discard(instr.target)
 
-        if fn in self.sources:
+        if self.profile.is_source(fn):
             # Return value of a source is always tainted
             if instr.target is not None:
                 state[instr.target] = frozenset({fn})
 
-        elif fn in self.sanitizers:
+        elif self.profile.is_sanitizer(fn):
             # Sanitizers produce clean output regardless of arguments
             if instr.target is not None:
                 state.pop(instr.target, None)
 
-        elif fn in self.sinks:
+        elif self.profile.is_sink(fn):
             if self._is_safe_parameterized_sql_call(instr, state, parameterized_templates):
                 return
 
             # Check every argument: tainted data reaching a sink is a vulnerability
             for arg in instr.args:
-                arg_taint = state.get(arg, frozenset())
+                arg_taint = self._lookup_taint(state, arg)
                 if arg_taint:
                     vulns.append(
                         Vulnerability(
@@ -275,37 +311,46 @@ class TaintEngine:
         vulns: list[Vulnerability],
         block_id: int,
     ) -> None:
-        combined = self._call_input_taint(instr, state)
-        if summary.tainted_arguments_reach_sink and combined:
+        sink_taint = self._summary_input_taint(
+            instr,
+            state,
+            summary.sink_tainted_params,
+        )
+        if summary.tainted_arguments_reach_sink and sink_taint:
+            tainted_arg = next(
+                (
+                    instr.args[index]
+                    for index in sorted(summary.sink_tainted_params)
+                    if index < len(instr.args)
+                    and self._lookup_taint(state, instr.args[index])
+                ),
+                instr.function,
+            )
             vulns.append(
                 Vulnerability(
                     sink=summary.sink or instr.function,
-                    tainted_arg=instr.args[0] if instr.args else instr.function,
-                    taint_sources=combined,
-                    line=instr.line,
+                    tainted_arg=tainted_arg,
+                    taint_sources=sink_taint,
+                    line=summary.sink_line or instr.line,
                     block_id=block_id,
+                    sink_function=summary.sink_function,
                 )
             )
 
         if instr.target is None:
             return
 
-        if summary.returns_sanitized:
-            state.pop(instr.target, None)
-            return
-
+        combined = self._summary_input_taint(
+            instr,
+            state,
+            summary.return_tainted_params,
+        )
         if summary.returns_tainted:
-            state[instr.target] = summary.taint_sources or frozenset({summary.name})
-            return
-
-        if summary.taints_arguments:
-            if combined:
-                state[instr.target] = combined
-            else:
-                state.pop(instr.target, None)
-            return
-
-        state.pop(instr.target, None)
+            combined |= summary.taint_sources or frozenset({summary.name})
+        if combined:
+            state[instr.target] = combined
+        else:
+            state.pop(instr.target, None)
 
     def _mark_sqlalchemy_text(
         self,
@@ -320,7 +365,9 @@ class TaintEngine:
         if query_text is not None and self._has_sql_placeholder(query_text):
             parameterized_templates.add(instr.target)
 
-        combined = frozenset().union(*(state.get(arg, frozenset()) for arg in instr.args))
+        combined = frozenset().union(
+            *(self._lookup_taint(state, arg) for arg in instr.args)
+        )
         if combined:
             state[instr.target] = combined
         else:
@@ -329,8 +376,8 @@ class TaintEngine:
     def _call_input_taint(self, instr: Call, state: TaintState) -> frozenset[str]:
         receiver = instr.function.rsplit(".", 1)[0] if "." in instr.function else ""
         return frozenset().union(
-            state.get(receiver, frozenset()),
-            *(state.get(arg, frozenset()) for arg in instr.args),
+            self._lookup_taint(state, receiver),
+            *(self._lookup_taint(state, arg) for arg in instr.args),
         )
 
     def _is_safe_parameterized_sql_call(
@@ -345,7 +392,7 @@ class TaintEngine:
             return False
 
         query_arg = instr.args[0]
-        if state.get(query_arg, frozenset()):
+        if self._lookup_taint(state, query_arg):
             return False
 
         if query_arg in parameterized_templates:
@@ -376,8 +423,37 @@ class TaintEngine:
         return (
             "?" in query
             or "%s" in query
+            or re.search(r"%\([^)]+\)s", query) is not None
             or re.search(r":\w+", query) is not None
         )
+
+    def _summary_input_taint(
+        self,
+        instr: Call,
+        state: TaintState,
+        parameter_indexes: frozenset[int],
+    ) -> frozenset[str]:
+        return frozenset().union(
+            *(
+                self._lookup_taint(state, instr.args[index])
+                for index in parameter_indexes
+                if index < len(instr.args)
+            )
+        )
+
+    def _lookup_taint(self, state: TaintState, value: str) -> frozenset[str]:
+        current = value
+        while current:
+            taint = state.get(current, frozenset())
+            if taint:
+                return taint
+            if current.endswith("]") and "[" in current:
+                current = current.rsplit("[", 1)[0]
+            elif "." in current:
+                current = current.rsplit(".", 1)[0]
+            else:
+                break
+        return frozenset()
 
 
 def analyze_cfg(

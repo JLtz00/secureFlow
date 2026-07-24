@@ -11,8 +11,8 @@ from analyzer.framework_profiles import get_profile
 from analyzer.interprocedural import analyze_module
 from analyzer.ir_generator import generate_ir
 from analyzer.metrics import evaluate
-from analyzer.parser import Parser
 from analyzer.project_scanner import ProjectScanner
+from analyzer.python_ast_frontend import parse_python_ast
 from analyzer.taint_engine import analyze_cfg
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -41,9 +41,8 @@ VARIANTS = [
 
 def _predict_file(path: Path, variant: AblationVariant) -> str:
     profile = get_profile("flask")
-    parser = Parser.from_source(path.read_text())
-    program = parser.parse()
-    module = generate_ir(program)
+    program = parse_python_ast(path.read_text(), filename=str(path)).program
+    module = generate_ir(program, profile=profile)
     summaries = analyze_module(module, profile=profile) if variant.use_interprocedural else {}
     for function in module.all_functions():
         cfg = build_cfg(function.instructions, name=function.name)
@@ -141,4 +140,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

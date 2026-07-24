@@ -6,25 +6,28 @@ SecureFlow es un framework académico de análisis estático que integra *taint 
 
 ## Estado implementado
 
-Los Sprints 01 al 07 forman un pipeline ejecutable de compilacion y analisis de seguridad:
+SecureFlow ya tiene una base ejecutable de extremo a extremo:
 
 - `analyzer/lexer.py`: convierte codigo Python en tokens con tipo, valor, linea y columna. Incluye `INDENT`, `DEDENT`, strings multilinea, f-strings, comentarios omitidos y recuperacion con `ERROR`.
 - `analyzer/ast_nodes.py`: define el AST propio de SecureFlow, sin usar el modulo `ast` de Python.
 - `analyzer/parser.py`: parser recursivo descendente LL para funciones, asignaciones, `if`, `while`, `for`, `return`, llamadas y expresiones binarias.
+- `analyzer/python_ast_frontend.py`: frontend de produccion basado en `ast` de Python; reporta nodos soportados, aproximados e ignorados.
 - `analyzer/ast_visualizer.py`: imprime el arbol para explicar como el codigo fuente se transforma en estructura analizable.
 - `analyzer/symbols.py`, `analyzer/scope.py` y `analyzer/semantic.py`: construyen tabla de simbolos, scopes, resolucion de nombres, tipos simples y taint inicial.
 - `analyzer/ir.py` y `analyzer/ir_generator.py`: definen y generan codigo de tres direcciones.
 - `analyzer/cfg_builder.py` y `analyzer/cfg_visualizer.py`: construyen y muestran bloques basicos mediante el algoritmo de lideres.
-- `analyzer/taint_engine.py`: propaga contaminacion con un algoritmo de worklist y confirma flujos fuente-sumidero.
-- `analyzer/interprocedural.py` y `analyzer/reporter.py`: resumen funciones y producen trazas explicables de cada hallazgo.
-- `analyzer/hardener.py`: transforma consultas vulnerables directas en consultas parametrizadas.
-- `data/`, `tools/` y `reports/`: contienen el dataset reproducible, benchmark, metricas e informe experimental.
-- `tests/`: contiene las pruebas automatizadas de las fases implementadas.
+- `analyzer/taint_engine.py`: ejecuta analisis de taint forward con Worklist sobre el CFG.
+- `analyzer/interprocedural.py`: construye resumenes sensibles a parametros para propagar taint entre llamadas.
+- `analyzer/project_scanner.py`: escanea proyectos Flask multiarchivo, resuelve imports, aliases, metodos ligados y dependencias inyectadas por constructor, y expone telemetria de cobertura.
+- `analyzer/framework_profiles.py`: modela Flask, DB-API, SQLite, PostgreSQL, MySQL y SQLAlchemy, con extension TOML.
+- `tools/secureflow_scan.py`: expone un CLI con salida JSON y SARIF.
+- `analyzer/hardener.py`: genera una version parametrizada para patrones simples de concatenacion SQL.
+- `tests/`: contiene pruebas automatizadas de las fases implementadas.
 
 Demo completa para clase:
 
 ```bash
-python3 -m demos.demo_secureflow
+make demo
 ```
 
 Demo solo del arbol AST:
@@ -33,7 +36,57 @@ Demo solo del arbol AST:
 python3 -m analyzer.ast_visualizer
 ```
 
-La salida muestra tokens, AST, scopes, TAC, CFG, propagacion de taint, deteccion de SQL Injection, traza fuente-sumidero, hardening automatico y resultados del benchmark de 210 programas.
+La demo muestra tokens, AST, scopes, simbolos, taint inicial, TAC, CFG, deteccion real de SQL Injection, traza source-to-sink, hardening automatico y escaneo Flask multiarchivo.
+
+## Modos de ejecucion
+
+SecureFlow tiene dos frontends:
+
+| Modo | Frontend | Uso recomendado |
+|---|---|---|
+| Academico | Lexer/parser propio | Explicar fases de compiladores: tokens, AST, IR, CFG y Worklist. |
+| Produccion | `python-ast` | Escanear codigo Flask real con mayor cobertura de gramatica Python. |
+
+El scanner usa `python-ast` por defecto:
+
+```bash
+# Salida legible para una demostracion
+./secureflow scan data/flask_projects/project_multifile_vulnerable
+
+# Analizar un solo archivo
+./secureflow scan data/flask_dataset/flask_multistep_query.py
+
+# Formatos para automatizacion
+./secureflow scan ./mi_proyecto --format json
+./secureflow scan ./mi_proyecto --format sarif -o reports/secureflow.sarif
+
+# Otras opciones
+./secureflow scan ./mi_proyecto --exclude tests
+./secureflow scan data/flask_projects/project_multifile_vulnerable --frontend custom
+./secureflow scan ./mi_proyecto --models config/secureflow_models.example.toml
+```
+
+Para una exposicion breve hay tres objetivos preparados:
+
+```bash
+make scan-demo-file  # archivo vulnerable: flujo dentro de una funcion
+make scan-demo       # proyecto vulnerable: flujo entre varios archivos
+make scan-demo-safe  # proyecto seguro: consulta parametrizada
+```
+
+El procedimiento completo y un guion oral estan en
+[`GUIA_DEMOSTRACION.md`](GUIA_DEMOSTRACION.md).
+
+El modo produccion diferencia `OK`, `APPROXIMATED`, `PARTIAL` y
+`PARSE_ERROR`. Una ejecucion sin hallazgos no oculta construcciones ignoradas:
+el JSON/SARIF incluye cobertura de nodos, llamadas internas sin enlace y APIs
+externas tratadas mediante propagacion conservadora.
+
+Las sentencias sin efecto como `pass` se bajan como no-op. El enlazador
+interprocedural sigue tipos construidos y dependencias inyectadas entre rutas,
+controladores, servicios y repositorios. Las APIs declarativas de ORM,
+colecciones y bibliotecas externas se reportan aparte y no se confunden con
+fallos de enlace del proyecto.
 
 ---
 
@@ -180,8 +233,14 @@ secureFlow/
 ## Uso
 
 ```bash
-# Demostracion del pipeline
-python3 -m demos.demo_secureflow
+# Demostracion recomendada para presentacion
+make demo
+
+# Pruebas y compilacion sintactica
+make validate
+make test
+make pytest  # opcional, requiere instalar .[dev]
+make compile
 
 # Generar nuevamente el dataset
 python3 -m tools.dataset_generator
@@ -196,59 +255,56 @@ python3 -m tools.benchmark_runner --profile flask
 python3 -m tools.flask_ablation
 python3 -m tools.real_baseline_runner
 python3 -m tools.flask_report
+python3 -m tools.final_presentation_report
+
+# Baselines reales en entorno aislado
+python3 -m venv .venv
+.venv/bin/python -m pip install -e ".[prod,baselines]"
+make flask-baselines-real
+make final-report
+make reproduce-presentation
 
 # Escanear un proyecto Flask multiarchivo
 python3 -m tools.secureflow_scan scan ./data/flask_projects/project_multifile_vulnerable
 python3 -m tools.secureflow_scan scan ./data/flask_projects/project_multifile_vulnerable --format sarif -o reports/secureflow.sarif
+python3 -m tools.secureflow_scan scan ./mi_proyecto --models ./secureflow-models.toml
 
 # Regenerar tablas, CSV e informe de investigacion
 python3 -m tools.visualizer
 python3 -m tools.research_report
 
-# Comprobar sintaxis de todos los paquetes
-python3 -m py_compile analyzer/*.py demos/*.py tools/*.py tests/*.py
 ```
 
 ---
 
-## Salida objetivo del proyecto completo
+## Resultados actuales
 
-```
-SecureFlow v1.0 — Análisis de seguridad estático
-══════════════════════════════════════════════════
+- Validacion interna sintetica de SecureFlow: `reports/final/summary.json`.
+- Validacion interna Flask de SecureFlow: `reports/flask_research_report.md`.
+- Baselines reales con Bandit y Semgrep: `reports/real_baselines_report.md`.
+- Reporte final para exposicion: `reports/final/presentation_report.md`.
+- Salida SARIF para CI/CD: `reports/secureflow.sarif`.
 
-[FASE 1] Análisis léxico        ✓  47 tokens
-[FASE 2] Análisis sintáctico    ✓  AST: 12 nodos
-[FASE 3] Análisis semántico     ✓  8 símbolos, 2 marcados como tainted
-[FASE 4] Generación de IR       ✓  31 instrucciones TAC
-[FASE 5] Construcción del CFG   ✓  5 bloques básicos
-[FASE 6] Motor de taint         ✓  Worklist convergió en 3 iteraciones
-
-══════════════════════════════════════════════════
-⚠  VULNERABILIDADES DETECTADAS: 1
-══════════════════════════════════════════════════
-
-[SQL_INJECTION] en función login() — vulnerable_login.py
-  ├── FUENTE  línea  3  usuario = request.form.get("usuario")
-  ├── FLUJO   línea  7  query = "SELECT * FROM users WHERE u='" + usuario
-  └── SINK    línea  8  cursor.execute(query)
-
-Generando código endurecido → safe_login.py ✓
-```
+Nota metodologica: `tools/benchmark_runner.py` ejecuta unicamente SecureFlow
+como validacion interna. Las comparaciones empiricas usan ejecuciones reales
+de Bandit y Semgrep mediante `tools/real_baseline_runner.py`. Pysa se mantiene
+como referencia teorica y no tiene metricas atribuidas en este repositorio.
 
 ---
 
 ## Limitaciones actuales
 
-- El parser cubre un subconjunto de Python 3 suficiente para los patrones de acceso a base de datos más comunes. Construcciones avanzadas (decoradores complejos, comprehensions anidadas, metaclases) no están contempladas en esta versión.
-- El análisis interprocedural es de una sola pasada; llamadas recursivas no se modelan.
-- El endurecimiento automático cubre el patrón de concatenación de cadenas hacia `execute()`. Otros patrones de construcción de queries requieren intervención manual.
+- El frontend de produccion acepta la gramatica soportada por la version instalada de CPython, pero algunas construcciones se aproximan o ignoran al bajarlas al IR. El scanner las informa explicitamente.
+- El analisis interprocedural distingue parametros y resuelve imports estaticos, pero no modela reflexion, monkey patching, imports dinamicos ni sensibilidad de contexto profunda.
+- Los access paths conservan atributos y claves estaticas de contenedores de forma conservadora; alias dinamicos y escrituras complejas pueden requerir revision.
+- El hardener LibCST soporta concatenaciones, f-strings, multiples parametros y queries construidas en varias asignaciones, pero no reescribe todos los constructores SQLAlchemy.
+- La evaluacion usa datasets sinteticos y Flask semirrealistas curados. Para una publicacion formal hace falta un corpus independiente de proyectos reales con commits y ground truth revisados.
 
 ---
 
 ## Contexto académico
 
-Este proyecto fue desarrollado como trabajo final del curso de Compiladores. Las vulnerabilidades de los casos de prueba están basadas en patrones documentados en portales gubernamentales peruanos (RENIEC, padrón electoral), con el fin de validar el sistema en un contexto aplicado real.
+Este proyecto fue desarrollado como trabajo final del curso de Compiladores. El valor principal es demostrar que una cadena clasica de compilacion puede servir como base para analisis estatico de seguridad: tokenizacion, AST, tabla de simbolos, IR, CFG y analisis de flujo de datos aplicados a SQL Injection en Python/Flask.
 
 **Referencias principales**
 

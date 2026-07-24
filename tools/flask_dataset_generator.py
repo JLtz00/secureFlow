@@ -272,6 +272,123 @@ def orm_lookup():
     return result
 ''',
             ),
+            (
+                "flask_blueprint_try_with.py",
+                "VULNERABLE",
+                "blueprint_try_with",
+                10,
+                13,
+                '''from flask import Blueprint, request
+from contextlib import closing
+
+bp = Blueprint("users", __name__)
+
+@bp.get("/users")
+def users() -> object:
+    try:
+        cursor = get_cursor()
+        user: str = request.args.get("user")
+        with closing(cursor):
+            query = "SELECT * FROM users WHERE name = " + user
+            return cursor.execute(query)
+    except Exception as exc:
+        raise exc
+''',
+            ),
+            (
+                "flask_methodview_vulnerable.py",
+                "VULNERABLE",
+                "methodview_concat",
+                9,
+                11,
+                '''from flask import request
+from flask.views import MethodView
+
+class UserView(MethodView):
+    def get(self):
+        cursor = get_cursor()
+        user = request.args.get("user")
+        query = "SELECT * FROM users WHERE name = " + user
+        return cursor.execute(query)
+''',
+            ),
+            (
+                "flask_multistep_query.py",
+                "VULNERABLE",
+                "multistep_query",
+                8,
+                12,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/multi")
+def multi():
+    cursor = get_cursor()
+    user = request.form.get("user")
+    query = "SELECT * FROM users WHERE name = "
+    query = query + user
+    query = query + " AND active = 1"
+    return cursor.execute(query)
+''',
+            ),
+            (
+                "flask_nested_json_subscript.py",
+                "VULNERABLE",
+                "nested_json_subscript",
+                8,
+                12,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.post("/nested")
+def nested():
+    cursor = get_cursor()
+    payload = request.get_json()
+    filters = payload.get("filters")
+    user = filters["name"]
+    query = "SELECT * FROM users WHERE name = " + user
+    return cursor.execute(query)
+''',
+            ),
+            (
+                "flask_named_parameter_safe.py",
+                "SAFE",
+                "named_parameter_safe",
+                8,
+                9,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/named")
+def named():
+    cursor = get_cursor()
+    user = request.args.get("user")
+    return cursor.execute("SELECT * FROM users WHERE name = :name", {"name": user})
+''',
+            ),
+            (
+                "flask_repository_parameterized_safe.py",
+                "SAFE",
+                "repository_parameterized_safe",
+                8,
+                12,
+                '''from flask import Flask, request
+
+app = Flask(__name__)
+
+def lookup_user(cursor, value):
+    return cursor.execute("SELECT * FROM users WHERE name = ?", (value,))
+
+@app.route("/repo-safe")
+def repo_safe():
+    cursor = get_cursor()
+    user = request.values.get("user")
+    return lookup_user(cursor, user)
+''',
+            ),
         ]
 
         self._add_generated_cases(cases)
@@ -580,6 +697,105 @@ def search():
                 },
                 "routes.py",
                 "routes.py",
+                7,
+            ),
+            (
+                "project_sqlite_dbapi_vulnerable",
+                "VULNERABLE",
+                "sqlite_repository_concat",
+                {
+                    "routes.py": '''from flask import request
+from repository import search_users
+
+def search():
+    name = request.args.get("name")
+    return search_users(name)
+''',
+                    "repository.py": '''import sqlite3
+
+def search_users(name):
+    connection = sqlite3.connect("app.db")
+    cursor = connection.cursor()
+    query = "SELECT * FROM users WHERE name = '" + name + "'"
+    return cursor.execute(query)
+''',
+                },
+                "routes.py",
+                "repository.py",
+                7,
+            ),
+            (
+                "project_psycopg_parameterized",
+                "SAFE",
+                "psycopg_repository_parameterized",
+                {
+                    "routes.py": '''from flask import request
+from repository import search_users
+
+def search():
+    name = request.form.get("name")
+    return search_users(name)
+''',
+                    "repository.py": '''import psycopg
+
+def search_users(name):
+    connection = psycopg.connect("postgresql://localhost/app")
+    cursor = connection.cursor()
+    return cursor.execute("SELECT * FROM users WHERE name = %s", (name,))
+''',
+                },
+                "routes.py",
+                "repository.py",
+                6,
+            ),
+            (
+                "project_mysql_connector_vulnerable",
+                "VULNERABLE",
+                "mysql_repository_fstring",
+                {
+                    "routes.py": '''from flask import request
+from repository import find_order
+
+def order():
+    order_id = request.values.get("id")
+    return find_order(order_id)
+''',
+                    "repository.py": '''import mysql.connector
+
+def find_order(order_id):
+    connection = mysql.connector.connect(database="app")
+    cursor = connection.cursor()
+    query = f"SELECT * FROM orders WHERE id = {order_id}"
+    return cursor.execute(query)
+''',
+                },
+                "routes.py",
+                "repository.py",
+                7,
+            ),
+            (
+                "project_sqlalchemy_session_parameterized",
+                "SAFE",
+                "sqlalchemy_session_named_parameter",
+                {
+                    "routes.py": '''from flask import request
+from repository import find_user
+
+def user():
+    name = request.args.get("name")
+    return find_user(name)
+''',
+                    "repository.py": '''from sqlalchemy import text
+from sqlalchemy.orm import Session
+
+def find_user(name):
+    session = Session()
+    statement = text("SELECT * FROM users WHERE name = :name")
+    return session.execute(statement, {"name": name})
+''',
+                },
+                "routes.py",
+                "repository.py",
                 7,
             ),
         ]

@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from analyzer import ast_nodes as ast
+from analyzer.framework_profiles import FrameworkProfile, get_profile
 from analyzer.ir import (
     Assign,
     BinaryOp,
@@ -22,12 +23,14 @@ from analyzer.ir import (
 
 
 class IRGenerator:
-    def __init__(self) -> None:
+    def __init__(self, profile: FrameworkProfile | None = None) -> None:
         self.module = IRModule()
         self.current = self.module.main
         self.temp_counter = 0
         self.label_counter = 0
         self.aliases: dict[str, str] = {}
+        self.object_kinds: dict[str, str] = {}
+        self.profile = profile or get_profile("base")
 
     def generate(self, program: ast.Program) -> IRModule:
         for statement in program.body:
@@ -50,6 +53,8 @@ class IRGenerator:
 
     def _generate_function(self, node: ast.FunctionDef) -> None:
         previous = self.current
+        previous_object_kinds = self.object_kinds
+        self.object_kinds = {}
         function = IRFunction(node.name, list(node.params))
         self.module.functions[node.name] = function
         self.current = function
@@ -58,11 +63,13 @@ class IRGenerator:
         if not function.instructions or not isinstance(function.instructions[-1], Return):
             function.instructions.append(Return(line=node.line))
         self.current = previous
+        self.object_kinds = previous_object_kinds
 
     def _statement(self, node: ast.Statement) -> None:
         if isinstance(node, ast.Assign):
             value = self._expression(node.value)
             self._emit(Assign(line=node.line, target=node.target.name, value=value))
+            self._propagate_object_kind(node.target.name, value)
         elif isinstance(node, ast.ImportStmt):
             self._register_import(node)
         elif isinstance(node, ast.ExprStmt):
@@ -195,6 +202,7 @@ class IRGenerator:
                     target=target,
                     collection=collection,
                     index=index,
+                    access_path=self._access_path(node),
                 )
             )
             return target
@@ -202,7 +210,24 @@ class IRGenerator:
             function = self._expression(node.callee)
             args = [self._expression(arg) for arg in node.args]
             target = None if discard else self._new_temp()
-            self._emit(Call(line=node.line, function=function, args=args, target=target))
+            receiver_kind = self._receiver_kind(function)
+            canonical = self.profile.canonical_call(function, receiver_kind)
+            return_kind = (
+                self.profile.call_return_kind(function)
+                or self.profile.method_return_kind(receiver_kind, function.rsplit(".", 1)[-1])
+            )
+            self._emit(
+                Call(
+                    line=node.line,
+                    function=canonical,
+                    args=args,
+                    target=target,
+                    return_kind=return_kind,
+                )
+            )
+            if target is not None:
+                if return_kind is not None:
+                    self.object_kinds[target] = return_kind
             return target or "<discarded>"
         if isinstance(node, ast.MethodCallExpr):
             receiver = self._expression(node.receiver)
@@ -227,6 +252,47 @@ class IRGenerator:
             return name
         return qualified if not tail else f"{qualified}.{tail}"
 
+    def _propagate_object_kind(self, target: str, value: str) -> None:
+        kind = self.object_kinds.get(value)
+        if kind is None:
+            self.object_kinds.pop(target, None)
+        else:
+            self.object_kinds[target] = kind
+
+    def _receiver_kind(self, function: str) -> str | None:
+        if "." not in function:
+            return None
+        return self._kind_for_name(function.rsplit(".", 1)[0])
+
+    def _kind_for_name(self, name: str) -> str | None:
+        direct = self.object_kinds.get(name)
+        if direct is not None:
+            return direct
+        head, *attributes = name.split(".")
+        kind = self.object_kinds.get(head)
+        for attribute in attributes:
+            kind = self.profile.attribute_return_kind(kind, attribute)
+            if kind is None:
+                return None
+        return kind
+
+    def _access_path(self, node: ast.Expression) -> str | None:
+        if isinstance(node, ast.Identifier):
+            return self._resolve_alias(node.name)
+        if isinstance(node, ast.SubscriptExpr):
+            collection = self._access_path(node.collection)
+            index = self._static_access_part(node.index)
+            if collection is not None and index is not None:
+                return f"{collection}[{index}]"
+        return None
+
+    def _static_access_part(self, node: ast.Expression) -> str | None:
+        if isinstance(node, ast.Literal):
+            return node.raw
+        if isinstance(node, ast.Identifier):
+            return self._resolve_alias(node.name)
+        return None
+
     def _fstring_fields(self, raw: str) -> list[str]:
         return [
             self._resolve_alias(match.group(1).strip())
@@ -245,5 +311,8 @@ class IRGenerator:
         return f"{prefix}_{self.label_counter}"
 
 
-def generate_ir(program: ast.Program) -> IRModule:
-    return IRGenerator().generate(program)
+def generate_ir(
+    program: ast.Program,
+    profile: FrameworkProfile | None = None,
+) -> IRModule:
+    return IRGenerator(profile=profile).generate(program)
